@@ -1,0 +1,15 @@
+Tue Oct 09 11:27:16 CEST 2012 : Síovı server Apache Derby - 10.8.1.2 - (1095077): spuštìn a pøipraven pøijímat pøipojení na portu 1527 v {3} 
+----------------------------------------------------------------
+Tue Oct 09 11:27:16 CEST 2012:
+ Zavádìní serveru Derby verze The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance a816c00e-013a-44d9-81e6-000028fc9e6e
+v adresáøi databáze C:\Users\Marek\Documents\NetBeansProjects\AirportManager\database\airportManager  sun.misc.Launcher$AppClassLoader@3ecb800f 
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b11
+user.dir=C:\Program Files (x86)\glassfish-3.1.2.2\javadb
+derby.system.home=C:\Users\Marek\Documents\NetBeansProjects\AirportManager\database
+Byl spuštìn zavadìè tøídy databáze - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Oct 09 11:27:27 CEST 2012:
+Vypínání instance a816c00e-013a-44d9-81e6-000028fc9e6e
+Tue Oct 09 11:27:27 CEST 2012 Thread[DRDAConnThread_3,5,main] (DATABASE = airportManager), (DRDAID = {2}), Vypnutí databáze 'airportManager'.
