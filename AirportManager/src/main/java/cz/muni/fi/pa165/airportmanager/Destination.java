@@ -12,7 +12,8 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Marek
+ * @author Jaroslav Nespesny, 359566
+ * @mail.muni.cz
  */
 @Entity
 public class Destination implements Serializable {
