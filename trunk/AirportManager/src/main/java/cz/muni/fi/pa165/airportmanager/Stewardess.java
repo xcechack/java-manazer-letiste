@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager;
 
+import cz.muni.fi.pa165.airportmanager.enums.Sex;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +24,7 @@ public class Stewardess implements Serializable {
     private String name;
     private String surname;
     private String birthNumber;
-    /*
-     * Sex - 0=man; 1=woman
-     */
-    private boolean sex;
-    
+    private Sex sex;
     
     public Long getId() {
         return id;
@@ -60,11 +57,11 @@ public class Stewardess implements Serializable {
         this.birthNumber = birthNumber;
     }
 
-    public boolean isSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
     
