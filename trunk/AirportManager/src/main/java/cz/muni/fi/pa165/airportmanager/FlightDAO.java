@@ -33,7 +33,7 @@ public interface FlightDAO {
      * 
      * @throws IllegalArgumentException when identifier is null.
      * @param identifier String identifier of flight (f.i. UAL904 or THY9MR)
-     * @return Flights with given identifier. These are usually operated from/to same destination. 
+     * @return Flights with given identifier. These are usually flights from/to same destination. 
      * Differences between flights in returned list should be departure/arrival date,
      * stewards on board and sometimes it is operated by different plane.
      */
@@ -62,4 +62,27 @@ public interface FlightDAO {
      */
     List<Flight> findAll();
     
+    /**
+     * Retrieve all flights departing from given destination.
+     * @param destination Departure destination
+     * @return List of flights with given departure destination
+     * @throws IllegalArgumentException if given destination is null
+     */
+    List<Flight> findFlightsByDepartureDestination(Destination destination);
+    
+    /**
+     * Retrieve flights arriving to given destination
+     * @param destination arrival destination
+     * @return List of flights with given arrival destination
+     * @throws IllegalArgumentException if given destination is null
+     */
+    List<Flight> findFlightsByArrivalDestination(Destination destination);
+    
+    /**
+     * Retrieve flights operated by given plane
+     * @param plane given plane
+     * @return List of flights operated by given plane
+     * @throws IllegalArgumentException if given flight
+     */
+    List<Flight> findFlightsByPlane(Plane plane);
 }
