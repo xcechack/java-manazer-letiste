@@ -78,6 +78,35 @@ public class DestinationDAOImpl implements DestinationDAO {
         return Collections.unmodifiableList(dest);
     }
 
+    public List<Destination> findByCountry(String country) {
+        
+        if(country== null){
+            throw new NullPointerException("Country is null ");
+        }
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        List<Destination> dest;        
+        dest = em.createQuery("SELECT * FROM Destination WHERE country = :country").getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return Collections.unmodifiableList(dest);
+        
+        
+    }
+
+    public List<Destination> findByCity(String city) {
+        if(city== null){
+            throw new NullPointerException("Sity is null ");
+        }
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        List<Destination> dest;        
+        dest = em.createQuery("SELECT * FROM Destination WHERE city = :city").getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return Collections.unmodifiableList(dest);
+    }
+
     
     
 }
