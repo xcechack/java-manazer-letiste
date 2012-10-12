@@ -13,23 +13,60 @@ import java.util.List;
  */
 public interface DestinationDAO {
     
-    
-    /*
-     * Returns Person entity with given id
+
+    /**
+     * Creates new destination
      * 
-     * @throws IllegelArgumentException when id is null
+     * @param destination Destination we want to store.
+     * @throws IllegalArgumentException when argument is not Destination instance. 
+     * @return nothing.
      */
-    void create (Destination destination);    
-    
+    void create(Destination destination);
+    /**
+     * Returns Destination entity with given id.
+     * 
+     * @throws IllegalArgumentException when id is null
+     * @param id Id of destination entity.
+     * @return Destination with given id or null if plane doesnt exists.
+     */
     Destination get(Long id);
     
-    void update (Destination destination);
+    /**
+     * Update existing destination
+     * @param destination destination we want to update
+     * @return nothing
+     * @throws IllegalArgumentException when given destination doesnt exist.
+     */
+    void update(Destination destination);
     
-    void remove (Destination destination);
+    /**
+     * Delete existing destination
+     * @param destination destination we want to delete
+     * @return nothing
+     * @throws IlleagalArgumentException when given destination doesnt exist.
+     */
+    void remove(Destination destination);
     
+    /**
+     * Retrieve all destinations
+     * @param nothing
+     * @return List with all destinations.
+     */
     List<Destination> findAll();
     
+    /**
+     * Retrieves all destinations with given country name. 
+     * @param country Destination's country parameter.
+     * @return List of destinations with given country.
+     */
+    List<Destination> findByCountry(String country);
     
+    /**
+     * Retrievec all destinations with given city name.
+     * @param city Destination's city name.
+     * @return List of destinations with given city.
+     */
+    List<Destination> findByCity(String city);
     
     
 }
