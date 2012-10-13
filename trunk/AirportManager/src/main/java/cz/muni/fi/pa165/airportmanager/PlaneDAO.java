@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author Marek
+ * @author Vasa
  */
 public interface PlaneDAO {
      /**
@@ -26,7 +26,7 @@ public interface PlaneDAO {
      * @param id Id of plane entity.
      * @return Plane with given id or null if plane doesnt exists.
      */
-    Destination get(Long id);
+    Plane get(Long id);
     
     /**
      * Update existing plane
@@ -50,6 +50,7 @@ public interface PlaneDAO {
      * @return List with all planes.
      */
     List<Plane> findAll();
+    
     
     /**
      * Retrive all planes with given producer
