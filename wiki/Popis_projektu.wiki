@@ -1,0 +1,1 @@
+Projekt sa zaobera tvorbou informacenho systemu na spravu letiska. Tento system zahrna spravu jednotlivych letov z konkretneho letiska a s tym suvisiacich veci ako je napriklad sprava lietadiel, ktore operuju jednotlive lety, sprava letusiek/stevardov, posyktujucich palubny servis pocas tychto letov ako aj sprava destinacii, medzi ktorymi su tieto lety vykonavane. 
