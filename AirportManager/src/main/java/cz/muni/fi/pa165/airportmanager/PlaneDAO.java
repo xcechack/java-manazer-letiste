@@ -38,19 +38,25 @@ public interface PlaneDAO {
     
     /**
      * Delete existing plane
-     * @param destination plane we want to delete
+     * @param plane plane we want to delete
      * @return nothing
      * @throws IlleagalArgumentException when given plane doesnt exist.
      */
     void remove(Plane plane);
     
     /**
+     * Removes all planes
+     * @param nothing
+     * @returns nothing
+     */
+    void removeAll();
+            
+    /**
      * Retrieve all planes
      * @param nothing
      * @return List with all planes.
      */
     List<Plane> findAll();
-    
     
     /**
      * Retrive all planes with given producer
