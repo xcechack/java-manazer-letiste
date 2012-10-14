@@ -1,0 +1,8 @@
+ERD diagram
+<img src="http://i50.tinypic.com/mkyde1.jpg"/>
+
+Use-case diagram:
+<img src="http://i45.tinypic.com/2i6i9up.jpg"/>
+
+Diagram tried:
+<img src="http://i47.tinypic.com/2ed9u6e.jpg"/>
