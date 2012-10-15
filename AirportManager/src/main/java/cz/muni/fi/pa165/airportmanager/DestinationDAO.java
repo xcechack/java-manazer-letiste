@@ -18,16 +18,16 @@ public interface DestinationDAO {
      * Creates new destination
      * 
      * @param destination Destination we want to store.
-     * @throws IllegalArgumentException when argument is not Destination instance. 
+     * @throws NullPointerException when given destination is null. 
      * @return nothing.
      */
     void create(Destination destination);
     /**
      * Returns Destination entity with given id.
      * 
-     * @throws IllegalArgumentException when id is null
+     * @throws NullPointerException when id is null
      * @param id Id of destination entity.
-     * @return Destination with given id or null if plane doesnt exists.
+     * @return Destination with given id or null if destination doesnt exists.
      */
     Destination get(Long id);
     
@@ -35,7 +35,7 @@ public interface DestinationDAO {
      * Update existing destination
      * @param destination destination we want to update
      * @return nothing
-     * @throws IllegalArgumentException when given destination doesnt exist.
+     * @throws NullPointerException when given destination is null.
      */
     void update(Destination destination);
     
@@ -43,7 +43,7 @@ public interface DestinationDAO {
      * Delete existing destination
      * @param destination destination we want to delete
      * @return nothing
-     * @throws IlleagalArgumentException when given destination doesnt exist.
+     * @throws NullPointerException when given destination is null.
      */
     void remove(Destination destination);
     
@@ -58,6 +58,7 @@ public interface DestinationDAO {
      * Retrieves all destinations with given country name. 
      * @param country Destination's country parameter.
      * @return List of destinations with given country.
+     * @throws NullPointerException when given country is null.
      */
     List<Destination> findByCountry(String country);
     
@@ -65,6 +66,7 @@ public interface DestinationDAO {
      * Retrievec all destinations with given city name.
      * @param city Destination's city name.
      * @return List of destinations with given city.
+     * @throws NullPointerException when given city is null.
      */
     List<Destination> findByCity(String city);
     
