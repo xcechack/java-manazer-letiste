@@ -72,7 +72,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List<Destination> dest;
-        dest = em.createQuery("SELECT * FROM Destination").getResultList();
+        dest = em.createQuery("SELECT d FROM Destination d").getResultList();
         em.getTransaction().commit();
         em.close();
         return Collections.unmodifiableList(dest);
@@ -86,7 +86,9 @@ public class DestinationDAOImpl implements DestinationDAO {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List<Destination> dest;        
-        dest = em.createQuery("SELECT * FROM Destination WHERE country = :country").getResultList();
+        dest = em.createQuery("SELECT d FROM Destination d WHERE d.country = :country")
+                .setParameter("country", country).getResultList();
+        
         em.getTransaction().commit();
         em.close();
         return Collections.unmodifiableList(dest);
@@ -101,7 +103,7 @@ public class DestinationDAOImpl implements DestinationDAO {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List<Destination> dest;        
-        dest = em.createQuery("SELECT * FROM Destination WHERE city = :city").getResultList();
+        dest = em.createQuery("SELECT d FROM Destination d WHERE d.city = :city").setParameter("city", city).getResultList();
         em.getTransaction().commit();
         em.close();
         return Collections.unmodifiableList(dest);
