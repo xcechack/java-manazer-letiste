@@ -63,7 +63,8 @@ public class DestinationDAOImpl implements DestinationDAO {
         }
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        em.remove(destination);
+        Destination managedDest = em.find(Destination.class, destination.getId());
+        em.remove(managedDest);
         em.getTransaction().commit();
         em.close();
     }
