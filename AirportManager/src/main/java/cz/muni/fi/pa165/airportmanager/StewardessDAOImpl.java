@@ -61,7 +61,8 @@ public class StewardessDAOImpl implements StewardessDAO {
         }
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        em.remove(stewardess);
+        Stewardess managedEntity = em.find(Stewardess.class, stewardess.getId());
+        em.remove(managedEntity);
         em.getTransaction().commit();
         em.close();
     }
@@ -70,7 +71,7 @@ public class StewardessDAOImpl implements StewardessDAO {
         EntityManager em = entityManagerFactory.createEntityManager();
         List<Stewardess> list;
         em.getTransaction().begin();
-        list = em.createQuery("SELECT * FROM Stewardess").getResultList();
+        list = em.createQuery("SELECT s FROM Stewardess s").getResultList();
         em.getTransaction().commit();
         em.close();
         return Collections.unmodifiableList(list);

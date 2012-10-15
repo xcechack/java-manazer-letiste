@@ -33,6 +33,7 @@ public class Stewardess implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
     public String getName() {
         return name;
     }
@@ -86,6 +87,8 @@ public class Stewardess implements Serializable {
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {
