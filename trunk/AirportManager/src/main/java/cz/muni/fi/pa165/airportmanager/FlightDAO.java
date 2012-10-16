@@ -97,4 +97,13 @@ public interface FlightDAO {
      * @throws IllegalArgumentException if given flight
      */
     List<Flight> findFlightsByPlane(Plane plane);
+    
+    /**
+     * Find all flights in which operates given stewardess
+     * @param stewardess given stewardess
+     * @return List of flights
+     * @throws IllegalArgumentException if given argument is null
+     */
+    //List<Flight> findFlightsOperatedByStewardess(Stewardess stewardess);
+    
 }
