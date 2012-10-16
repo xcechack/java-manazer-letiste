@@ -50,7 +50,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE FLIGHTIDENTIFIER = '"+identifier+"'",Flight.class).getResultList();
+                res = em.createQuery("SELECT Flight FROM "+Flight.class.getName()+" Flight WHERE FLIGHTIDENTIFIER = '"+identifier+"'",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -72,22 +72,35 @@ public class FlightDAOImpl implements FlightDAO{
     }
 
     public void remove(Flight flight) {
-        if(flight!=null){
+        if(flight!=null && flight.getId()!=null){
             EntityManager em = entityManagerFactory.createEntityManager();
             em.getTransaction().begin();
-            em.remove(flight);
-            em.getTransaction().commit();
-            em.close();
+            Flight deletedFlight = em.find(Flight.class,flight.getId());
+            if(deletedFlight == null){
+                em.close();
+                throw new IllegalArgumentException("Given flight instance was null.");
+            }else{
+                em.remove(deletedFlight);
+                em.getTransaction().commit();
+                em.close();
+            }
         }else{
             throw new IllegalArgumentException("Given flight instance was null.");
         }
+    }
+    
+    public void removeAll(){
+       List<Flight> allFlights = this.findAll();
+       for(int i = 0; i < allFlights.size(); i++){
+           this.remove(allFlights.get(i));
+       }
     }
 
     public List<Flight> findAll() {
         EntityManager em = entityManagerFactory.createEntityManager();
         List<Flight> res;
         em.getTransaction().begin();
-            res = em.createQuery("SELECT * FROM flights",Flight.class).getResultList();
+            res = em.createQuery("SELECT Flight FROM "+Flight.class.getName()+" Flight",Flight.class).getResultList();
         em.getTransaction().commit();
         em.close();
         return res;
@@ -98,7 +111,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE DESTINATIONSTART_ID = "+destination.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT Flight FROM "+Flight.class.getName()+" Flight WHERE DESTINATIONSTART_ID = "+destination.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -112,7 +125,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE DESTINATIONARRIVAL_ID = "+destination.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT Flight FROM "+Flight.class.getName()+" Flight WHERE DESTINATIONARRIVAL_ID = "+destination.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -126,7 +139,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE PLANE_ID = "+plane.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT Flight FROM "+Flight.class.getName()+" Flight WHERE PLANE_ID = "+plane.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;

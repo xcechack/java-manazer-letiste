@@ -59,10 +59,14 @@ public interface FlightDAO {
      * Delete existing flight
      * @param destination flight we want to delete
      * @return nothing
-     * @throws IlleagalArgumentException when given flight doesnt exist.
+     * @throws IlleagalArgumentException when given flight doesnt exist or is null.
      */
     void remove(Flight flight);
     
+    /**
+     * Delete all flights from Database
+     */
+    void removeAll();
     /**
      * Retrieve all flights
      * @param nothing
