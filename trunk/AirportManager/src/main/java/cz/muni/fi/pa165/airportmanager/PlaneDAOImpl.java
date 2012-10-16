@@ -53,12 +53,20 @@ public class PlaneDAOImpl implements PlaneDAO{
     }
 
     public void remove(Plane plane) {
-        if(plane == null)throw new IllegalArgumentException("id is null");
+        if(plane == null || plane.getId() == null)throw new IllegalArgumentException("plane or id is null");
         
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         
         entityManager.getTransaction().begin();
-            entityManager.remove(plane);
+            Plane getPlane = entityManager.find(Plane.class,plane.getId());
+            if(getPlane != null)
+            {
+                entityManager.remove(getPlane);
+            }
+            else
+            {
+                throw new NullPointerException();
+            }
         entityManager.getTransaction().commit();
         entityManager.close();
     }
@@ -67,27 +75,29 @@ public class PlaneDAOImpl implements PlaneDAO{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Plane> result;
         entityManager.getTransaction().begin();
-            result = entityManager.createQuery("SELECT * FROM planes").getResultList();
+            result = entityManager.createQuery("SELECT Plane FROM " + Plane.class.getName() + " Plane").getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
         return result;
     }
 
     public List<Plane> findByProducer(String producer) {
+        if(producer == null)throw new IllegalArgumentException();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Plane> result;
         entityManager.getTransaction().begin();
-            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.producer = :produc").setParameter("produc", producer).getResultList();
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.producer = :produc", Plane.class).setParameter("produc", producer).getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
         return result;
     }
 
     public List<Plane> findByType(String type) {
+        if(type == null)throw new IllegalArgumentException();
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Plane> result;
         entityManager.getTransaction().begin();
-            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.type = :type").setParameter("type", type).getResultList();
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.type = :type", Plane.class).setParameter("type", type).getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
         return result;
@@ -97,7 +107,7 @@ public class PlaneDAOImpl implements PlaneDAO{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Plane> result;
         entityManager.getTransaction().begin();
-            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberseats = :number").setParameter("number", number).getResultList();
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberSeats <= :number", Plane.class).setParameter("number", number).getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
         return result;
@@ -107,7 +117,7 @@ public class PlaneDAOImpl implements PlaneDAO{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Plane> result;
         entityManager.getTransaction().begin();
-            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberSeats >= :number").setParameter("number", number).getResultList();
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberSeats >= :number", Plane.class).setParameter("number", number).getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
         return result;
