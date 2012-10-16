@@ -172,7 +172,11 @@ public class StewardessDAOImplTest extends TestCase {
         dao.remove(stew);
              
         assertNull(dao.get(stew.getId()));
-        
+        try{
+            dao.remove(null);
+            fail("Method can remove null stewardess.");
+        }catch(NullPointerException ex){
+        }
         
     }
 

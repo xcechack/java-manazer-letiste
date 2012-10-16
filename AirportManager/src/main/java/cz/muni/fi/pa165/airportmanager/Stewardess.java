@@ -14,7 +14,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Marek
+ * @author Frkal
  */
 @Entity
 public class Stewardess implements Serializable {
