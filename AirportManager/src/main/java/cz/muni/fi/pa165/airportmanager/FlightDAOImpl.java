@@ -148,4 +148,8 @@ public class FlightDAOImpl implements FlightDAO{
         }
     }
     
+    /*public List<Flight> findFlightsOperatedByStewardess(Stewardess stewardess){
+          
+      }*/
+    
 }
