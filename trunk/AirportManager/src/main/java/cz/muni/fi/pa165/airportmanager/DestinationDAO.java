@@ -20,7 +20,6 @@ public interface DestinationDAO {
      * @return nothing.
      */
     void setEntityManagerFactory(EntityManagerFactory entityManagerFactory);
-
     /**
      * Creates new destination
      * 

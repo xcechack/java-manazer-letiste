@@ -50,7 +50,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE FlightIdentifier = '"+identifier+"'",Flight.class).getResultList();
+                res = em.createQuery("SELECT * FROM flights WHERE FLIGHTIDENTIFIER = '"+identifier+"'",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -98,7 +98,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE DestinationStart = "+destination.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT * FROM flights WHERE DESTINATIONSTART_ID = "+destination.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -112,7 +112,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE DestinationArrival = "+destination.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT * FROM flights WHERE DESTINATIONARRIVAL_ID = "+destination.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
@@ -126,7 +126,7 @@ public class FlightDAOImpl implements FlightDAO{
             EntityManager em = entityManagerFactory.createEntityManager();
             List<Flight> res;
             em.getTransaction().begin();
-                res = em.createQuery("SELECT * FROM flights WHERE Plane = "+plane.getId()+"",Flight.class).getResultList();
+                res = em.createQuery("SELECT * FROM flights WHERE PLANE_ID = "+plane.getId()+"",Flight.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return res;
