@@ -60,7 +60,7 @@ public class Flight implements Serializable {
         this.stewardess = stewardess;
     }
     
-    @Column(name="FlightIdentifier")
+    @Column(name="FLIGHTIDENTIFIER")
     public String getFlightIdentifier() {
         return flightIdentifier;
     }
@@ -86,6 +86,7 @@ public class Flight implements Serializable {
     }
     
     @ManyToOne
+    @JoinColumn(name="PLANE_ID")
     public Plane getPlane() {
         return plane;
     }
@@ -95,6 +96,7 @@ public class Flight implements Serializable {
     }
     
     @ManyToOne
+    @JoinColumn(name="DESTINATIONSTART_ID")
     public Destination getDestinationStart() {
         return destinationStart;
     }
@@ -104,6 +106,7 @@ public class Flight implements Serializable {
     }
     
     @ManyToOne
+    @JoinColumn(name="DESTINATIONARRIVAL_ID")
     public Destination getDestinationArrival() {
         return destinationArrival;
     }
