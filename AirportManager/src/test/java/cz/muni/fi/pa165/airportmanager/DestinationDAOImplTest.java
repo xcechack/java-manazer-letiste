@@ -215,6 +215,36 @@ public class DestinationDAOImplTest {
     public void testFindByCountry() {
         System.out.println("findByCountry");
         
+        Destination dest = new Destination();
+        dest.setCity("Praha");
+        dest.setCountry("Czech Republic");       
+        
+        Destination dest2 = new Destination();
+        dest2.setCity("Paříž");
+        dest2.setCountry("Francie");
+        
+        
+        Destination dest3 = new Destination();
+        dest3.setCity("Lyon");
+        dest3.setCountry("Francie");
+        
+        dao.create(dest);
+        dao.create(dest2);
+        dao.create(dest3);
+         
+        List<Destination> destList = dao.findByCountry("Francie");        
+        
+        assertFalse(destList.contains(dest));
+        assertTrue(destList.contains(dest2));
+        assertTrue(destList.contains(dest3));
+        assertEquals(2, destList.size());
+        
+        try{
+            dao.findByCountry(null);
+            fail("You can find by country when country is null");
+        }catch(NullPointerException ex){
+        }
+        
     }
 
     /**
@@ -223,6 +253,34 @@ public class DestinationDAOImplTest {
     @Test
     public void testFindByCity() {
         System.out.println("findByCity");
+        Destination dest = new Destination();
+        dest.setCity("Praha");
+        dest.setCountry("Czech Republic");       
         
+        Destination dest2 = new Destination();
+        dest2.setCity("Paříž");
+        dest2.setCountry("Francie");
+        
+        
+        Destination dest3 = new Destination();
+        dest3.setCity("Paříž");
+        dest3.setCountry("USA");
+        
+        dao.create(dest);
+        dao.create(dest2);
+        dao.create(dest3);
+         
+        List<Destination> destList = dao.findByCity("Paříž");        
+        
+        assertFalse(destList.contains(dest));
+        assertTrue(destList.contains(dest2));
+        assertTrue(destList.contains(dest3));
+        assertEquals(2, destList.size());
+        
+        try{
+            dao.findByCity(null);
+            fail("You can find by city when country is null");
+        }catch(NullPointerException ex){
+        }
     }
 }
