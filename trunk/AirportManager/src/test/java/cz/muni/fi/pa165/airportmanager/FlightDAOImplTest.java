@@ -25,7 +25,7 @@ public class FlightDAOImplTest {
     
     private FlightDAO flightDAO;
     private DestinationDAO destDAO;
-    
+    private PlaneDAO planeDAO;
     public FlightDAOImplTest() {
     }
     
@@ -40,6 +40,9 @@ public class FlightDAOImplTest {
        
         destDAO = new DestinationDAOImpl();
         destDAO.setEntityManagerFactory(emf);
+        
+        planeDAO = new PlaneDAOImpl();
+        planeDAO.setEntityManagerFactory(emf);
     }
     
     @After
@@ -165,11 +168,29 @@ public class FlightDAOImplTest {
         assertEquals(flightDAO.get(flight.getId()).getFlightIdentifier(), flight.getFlightIdentifier());
     }
 
+    @Test
+    public void testRemoveAll(){
+        Flight fl1 = new Flight();
+        fl1.setFlightIdentifier("TEST1");
+        Flight fl2 = new Flight();
+        fl2.setFlightIdentifier("TEST2");
+        flightDAO.create(fl1);
+        flightDAO.create(fl2);
+          
+        flightDAO.removeAll();
+        
+        if(flightDAO.findAll().size() > 0){
+            fail("Failed to remove all flights from DB");
+            System.out.println(flightDAO.findAll());
+        }
+    }
+    
     /**
      * Test of remove method, of class FlightDAOImpl.
      */
     @Test
     public void testRemove() {
+        flightDAO.removeAll();
         Flight fl1 = new Flight();
         fl1.setFlightIdentifier("TEST1");
         Flight fl2 = new Flight();
@@ -179,10 +200,31 @@ public class FlightDAOImplTest {
         flightDAO.create(fl2);
         
         flightDAO.remove(fl2);
-        assertFalse(flightDAO.findAll().contains(fl2));
+        if(flightDAO.findAll().contains(fl2)){
+            fail("Failed removing flight 2");
+        }
         
         flightDAO.remove(fl1);
-        assertNull(flightDAO.findAll());
+        
+        if(flightDAO.findAll().size() > 0){
+            fail("Error removing flight 1");
+        }
+        
+    }
+    
+    @Test
+    public void testRemoveNonExisting() {
+        Flight fl1 = new Flight();
+        fl1.setFlightIdentifier("TEST1");
+        Flight fl2 = new Flight();
+        fl2.setFlightIdentifier("TEST2");
+        
+        flightDAO.create(fl1);
+        
+        try{
+            flightDAO.remove(fl2);
+            fail("Removing flight that doesnt exsits in DB");
+        }catch(IllegalArgumentException ex){}
     }
 
     /**
@@ -206,9 +248,10 @@ public class FlightDAOImplTest {
         
         flightDAO.remove(fl1);
         flightDAO.remove(fl2);
-        
-        assertNull(flightDAO.findAll());
-        
+        System.out.println("--size: "+flightDAO.findAll().size());
+        if(flightDAO.findAll().size()>0){
+            fail("Failed getting all flights from empty DB, should return NULL");
+        }
     }
 
     /**
@@ -274,6 +317,10 @@ public class FlightDAOImplTest {
         Destination dest3 = new Destination();
         dest3.setCountry("hungary");
         
+        destDAO.create(dest);
+        destDAO.create(dest2);
+        destDAO.create(dest3);
+        
         fl1.setDestinationStart(dest2);
         fl1.setDestinationArrival(dest);
         fl1.setFlightIdentifier("test1");
@@ -291,9 +338,7 @@ public class FlightDAOImplTest {
         
         expList.add(fl3);
         
-        destDAO.create(dest);
-        destDAO.create(dest2);
-        destDAO.create(dest3);
+       
         
         flightDAO.create(fl1);
         flightDAO.create(fl2);
@@ -307,13 +352,40 @@ public class FlightDAOImplTest {
      */
     @Test
     public void testFindFlightsByPlane() {
-        System.out.println("findFlightsByPlane");
-        Plane plane = null;
-        FlightDAOImpl instance = new FlightDAOImpl();
-        List expResult = null;
-        List result = instance.findFlightsByPlane(plane);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Flight fl1 = new Flight();
+        Flight fl2 = new Flight();
+        Flight fl3 = new Flight();
+        
+        fl1.setFlightIdentifier("test1");
+        fl2.setFlightIdentifier("test2");
+        fl3.setFlightIdentifier("test3");
+        
+        Plane pl1 = new Plane();
+        Plane pl2 = new Plane();
+        Plane pl3 = new Plane();
+        
+        pl1.setType("A380");
+        pl2.setType("A340");
+        pl3.setType("A319");
+        
+        planeDAO.create(pl1);
+        planeDAO.create(pl2);
+        planeDAO.create(pl3);
+        
+        fl1.setPlane(pl1);
+        fl2.setPlane(pl2);
+        fl3.setPlane(pl1);
+        
+        List<Flight> expList = new ArrayList<Flight>();
+        expList.add(fl1);
+        expList.add(fl3);
+        
+       
+        
+        flightDAO.create(fl1);
+        flightDAO.create(fl2);
+        flightDAO.create(fl3);
+        
+        assertEquals(flightDAO.findFlightsByPlane(pl1),expList);
     }
 }

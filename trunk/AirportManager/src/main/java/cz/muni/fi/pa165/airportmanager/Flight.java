@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.airportmanager;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
  * @author Marek
  */
 @Entity
-@Table(name="flights")
+@Table(name="FLIGHTS")
 public class Flight implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
