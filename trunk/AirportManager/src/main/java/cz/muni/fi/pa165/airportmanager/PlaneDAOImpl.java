@@ -17,11 +17,6 @@ import javax.persistence.Query;
 public class PlaneDAOImpl implements PlaneDAO{
     
     private EntityManagerFactory entityManagerFactory;
-    
-    public PlaneDAOImpl()
-    {
-        entityManagerFactory = Persistence.createEntityManagerFactory("AirportPU");
-    }
 
     public void create(Plane plane) {
         if(plane == null)throw new IllegalArgumentException("plane is null");
@@ -68,62 +63,58 @@ public class PlaneDAOImpl implements PlaneDAO{
         entityManager.close();
     }
 
-    public void removeAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-            entityManager.createQuery("DELETE FROM planes");
-        entityManager.getTransaction().commit();
-        //entityManager.close();
-    }
-
     public List<Plane> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query;
+        List<Plane> result;
         entityManager.getTransaction().begin();
-            query = entityManager.createQuery("SELECT * FROM planes", Plane.class);
+            result = entityManager.createQuery("SELECT * FROM planes").getResultList();
         entityManager.getTransaction().commit();
-        //entityManager.close();
-        return query.getResultList();
+        entityManager.close();
+        return result;
     }
 
     public List<Plane> findByProducer(String producer) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query;
+        List<Plane> result;
         entityManager.getTransaction().begin();
-            query = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.producer = :produc", Plane.class).setParameter("produc", producer);
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.producer = :produc").setParameter("produc", producer).getResultList();
         entityManager.getTransaction().commit();
-        //entityManager.close();
-        return query.getResultList();
+        entityManager.close();
+        return result;
     }
 
     public List<Plane> findByType(String type) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query;
+        List<Plane> result;
         entityManager.getTransaction().begin();
-            query = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.type = :type", Plane.class).setParameter("type", type);
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.type = :type").setParameter("type", type).getResultList();
         entityManager.getTransaction().commit();
-        //entityManager.close();
-        return query.getResultList();
+        entityManager.close();
+        return result;
     }
 
     public List<Plane> findByMaxNumberOfSeats(int number) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query;
+        List<Plane> result;
         entityManager.getTransaction().begin();
-            query = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberseats = :number", Plane.class).setParameter("number", number);
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberseats = :number").setParameter("number", number).getResultList();
         entityManager.getTransaction().commit();
-        //entityManager.close();
-        return query.getResultList();
+        entityManager.close();
+        return result;
     }
 
     public List<Plane> findPlaneWithGreaterNumberOfSeats(int number) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query;
+        List<Plane> result;
         entityManager.getTransaction().begin();
-            query = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberSeats >= :number", Plane.class).setParameter("number", number);
+            result = entityManager.createQuery("SELECT p FROM " + Plane.class.getName() + " p WHERE p.numberSeats >= :number").setParameter("number", number).getResultList();
         entityManager.getTransaction().commit();
-        //entityManager.close();
-        return query.getResultList();
+        entityManager.close();
+        return result;
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory emf) {
+        entityManagerFactory = emf;
     }
     
 }
