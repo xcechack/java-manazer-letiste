@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.airportmanager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Persistence;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,10 +25,11 @@ public class PlaneDAOImplTest {
     public void setUp()throws SQLException
     {
         pDAO = new PlaneDAOImpl();
+        pDAO.setEntityManagerFactory(Persistence.createEntityManagerFactory("AirportTestPU"));
     }
     
     @Test
-    public void create()
+    public void testCreate()
     {
         Plane plane = newPlane("Boeing","A800", 650, 10);
         pDAO.create(plane);
@@ -40,22 +42,54 @@ public class PlaneDAOImplTest {
         assertNotSame(plane, result);
         assertDeepEquals(plane, result);
     }
-   
+    
     @Test
-    public void removeAll()
+    public void testGet()
     {
+        Plane plane = newPlane("Boeing","A800", 650, 10);
+        pDAO.create(plane);
         
-        //neni hotovo
-        List<Plane> list = listOfNewPlanes();
+        Long planeId = plane.getId();
         
-        for(Plane p : list)
+        Plane getPlane = pDAO.get(planeId);
+        
+        assertEquals(getPlane.getId(), plane.getId());
+        assertNotSame(getPlane, plane);
+        assertDeepEquals(plane, getPlane);
+    }
+    
+    @Test
+    public void testUpdate()
+    {
+        Plane plane = newPlane("Boeing","A800", 650, 10);
+        pDAO.create(plane);
+        plane.setProducer("Airbus");
+        pDAO.update(plane);
+        
+        Plane getPlane = pDAO.get(plane.getId());
+        
+        assertEquals(plane.getId(), getPlane.getId());
+        assertEquals(plane.getProducer(),"Airbus");
+    }
+    
+    @Test
+    public void testRemove()
+    {
+        for(Plane p : listOfNewPlanes())
         {
             pDAO.create(p);
         }
+        Plane plane = newPlane("Bombardier","CS300", 140, 3);
         
+        pDAO.create(plane);
         
+        pDAO.remove(plane);
+        
+        assertFalse(pDAO.findAll().contains(plane));
+        assertNull(pDAO.get(plane.getId()));
+        assertEquals(pDAO.findAll().size(), listOfNewPlanes().size());
     }
-    
+   
     @Test
     public void findByProducer() 
     {

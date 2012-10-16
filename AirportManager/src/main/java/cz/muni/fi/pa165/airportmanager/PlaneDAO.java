@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.airportmanager;
 
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -43,13 +44,6 @@ public interface PlaneDAO {
      * @throws IlleagalArgumentException when given plane doesnt exist.
      */
     void remove(Plane plane);
-    
-    /**
-     * Removes all planes
-     * @param nothing
-     * @returns nothing
-     */
-    void removeAll();
             
     /**
      * Retrieve all planes
@@ -85,4 +79,11 @@ public interface PlaneDAO {
      * @return List of planes with Maximum Number of Seats EQUAL OR GREATER THAN given number.
      */
     List<Plane> findPlaneWithGreaterNumberOfSeats(int number);
+    
+    /**
+     * Sets EntityManagerFactory
+     * @param EntityManagerFactory
+     * @return nothing
+     */
+    void setEntityManagerFactory(EntityManagerFactory emf);
 }
