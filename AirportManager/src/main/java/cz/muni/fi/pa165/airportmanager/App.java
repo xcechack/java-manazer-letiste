@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.airportmanager;
 
+import cz.muni.fi.pa165.airportmanager.enums.Sex;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -43,11 +46,27 @@ public class App
         
         ar123.setFlightIdentifier("AR123");
         
+        Stewardess st1 = new Stewardess();
+        st1.setName("Jozin");
+        st1.setSurname("Bazin");
+        st1.setSex(Sex.male);
+        Stewardess st2 = new Stewardess();
+        st2.setName("Fero");
+        st2.setSurname("Taraba");
+        st2.setSex(Sex.male);
+        
+        List<Stewardess> stewards = new ArrayList<Stewardess>();
+        stewards.add(st1);
+        stewards.add(st2);
+        
+        ar123.setStewardess(stewards);
         
         em1.getTransaction().begin();
            em1.persist(airbus);
            em1.persist(bratislava);
            em1.persist(kosice);
+           em1.persist(st1);
+           em1.persist(st2);
            em1.persist(ar123);
         em1.getTransaction().commit();
     }

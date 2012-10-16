@@ -6,6 +6,7 @@ package cz.muni.fi.pa165.airportmanager;
 
 import cz.muni.fi.pa165.airportmanager.enums.Sex;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Stewardess implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID")
     private Long id;    
     private String name;
     private String surname;

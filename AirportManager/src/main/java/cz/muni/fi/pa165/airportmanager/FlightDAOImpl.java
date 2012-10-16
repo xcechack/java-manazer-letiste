@@ -46,7 +46,17 @@ public class FlightDAOImpl implements FlightDAO{
     }
 
     public List<Flight> findByIdentifier(String identifier) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(identifier != null){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            List<Flight> res;
+            em.getTransaction().begin();
+                res = em.createQuery("SELECT * FROM flights WHERE FlightIdentifier = '"+identifier+"'",Flight.class).getResultList();
+            em.getTransaction().commit();
+            em.close();
+            return res;
+        }else{
+            throw new IllegalArgumentException("Given flight identifier was null.");
+        }
     }
 
     public void update(Flight flight) {
@@ -84,15 +94,45 @@ public class FlightDAOImpl implements FlightDAO{
     }
 
     public List<Flight> findFlightsByDepartureDestination(Destination destination) {
-        throw new UnsupportedOperationException("Not supported yet.");
+         if(destination != null){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            List<Flight> res;
+            em.getTransaction().begin();
+                res = em.createQuery("SELECT * FROM flights WHERE DestinationStart = "+destination.getId()+"",Flight.class).getResultList();
+            em.getTransaction().commit();
+            em.close();
+            return res;
+        }else{
+            throw new IllegalArgumentException("Given destination was null.");
+        }
     }
 
     public List<Flight> findFlightsByArrivalDestination(Destination destination) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(destination != null){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            List<Flight> res;
+            em.getTransaction().begin();
+                res = em.createQuery("SELECT * FROM flights WHERE DestinationArrival = "+destination.getId()+"",Flight.class).getResultList();
+            em.getTransaction().commit();
+            em.close();
+            return res;
+        }else{
+            throw new IllegalArgumentException("Given destination was null.");
+        }
     }
 
     public List<Flight> findFlightsByPlane(Plane plane) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(plane != null){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            List<Flight> res;
+            em.getTransaction().begin();
+                res = em.createQuery("SELECT * FROM flights WHERE Plane = "+plane.getId()+"",Flight.class).getResultList();
+            em.getTransaction().commit();
+            em.close();
+            return res;
+        }else{
+            throw new IllegalArgumentException("Given plane instance was null.");
+        }
     }
     
 }
