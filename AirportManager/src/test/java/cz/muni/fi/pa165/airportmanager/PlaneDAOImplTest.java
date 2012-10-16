@@ -41,80 +41,200 @@ public class PlaneDAOImplTest {
         assertEquals(plane, result);
         assertNotSame(plane, result);
         assertDeepEquals(plane, result);
+        
+        try
+        {
+            pDAO.create(null);
+            fail("created null plane");
+        }catch(IllegalArgumentException ex){}
     }
     
     @Test
     public void testGet()
     {
-        Plane plane = newPlane("Boeing","A800", 650, 10);
-        pDAO.create(plane);
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
         
-        Long planeId = plane.getId();
+        Plane getPlane = pDAO.get(plane1.getId());
         
-        Plane getPlane = pDAO.get(planeId);
+        assertEquals(getPlane.getId(), plane1.getId());
+        if(getPlane.getId().equals(plane2.getId()))fail("id shouldn't be same");
+        assertNotSame(getPlane, plane1);
+        assertDeepEquals(plane1, getPlane);
         
-        assertEquals(getPlane.getId(), plane.getId());
-        assertNotSame(getPlane, plane);
-        assertDeepEquals(plane, getPlane);
+        try
+        {
+            pDAO.get(null);
+            fail("can't get plane with null id");
+        }catch(IllegalArgumentException ex){}
     }
     
     @Test
     public void testUpdate()
     {
-        Plane plane = newPlane("Boeing","A800", 650, 10);
-        pDAO.create(plane);
-        plane.setProducer("Airbus");
-        pDAO.update(plane);
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
+        plane1.setProducer("Airbus");
+        plane1.setType("A500");
+        plane1.setMaxStewardessNumber(6);
+        plane1.setNumberSeats(200);
+        pDAO.update(plane1);
         
-        Plane getPlane = pDAO.get(plane.getId());
+        Plane getPlane = pDAO.get(plane1.getId());
         
-        assertEquals(plane.getId(), getPlane.getId());
-        assertEquals(plane.getProducer(),"Airbus");
+        assertDeepEquals(plane1, getPlane);
+        assertDeepEquals(plane2, pDAO.get(plane2.getId()));
+        
+        try
+        {
+            pDAO.update(null);
+            fail("can't update null");
+        }catch(IllegalArgumentException ex){}
     }
     
     @Test
     public void testRemove()
     {
-        for(Plane p : listOfNewPlanes())
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        
+        pDAO.create(plane1);
+        pDAO.create(plane2);
+        
+        pDAO.remove(plane1);
+        
+        assertNotNull(pDAO.get(plane2.getId()));
+        assertNull(pDAO.get(plane1.getId()));
+        
+        try
         {
-            pDAO.create(p);
+            pDAO.remove(null);
+            fail("removing null");
+        }catch(IllegalArgumentException ex){}
+    }
+    
+    @Test
+    public void testFindAll()
+    {
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        Plane plane3 = newPlane("Boeing","A800", 650, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
+        
+        List<Plane> planes = pDAO.findAll();
+        
+        if(planes.contains(plane3))fail("can't contain plane3");
+        if(planes.size() != 2)fail("wrong number of planes");
+        if(planes.get(0).getId().equals(plane1.getId()))
+        {
+            assertDeepEquals(planes.get(0), plane1);
+            assertDeepEquals(planes.get(1), plane2);
         }
-        Plane plane = newPlane("Bombardier","CS300", 140, 3);
+        else
+        {
+            assertDeepEquals(planes.get(0), plane2);
+            assertDeepEquals(planes.get(1), plane1);
+        }
+    }
+    
+    @Test
+    public void testFindByType()
+    {
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Boeing","XRJ-800", 650, 10);
         
-        pDAO.create(plane);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
         
-        pDAO.remove(plane);
+        List<Plane> planes = pDAO.findByType("A800");
+        if(planes.size() != 1)fail("wrong number of planes");
         
-        assertFalse(pDAO.findAll().contains(plane));
-        assertNull(pDAO.get(plane.getId()));
-        assertEquals(pDAO.findAll().size(), listOfNewPlanes().size());
+        assertEquals(plane1.getId(), planes.get(0).getId());
+        assertDeepEquals(plane1, planes.get(0));
+        try
+        {
+            pDAO.findByType(null);
+            fail("find by type with null");
+        }
+        catch(IllegalArgumentException ex){}
     }
    
     @Test
-    public void findByProducer() 
+    public void testFindByProducer() 
     {
-        Plane plane = newPlane("Boeing","A800", 650, 10);
-        pDAO.create(plane);
+        Plane plane1 = newPlane("Boeing","A800", 650, 10);
+        Plane plane2 = newPlane("Airbus","A800", 650, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
         
         List<Plane> list = pDAO.findByProducer("Boeing");
         
-        assertEquals(plane, list.get(0));
-        assertNotSame(plane, list.get(0));
-        assertDeepEquals(plane, list.get(0));
+        if(list.size()!= 1)fail("wrong number of planes");
+        assertEquals(plane1.getId(), list.get(0).getId());
+        assertDeepEquals(plane1, list.get(0));
+        try
+        {
+            pDAO.findByProducer(null);
+            fail("find by producer with null");
+        }
+        catch(IllegalArgumentException ex){}
+    }
+    
+    @Test
+    public void findByMaxNumberOfSeats()
+    {
+        Plane plane1 = newPlane("Boeing","A800", 649, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        Plane plane3 = newPlane("Boeing","A800", 651, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
+        pDAO.create(plane3);
+        
+        List<Plane> planes = pDAO.findByMaxNumberOfSeats(650);
+        
+        if(planes.size() != 2)fail("wrong number of planes");
+        
+        if(planes.get(0).getId().equals(plane1.getId()))
+        {
+            assertEquals(planes.get(0).getId(), plane1.getId());
+            assertEquals(planes.get(1).getId(), plane2.getId());
+        }
+        else
+        {
+            assertEquals(planes.get(0).getId(), plane2.getId());
+            assertEquals(planes.get(1).getId(), plane1.getId());
+        }
     }
     
     @Test
     public void findPlaneWithGreaterNumberOfSeats()
     {
-        Plane plane = newPlane("Boeing","A800", 650, 10);
-        pDAO.create(plane);
+        Plane plane1 = newPlane("Boeing","A800", 649, 10);
+        Plane plane2 = newPlane("Boeing","A800", 650, 10);
+        Plane plane3 = newPlane("Boeing","A800", 651, 10);
+        pDAO.create(plane1);
+        pDAO.create(plane2);
+        pDAO.create(plane3);
         
-        List<Plane> list = pDAO.findPlaneWithGreaterNumberOfSeats(640);
+        List<Plane> planes = pDAO.findPlaneWithGreaterNumberOfSeats(650);
         
-        assertNotNull(list.get(0));
-        assertEquals(plane, list.get(0));
-        assertNotSame(plane, list.get(0));
-        assertDeepEquals(plane, list.get(0));
+        if(planes.size() != 2)fail("wrong number of planes");
+        
+        if(planes.get(0).getId().equals(plane2.getId()))
+        {
+            assertEquals(planes.get(0).getId(), plane2.getId());
+            assertEquals(planes.get(1).getId(), plane3.getId());
+        }
+        else
+        {
+            assertEquals(planes.get(0).getId(), plane3.getId());
+            assertEquals(planes.get(1).getId(), plane2.getId());
+        }
     }
     
     private static Plane newPlane(String producer, String type, int numberSeats, int maxStewardessNumber)
@@ -126,18 +246,6 @@ public class PlaneDAOImplTest {
         plane.setMaxStewardessNumber(maxStewardessNumber);
         
         return plane;
-    }
-    
-    private static List<Plane> listOfNewPlanes()
-    {
-        List<Plane> result = new ArrayList<Plane>();
-        result.add(newPlane("Boeing","747", 250, 5));
-        result.add(newPlane("Airbus","A380", 150, 4));
-        result.add(newPlane("Bombardier","CS300", 140, 3));
-        result.add(newPlane("Cessna","172 Skyhawk", 3, 0));
-        result.add(newPlane("LearJet","Learjet 45", 25, 1));
-        result.add(newPlane("Hawker","Hurricane", 1, 0));
-        return result;
     }
     
     private void assertDeepEquals(Plane expected, Plane actual) {

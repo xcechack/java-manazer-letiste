@@ -42,6 +42,7 @@ public interface PlaneDAO {
      * @param plane plane we want to delete
      * @return nothing
      * @throws IlleagalArgumentException when given plane doesnt exist.
+     * @throws NullPointerException when given plane isn't in database.
      */
     void remove(Plane plane);
             
@@ -63,6 +64,7 @@ public interface PlaneDAO {
      * Retrieve all planes with given type
      * @param type Type of the planes.
      * @return List of planes with given type.
+     * @throws IlleagalArgumentException when given producer is null.
      */
     List<Plane> findByType(String type);
     
@@ -70,6 +72,7 @@ public interface PlaneDAO {
      * Retrieve all planes with given maximum number of seats
      * @param number Number of seats
      * @return List of planes with Maximum Number of Seats EQUAL to given number.
+     * @throws IlleagalArgumentException when given type is null.
      */
     List<Plane> findByMaxNumberOfSeats(int number);
     
