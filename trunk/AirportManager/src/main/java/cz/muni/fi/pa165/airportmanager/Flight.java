@@ -6,10 +6,16 @@ package cz.muni.fi.pa165.airportmanager;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +28,7 @@ public class Flight implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-        
+    @Column(name="ID")
     public Long getId() {
         return id;
     }
@@ -31,13 +37,30 @@ public class Flight implements Serializable {
         this.id = id;
     }
     private Long id;
+   
     private String flightIdentifier;
     private Timestamp timeStart;
     private Timestamp timeArrival;
     private Plane plane;
     private Destination destinationStart;
     private Destination destinationArrival;
+    
+    private List<Stewardess> stewardess;
 
+    @ManyToMany
+    @JoinTable(
+      name="FLIGHT_STEWARDESS",
+      joinColumns={@JoinColumn(name="FLIGHT_ID", referencedColumnName="ID")},
+      inverseJoinColumns={@JoinColumn(name="STEWARDESS_ID", referencedColumnName="ID")})
+    public List<Stewardess> getStewardess() {
+        return stewardess;
+    }
+
+    public void setStewardess(List<Stewardess> stewardess) {
+        this.stewardess = stewardess;
+    }
+    
+    @Column(name="FlightIdentifier")
     public String getFlightIdentifier() {
         return flightIdentifier;
     }
@@ -61,7 +84,8 @@ public class Flight implements Serializable {
     public void setTimeArrival(Timestamp timeArrival) {
         this.timeArrival = timeArrival;
     }
-
+    
+    @ManyToOne
     public Plane getPlane() {
         return plane;
     }
@@ -69,7 +93,8 @@ public class Flight implements Serializable {
     public void setPlane(Plane plane) {
         this.plane = plane;
     }
-
+    
+    @ManyToOne
     public Destination getDestinationStart() {
         return destinationStart;
     }
@@ -77,7 +102,8 @@ public class Flight implements Serializable {
     public void setDestinationStart(Destination destinationStart) {
         this.destinationStart = destinationStart;
     }
-
+    
+    @ManyToOne
     public Destination getDestinationArrival() {
         return destinationArrival;
     }
