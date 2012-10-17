@@ -15,7 +15,7 @@ public class App
     public static void main( String[] args )
     {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportPU");
-        EntityManager em1 = emf.createEntityManager(); //ctx1
+        //EntityManager em1 = emf.createEntityManager(); //ctx1
         
         /*
         Person testPerson = new Person();
@@ -61,14 +61,39 @@ public class App
         
         ar123.setStewardess(stewards);
         
-        em1.getTransaction().begin();
-           em1.persist(airbus);
-           em1.persist(bratislava);
-           em1.persist(kosice);
-           em1.persist(st1);
-           em1.persist(st2);
-           em1.persist(ar123);
-        em1.getTransaction().commit();
+        
+        FlightDAO fDAO = new FlightDAOImpl();
+        fDAO.setEntityManager(emf);
+        DestinationDAO dDAO = new DestinationDAOImpl();
+        dDAO.setEntityManagerFactory(emf);
+        StewardessDAOImpl sDAO = new StewardessDAOImpl();
+        sDAO.setEntityManagerFactory(emf);
+        PlaneDAO pDAO = new PlaneDAOImpl();
+        pDAO.setEntityManagerFactory(emf);
+        pDAO.create(airbus);
+        dDAO.create(bratislava);
+        dDAO.create(kosice);
+        sDAO.create(st1);
+        sDAO.create(st2);
+        fDAO.create(ar123);
+        
+        List<Flight> fList = fDAO.findAll();
+        Flight flight;
+        for(int i = 0; i < fList.size(); i++){
+            flight = fList.get(i);
+            List<Stewardess> stewardess = flight.getStewardess();
+            System.out.println("-----------------");
+            System.out.println(flight.getFlightIdentifier());
+            System.out.print("Stewardess: ");
+            for(int j = 0; j < stewardess.size(); j++){
+                System.out.print(stewardess.get(j).getSurname()+", ");
+            }
+            System.out.println();
+            System.out.println("Plane: "+flight.getPlane().getProducer()+" "+flight.getPlane().getType());
+            System.out.println("Departing from: "+flight.getDestinationStart().getCity()+", "+flight.getDestinationStart().getCountry());
+            System.out.println("Arriving to: "+flight.getDestinationArrival().getCity()+", "+flight.getDestinationArrival().getCountry());
+            System.out.println("-----------------");
+        }
     }
 }
 

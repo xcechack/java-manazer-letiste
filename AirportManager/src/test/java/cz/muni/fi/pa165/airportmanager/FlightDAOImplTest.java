@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.airportmanager.enums.Sex;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.junit.After;
@@ -33,7 +34,7 @@ public class FlightDAOImplTest {
     
     @Before
     public void setUp() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU");
         flightDAO = new FlightDAOImpl();
         flightDAO.setEntityManager(emf);
         

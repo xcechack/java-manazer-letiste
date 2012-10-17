@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class Flight implements Serializable {
     
     private List<Stewardess> stewardess;
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
       name="FLIGHT_STEWARDESS",
       joinColumns={@JoinColumn(name="FLIGHT_ID", referencedColumnName="ID")},
@@ -86,7 +87,7 @@ public class Flight implements Serializable {
         this.timeArrival = timeArrival;
     }
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="PLANE_ID")
     public Plane getPlane() {
         return plane;
@@ -96,7 +97,7 @@ public class Flight implements Serializable {
         this.plane = plane;
     }
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="DESTINATIONSTART_ID")
     public Destination getDestinationStart() {
         return destinationStart;
@@ -106,7 +107,7 @@ public class Flight implements Serializable {
         this.destinationStart = destinationStart;
     }
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="DESTINATIONARRIVAL_ID")
     public Destination getDestinationArrival() {
         return destinationArrival;
