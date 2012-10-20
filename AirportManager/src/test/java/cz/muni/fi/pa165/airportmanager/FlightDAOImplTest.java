@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.airportmanager;
 
 import cz.muni.fi.pa165.airportmanager.enums.Sex;
+import java.sql.DriverManager;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class FlightDAOImplTest {
     
     @Before
     public void setUp() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2");
         flightDAO = new FlightDAOImpl();
         flightDAO.setEntityManager(emf);
         
@@ -78,6 +79,7 @@ public class FlightDAOImplTest {
         
     }
     
+    @Test
     public void testCreate(){
         Plane airbus = new Plane();
         airbus.setProducer("Airbus");
@@ -123,6 +125,36 @@ public class FlightDAOImplTest {
         if(ar123.getId()==null){
             fail("Create flight test fail");
         }
+    }
+    
+    @Test
+    public void testCreateWithExistingPlane(){
+          Plane airbus = new Plane();
+          airbus.setProducer("Airbus");
+          airbus.setType("A380");
+          airbus.setNumberSeats(800);
+          airbus.setMaxStewardessNumber(12);
+          
+          planeDAO.create(airbus);
+          
+          if(airbus.getId()!=null){
+              //start with real test
+               Flight ar124 = new Flight();
+               ar124.setFlightIdentifier("AR124");
+               ar124.setPlane(airbus);
+               
+               flightDAO.create(ar124);
+               if(ar124.getId()==null){
+                   fail("Creating flight with existing plane fail.");
+               }else{
+                   if(planeDAO.findAll().size()>1){
+                       fail("Probable duplicity of planes in DB.");
+                   }
+                   System.out.println(" -- Planes: "+planeDAO.findAll().size());
+               }
+          }else{
+              fail("Plane create fail.");
+          }
     }
     
 

@@ -25,7 +25,7 @@ public class PlaneDAOImplTest {
     public void setUp()throws SQLException
     {
         pDAO = new PlaneDAOImpl();
-        pDAO.setEntityManagerFactory(Persistence.createEntityManagerFactory("AirportTestPU"));
+        pDAO.setEntityManagerFactory(Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2"));
     }
     
     @Test
