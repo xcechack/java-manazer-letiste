@@ -124,6 +124,19 @@ public class FlightDAOImplTest {
         
         if(ar123.getId()==null){
             fail("Create flight test fail");
+        }else{
+            if(ar123.getPlane().getId() == null){
+                fail("Creating flight's plane failed.");
+            }
+            if(ar123.getStewardess().get(0).getId() == null){
+                fail("Creating flight's 1st stewardess fail.");
+            }
+            if(ar123.getStewardess().get(1).getId() == null){
+                fail("Creating flight's 2nd stewardess fail.");
+            }
+            if(ar123.getDestinationStart().getId() == null){
+                fail("Creating flight's start destination failed.");
+            }
         }
     }
     
@@ -139,6 +152,7 @@ public class FlightDAOImplTest {
           
           if(airbus.getId()!=null){
               //start with real test
+               Long plane_id = airbus.getId();
                Flight ar124 = new Flight();
                ar124.setFlightIdentifier("AR124");
                ar124.setPlane(airbus);
@@ -147,6 +161,9 @@ public class FlightDAOImplTest {
                if(ar124.getId()==null){
                    fail("Creating flight with existing plane fail.");
                }else{
+                   if(!plane_id.equals(ar124.getPlane().getId())){
+                       fail("Creating flight changed existing plane's id.");
+                   }
                    if(planeDAO.findAll().size()>1){
                        fail("Probable duplicity of planes in DB.");
                    }
