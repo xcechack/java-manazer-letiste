@@ -23,7 +23,7 @@ public class StewardessDAOImplTest extends TestCase {
     
     @Override
     protected void setUp() throws Exception {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2");
         dao = new StewardessDAOImpl();
         dao.setEntityManagerFactory(emf);
     }

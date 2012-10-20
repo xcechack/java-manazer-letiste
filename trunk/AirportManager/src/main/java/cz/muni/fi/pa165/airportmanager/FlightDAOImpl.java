@@ -21,11 +21,34 @@ public class FlightDAOImpl implements FlightDAO{
     }
     
     public void create(Flight flight) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-            em.persist(flight);
-        em.getTransaction().commit();
-        em.close();
+        if(flight!=null){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            em.getTransaction().begin();
+                
+                if(flight.getStewardess() != null){
+                    for(int i=0; i < flight.getStewardess().size(); i++){
+                        if(flight.getStewardess().get(i) != null && flight.getStewardess().get(i).getId()==null){
+                            em.persist(flight.getStewardess().get(i));
+                        }
+                    }
+                }
+                
+                if(flight.getPlane() != null && flight.getPlane().getId()==null){
+                     em.persist(flight.getPlane());
+                }
+                if(flight.getDestinationStart() != null && flight.getDestinationStart().getId()==null){
+                    em.persist(flight.getDestinationStart());
+                }
+                if(flight.getDestinationArrival() != null && flight.getDestinationArrival().getId()==null){
+                    em.persist(flight.getDestinationArrival());
+                }
+               
+                em.persist(flight);
+            em.getTransaction().commit();
+            em.close();
+        }else{
+            throw new IllegalArgumentException("Given flight was null.");
+        }
     }
 
     public Flight get(Long id) {
