@@ -12,13 +12,8 @@ import javax.persistence.EntityManagerFactory;
  * @author Marek
  */
 public interface FlightDAO {
+   
     
-    /**
-     * Sets entitymanagerfactory to be used in this class
-     * @param entityManagerF EntityManagerFactory instance
-     * @return nothing
-     */
-    void setEntityManager(EntityManagerFactory entityManagerF);
     /**
      * Creates new flight
      * 

@@ -5,7 +5,6 @@
 package cz.muni.fi.pa165.airportmanager;
 
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -13,13 +12,7 @@ import javax.persistence.EntityManagerFactory;
  * @mail.muni.cz
  */
 public interface DestinationDAO {
-    /**
-     * Set entity manager factory for destination class
-     * 
-     * @param entityManagerFactory
-     * @return nothing.
-     */
-    void setEntityManagerFactory(EntityManagerFactory entityManagerFactory);
+    
     /**
      * Creates new destination
      * 

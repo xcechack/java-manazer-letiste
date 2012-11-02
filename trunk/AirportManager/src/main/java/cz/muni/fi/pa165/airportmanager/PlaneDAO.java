@@ -83,10 +83,5 @@ public interface PlaneDAO {
      */
     List<Plane> findPlaneWithGreaterNumberOfSeats(int number);
     
-    /**
-     * Sets EntityManagerFactory
-     * @param EntityManagerFactory
-     * @return nothing
-     */
-    void setEntityManagerFactory(EntityManagerFactory emf);
+  
 }
