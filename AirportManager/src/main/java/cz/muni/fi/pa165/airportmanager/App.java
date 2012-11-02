@@ -1,10 +1,15 @@
 package cz.muni.fi.pa165.airportmanager;
 
+
 import cz.muni.fi.pa165.airportmanager.enums.Sex;
+import cz.muni.fi.pa165.airportmanager.services.DestinationService;
+import cz.muni.fi.pa165.airportmanager.services.FlightService;
+import cz.muni.fi.pa165.airportmanager.services.PlaneService;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Hello world!
@@ -14,20 +19,14 @@ public class App
 {
     public static void main( String[] args )
     {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportPU");
-        //EntityManager em1 = emf.createEntityManager(); //ctx1
-        
-        /*
-        Person testPerson = new Person();
-        testPerson.setFirstName("Jozinko");
-        testPerson.setLastName("Z Bazin");*/
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         
         Plane airbus = new Plane();
         airbus.setProducer("Airbus");
         airbus.setType("A380");
         airbus.setNumberSeats(800);
         airbus.setMaxStewardessNumber(12);
-        
+       
         Destination bratislava = new Destination();
         bratislava.setCountry("Slovakia");
         bratislava.setCity("Bratislava");
@@ -36,15 +35,6 @@ public class App
         kosice.setCountry("Slovakia");
         kosice.setCity("Kosice");
         
-        Flight ar123 = new Flight();
-        ar123.setDestinationStart(bratislava);
-        ar123.setDestinationArrival(kosice);
-        ar123.setPlane(airbus);
-        
-        ar123.setTimeArrival(new Timestamp(1234556000));
-        ar123.setTimeArrival(new Timestamp(1238890000));
-        
-        ar123.setFlightIdentifier("AR123");
         
         Stewardess st1 = new Stewardess();
         st1.setName("Jozin");
@@ -59,25 +49,33 @@ public class App
         stewards.add(st1);
         stewards.add(st2);
         
+        
+        PlaneService pService = (PlaneService) context.getBean(PlaneService.class);
+        DestinationService dService = (DestinationService) context.getBean(DestinationService.class);
+        FlightService fService = (FlightService) context.getBean(FlightService.class);
+        
+        //Create destinations
+        //dService.create(bratislava);
+        //dService.create(kosice);
+        
+        pService.create(airbus);
+        //Create flgiht
+        Flight ar123 = new Flight();
+        ar123.setDestinationStart(bratislava);
+        ar123.setDestinationArrival(kosice);
+        ar123.setPlane(airbus);
+        
+        ar123.setTimeArrival(new Timestamp(1234556000));
+        ar123.setTimeArrival(new Timestamp(1238890000));
+        
+        ar123.setFlightIdentifier("AR123");
+        
         ar123.setStewardess(stewards);
         
+   
+        fService.create(ar123);
         
-        FlightDAO fDAO = new FlightDAOImpl();
-        fDAO.setEntityManager(emf);
-        DestinationDAO dDAO = new DestinationDAOImpl();
-        dDAO.setEntityManagerFactory(emf);
-        StewardessDAOImpl sDAO = new StewardessDAOImpl();
-        sDAO.setEntityManagerFactory(emf);
-        PlaneDAO pDAO = new PlaneDAOImpl();
-        pDAO.setEntityManagerFactory(emf);
-        pDAO.create(airbus);
-        dDAO.create(bratislava);
-        dDAO.create(kosice);
-        sDAO.create(st1);
-        sDAO.create(st2);
-        fDAO.create(ar123);
-        
-        List<Flight> fList = fDAO.findAll();
+        List<Flight> fList = fService.findAll();
         Flight flight;
         for(int i = 0; i < fList.size(); i++){
             flight = fList.get(i);
@@ -94,6 +92,7 @@ public class App
             System.out.println("Arriving to: "+flight.getDestinationArrival().getCity()+", "+flight.getDestinationArrival().getCountry());
             System.out.println("-----------------");
         }
+       
     }
 }
 

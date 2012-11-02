@@ -41,7 +41,7 @@ public class FlightDAOImplTest {
         
        
         destDAO = new DestinationDAOImpl();
-        destDAO.setEntityManagerFactory(emf);
+        //destDAO.setEntityManagerFactory(emf);
         
         planeDAO = new PlaneDAOImpl();
         planeDAO.setEntityManagerFactory(emf);

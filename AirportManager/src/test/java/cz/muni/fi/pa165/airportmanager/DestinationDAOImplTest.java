@@ -26,7 +26,7 @@ public class DestinationDAOImplTest {
     public void setUp() throws Exception {   
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2");
         dao = new DestinationDAOImpl();
-        dao.setEntityManagerFactory(emf);
+       // dao.setEntityManagerFactory(emf);
     }
 
 
