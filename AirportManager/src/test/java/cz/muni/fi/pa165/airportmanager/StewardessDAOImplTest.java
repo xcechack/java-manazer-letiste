@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import static org.junit.Assert.*;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -26,12 +27,12 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"file:src/main/resources/applicationContext.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 
+
 public class StewardessDAOImplTest{
     
     @Autowired
     private StewardessDAOImpl dao;
-    
-   
+ 
     
     @Before
     public void setUp() throws Exception {}
@@ -41,6 +42,7 @@ public class StewardessDAOImplTest{
      * Test of create method, of class StewardessDAOImpl.
      */
     @Test
+    @Transactional
     public void testCreate() {
         System.out.println("create");
         //PREPARATION
@@ -77,6 +79,7 @@ public class StewardessDAOImplTest{
      * Test of get method, of class StewardessDAOImpl.
      */
     @Test
+    @Transactional
     public void testGet() {
         System.out.println("get");
         //PREPARATION
@@ -128,6 +131,7 @@ public class StewardessDAOImplTest{
      * Test of update method, of class StewardessDAOImpl.
      */
     @Test
+    @Transactional
     public void testUpdate() {
         System.out.println("update");
         //PREPARATION
@@ -168,6 +172,7 @@ public class StewardessDAOImplTest{
      * Test of remove method, of class StewardessDAOImpl.
      */
     @Test
+    @Transactional
     public void testRemove() {
         System.out.println("remove");
         //PREPARATION
@@ -196,6 +201,7 @@ public class StewardessDAOImplTest{
      * Test of findAll method, of class StewardessDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindAll() {
         System.out.println("findAll");
         //PREPARATION

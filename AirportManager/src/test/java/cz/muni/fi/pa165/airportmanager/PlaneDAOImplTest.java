@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author Vasa
@@ -35,6 +36,7 @@ public class PlaneDAOImplTest {
     {}
     
     @Test
+    @Transactional
     public void testCreate()
     {
         Plane plane = newPlane("Boeing","A800", 650, 10);
@@ -56,6 +58,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testGet()
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -78,6 +81,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testUpdate()
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -103,6 +107,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testRemove()
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -124,6 +129,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testFindAll()
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -149,6 +155,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testFindByType()
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -171,6 +178,7 @@ public class PlaneDAOImplTest {
     }
    
     @Test
+    @Transactional
     public void testFindByProducer() 
     {
         Plane plane1 = newPlane("Boeing","A800", 650, 10);
@@ -192,6 +200,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void findByMaxNumberOfSeats()
     {
         Plane plane1 = newPlane("Boeing","A800", 649, 10);
@@ -218,6 +227,7 @@ public class PlaneDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void findPlaneWithGreaterNumberOfSeats()
     {
         Plane plane1 = newPlane("Boeing","A800", 649, 10);

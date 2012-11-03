@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -38,6 +39,8 @@ public class DestinationDAOImplTest {
     /**
      * Test of create method, of class DestinationDAOImpl.
      */
+    @Test
+    @Transactional
     public void testCreate() {
         System.out.println("create");
         
@@ -72,6 +75,7 @@ public class DestinationDAOImplTest {
      * Test of get method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testGet() {
         System.out.println("get");
          
@@ -119,6 +123,7 @@ public class DestinationDAOImplTest {
      * Test of update method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testUpdate() {
         System.out.println("update");
         
@@ -160,6 +165,7 @@ public class DestinationDAOImplTest {
      * Test of remove method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testRemove() {
                 
         Destination dest = new Destination();
@@ -191,6 +197,7 @@ public class DestinationDAOImplTest {
      * Test of findAll method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindAll() {
         System.out.println("findAll");
         
@@ -217,6 +224,7 @@ public class DestinationDAOImplTest {
      * Test of findByCountry method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindByCountry() {
         System.out.println("findByCountry");
         
@@ -256,6 +264,7 @@ public class DestinationDAOImplTest {
      * Test of findByCity method, of class DestinationDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindByCity() {
         System.out.println("findByCity");
         Destination dest = new Destination();
