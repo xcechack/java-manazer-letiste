@@ -10,24 +10,29 @@ import javax.persistence.Persistence;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  *
  * @author Jaroslav Nespesny, 359566
  * @mail.muni.cz
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/resources/applicationContext.xml"})
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class DestinationDAOImplTest {
     
+    @Autowired
     private DestinationDAOImpl dao;
     
 
     
     @Before
-    public void setUp() throws Exception {   
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2");
-        dao = new DestinationDAOImpl();
-       // dao.setEntityManagerFactory(emf);
-    }
+    public void setUp() throws Exception {}
 
 
     /**

@@ -12,21 +12,27 @@ import javax.persistence.Persistence;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 /**
  *
  * @author Vasa
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/resources/applicationContext.xml"})
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class PlaneDAOImplTest {
     
+    @Autowired
     private PlaneDAO pDAO;
     
     //which exception is being thrown?
     @Before
     public void setUp()throws SQLException
-    {
-        pDAO = new PlaneDAOImpl();
-        pDAO.setEntityManagerFactory(Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2"));
-    }
+    {}
     
     @Test
     public void testCreate()

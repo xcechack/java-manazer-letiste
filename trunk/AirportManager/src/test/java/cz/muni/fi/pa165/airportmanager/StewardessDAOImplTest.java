@@ -9,29 +9,38 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Frkal
  */
-public class StewardessDAOImplTest extends TestCase {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/resources/applicationContext.xml"})
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+
+public class StewardessDAOImplTest{
+    
+    @Autowired
     private StewardessDAOImpl dao;
     
-    public StewardessDAOImplTest(String testName) {
-        super(testName);
-    }
+   
     
-    @Override
-    protected void setUp() throws Exception {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AirportTestInMemoryPU-2");
-        dao = new StewardessDAOImpl();
-        dao.setEntityManagerFactory(emf);
-    }
+    @Before
+    public void setUp() throws Exception {}
 
 
     /**
      * Test of create method, of class StewardessDAOImpl.
      */
+    @Test
     public void testCreate() {
         System.out.println("create");
         //PREPARATION
@@ -67,6 +76,7 @@ public class StewardessDAOImplTest extends TestCase {
     /**
      * Test of get method, of class StewardessDAOImpl.
      */
+    @Test
     public void testGet() {
         System.out.println("get");
         //PREPARATION
@@ -117,6 +127,7 @@ public class StewardessDAOImplTest extends TestCase {
     /**
      * Test of update method, of class StewardessDAOImpl.
      */
+    @Test
     public void testUpdate() {
         System.out.println("update");
         //PREPARATION
@@ -156,6 +167,7 @@ public class StewardessDAOImplTest extends TestCase {
     /**
      * Test of remove method, of class StewardessDAOImpl.
      */
+    @Test
     public void testRemove() {
         System.out.println("remove");
         //PREPARATION
@@ -183,6 +195,7 @@ public class StewardessDAOImplTest extends TestCase {
     /**
      * Test of findAll method, of class StewardessDAOImpl.
      */
+    @Test
     public void testFindAll() {
         System.out.println("findAll");
         //PREPARATION
