@@ -25,7 +25,7 @@ public class StewardessDAOImpl implements StewardessDAO {
 
     public void create(Stewardess stewardess) {
         if (stewardess == null) {
-            throw new IllegalArgumentException("Stewardess must not be null.");
+            throw new NullPointerException("Stewardess must not be null.");
         }
         
         em.persist(stewardess);

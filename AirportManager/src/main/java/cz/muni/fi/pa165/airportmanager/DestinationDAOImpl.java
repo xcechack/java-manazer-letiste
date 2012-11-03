@@ -8,7 +8,6 @@ package cz.muni.fi.pa165.airportmanager;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
