@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -58,6 +59,7 @@ public class FlightDAOImplTest {
      * Test of create method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testCreateEmpty() {
         
         Flight flight = new Flight();
@@ -70,6 +72,7 @@ public class FlightDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testNullCreate(){
         Flight flight = null;
         try{
@@ -82,6 +85,7 @@ public class FlightDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testCreate(){
         Plane airbus = new Plane();
         airbus.setProducer("Airbus");
@@ -143,6 +147,7 @@ public class FlightDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testCreateWithExistingPlane(){
           Plane airbus = new Plane();
           airbus.setProducer("Airbus");
@@ -181,6 +186,7 @@ public class FlightDAOImplTest {
      * Test of get method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testGet() {
         
         Flight flight = new Flight();
@@ -195,6 +201,7 @@ public class FlightDAOImplTest {
      * Test of findByIdentifier method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindByIdentifier() {
         Flight flight = new Flight();
         flight.setFlightIdentifier("testFlightID");
@@ -209,6 +216,7 @@ public class FlightDAOImplTest {
      * Test of update method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testUpdate() {
         Flight flight = new Flight();
         flight.setFlightIdentifier("testFlightID2");
@@ -221,6 +229,7 @@ public class FlightDAOImplTest {
     }
 
     @Test
+    @Transactional
     public void testRemoveAll(){
         Flight fl1 = new Flight();
         fl1.setFlightIdentifier("TEST1");
@@ -241,6 +250,7 @@ public class FlightDAOImplTest {
      * Test of remove method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testRemove() {
         flightDAO.removeAll();
         Flight fl1 = new Flight();
@@ -265,6 +275,7 @@ public class FlightDAOImplTest {
     }
     
     @Test
+    @Transactional
     public void testRemoveNonExisting() {
         Flight fl1 = new Flight();
         fl1.setFlightIdentifier("TEST1");
@@ -283,6 +294,7 @@ public class FlightDAOImplTest {
      * Test of findAll method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindAll() {
         Flight fl1 = new Flight();
         fl1.setFlightIdentifier("TEST1");
@@ -310,6 +322,7 @@ public class FlightDAOImplTest {
      * Test of findFlightsByDepartureDestination method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindFlightsByDepartureDestination() {
         Flight fl1 = new Flight();
         Flight fl2 = new Flight();
@@ -357,6 +370,7 @@ public class FlightDAOImplTest {
      * Test of findFlightsByArrivalDestination method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindFlightsByArrivalDestination() {
         Flight fl1 = new Flight();
         Flight fl2 = new Flight();
@@ -403,6 +417,7 @@ public class FlightDAOImplTest {
      * Test of findFlightsByPlane method, of class FlightDAOImpl.
      */
     @Test
+    @Transactional
     public void testFindFlightsByPlane() {
         Flight fl1 = new Flight();
         Flight fl2 = new Flight();
