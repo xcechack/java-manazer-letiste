@@ -47,7 +47,6 @@ public class PlaneDAOImplTest {
         
         Plane result = pDAO.get(planeId);
         assertEquals(plane, result);
-        assertNotSame(plane, result);
         assertDeepEquals(plane, result);
         
         try
@@ -70,7 +69,7 @@ public class PlaneDAOImplTest {
         
         assertEquals(getPlane.getId(), plane1.getId());
         if(getPlane.getId().equals(plane2.getId()))fail("id shouldn't be same");
-        assertNotSame(getPlane, plane1);
+        assertNotSame(plane2, getPlane);
         assertDeepEquals(plane1, getPlane);
         
         try

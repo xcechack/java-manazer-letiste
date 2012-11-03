@@ -4,8 +4,8 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import cz.muni.fi.pa165.airportmanager.Plane;
+import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
