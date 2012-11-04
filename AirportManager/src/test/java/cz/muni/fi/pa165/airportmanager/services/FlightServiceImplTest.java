@@ -41,6 +41,7 @@ public class FlightServiceImplTest {
     
     private FlightServiceImpl service;
     
+    
     @Before
     public void setUp() {
         StewardessDAO stewardessDAO = new StewardessDAOMock();
@@ -190,8 +191,26 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testFindAll() {
-        System.out.println("findAll");
+        FlightDTO fl1 = new FlightDTO();
+        fl1.setFlightIdentifier("TEST1");
+        FlightDTO fl2 = new FlightDTO();
+        fl2.setFlightIdentifier("TEST2");
 
+        service.create(fl1);
+        service.create(fl2);
+
+        List<FlightDTO> expList = new ArrayList<FlightDTO>();
+        expList.add(fl1);
+        expList.add(fl2);
+
+        assertEquals(service.findAll(), expList);
+
+        service.remove(fl1);
+        service.remove(fl2);
+        System.out.println("--size: " + service.findAll().size());
+        if (service.findAll().size() > 0) {
+            fail("Failed getting all flights from empty DB, should return NULL");
+        }
     }
 
     /**
@@ -199,7 +218,43 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testFindFlightsByDepartureDestination() {
-        System.out.println("findFlightsByDepartureDestination");
+        FlightDTO fl1 = new FlightDTO();
+        FlightDTO fl2 = new FlightDTO();
+        FlightDTO fl3 = new FlightDTO();
+
+        DestinationDTO dest = new DestinationDTO();
+        dest.setCountry("slovakia");
+        DestinationDTO dest2 = new DestinationDTO();
+        dest2.setCountry("czech rep.");
+        DestinationDTO dest3 = new DestinationDTO();
+        dest3.setCountry("hungary");
+
+        fl1.setDestinationStart(dest2);
+        fl1.setDestinationArrival(dest);
+        fl1.setFlightIdentifier("test1");
+
+        fl2.setDestinationStart(dest);
+        fl2.setDestinationArrival(dest3);
+        fl2.setFlightIdentifier("test2");
+
+        fl3.setDestinationStart(dest2);
+        fl3.setDestinationArrival(dest3);
+        fl3.setFlightIdentifier("test3");
+
+        List<FlightDTO> expList = new ArrayList<FlightDTO>();
+        expList.add(fl1);
+
+        expList.add(fl3);
+
+        //dest.create(dest);
+        //dest.create(dest2);
+        //dest.create(dest3);
+
+        service.create(fl1);
+        service.create(fl2);
+        service.create(fl3);
+
+        assertEquals(service.findFlightsByDepartureDestination(dest2), expList);
 
     }
 
@@ -208,8 +263,45 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testFindFlightsByArrivalDestination() {
-        System.out.println("findFlightsByArrivalDestination");
+        FlightDTO fl1 = new FlightDTO();
+        FlightDTO fl2 = new FlightDTO();
+        FlightDTO fl3 = new FlightDTO();
 
+        DestinationDTO dest = new DestinationDTO();
+        dest.setCountry("slovakia");
+        DestinationDTO dest2 = new DestinationDTO();
+        dest2.setCountry("czech rep.");
+        DestinationDTO dest3 = new DestinationDTO();
+        dest3.setCountry("hungary");
+
+        //destDAO.create(dest);
+        //destDAO.create(dest2);
+        //destDAO.create(dest3);
+
+        fl1.setDestinationStart(dest2);
+        fl1.setDestinationArrival(dest);
+        fl1.setFlightIdentifier("test1");
+
+        fl2.setDestinationStart(dest);
+        fl2.setDestinationArrival(dest3);
+        fl2.setFlightIdentifier("test2");
+
+        fl3.setDestinationStart(dest3);
+        fl3.setDestinationArrival(dest);
+        fl3.setFlightIdentifier("test3");
+
+        List<FlightDTO> expList = new ArrayList<FlightDTO>();
+        expList.add(fl1);
+
+        expList.add(fl3);
+
+
+
+        service.create(fl1);
+        service.create(fl2);
+        service.create(fl3);
+
+        assertEquals(service.findFlightsByArrivalDestination(dest), expList);
     }
 
     /**
@@ -217,8 +309,41 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testFindFlightsByPlane() {
-        System.out.println("findFlightsByPlane");
+        FlightDTO fl1 = new FlightDTO();
+        FlightDTO fl2 = new FlightDTO();
+        FlightDTO fl3 = new FlightDTO();
 
+        fl1.setFlightIdentifier("test1");
+        fl2.setFlightIdentifier("test2");
+        fl3.setFlightIdentifier("test3");
+
+        PlaneDTO pl1 = new PlaneDTO();
+        PlaneDTO pl2 = new PlaneDTO();
+        PlaneDTO pl3 = new PlaneDTO();
+
+        pl1.setType("A380");
+        pl2.setType("A340");
+        pl3.setType("A319");
+
+        //planeDAO.create(pl1);
+        //planeDAO.create(pl2);
+        //planeDAO.create(pl3);
+
+        fl1.setPlane(pl1);
+        fl2.setPlane(pl2);
+        fl3.setPlane(pl1);
+
+        List<FlightDTO> expList = new ArrayList<FlightDTO>();
+        expList.add(fl1);
+        expList.add(fl3);
+
+
+
+        service.create(fl1);
+        service.create(fl2);
+        service.create(fl3);
+
+        assertEquals(service.findFlightsByPlane(pl1), expList);
     }
     
     private static StewardessDTO generateStewardess(int sequence){
