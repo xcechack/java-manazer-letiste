@@ -171,7 +171,7 @@ public class DestinationDAOImplTest {
         Destination dest = new Destination();
         dest.setCity("Prahaa");
         dest.setCountry("Czech Republicc");       
-           
+         
         
         dao.create(dest);
         

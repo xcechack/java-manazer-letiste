@@ -85,7 +85,7 @@ public class DestinationServiceImplTest {
         try{
             instance.get(null);
             fail("You can get destination with null id");
-        }catch(DAOException ex){
+        }catch(NullPointerException ex){
         }
     }
 
@@ -105,7 +105,7 @@ public class DestinationServiceImplTest {
         instance.update(newDTO);
         
         DestinationDTO fromDB = instance.get(Long.valueOf(0));
-        DestinationDTO fromDB2 = instance.get(Long.valueOf(1));
+        
         
         assertEquals(newDTO.getCity(), fromDB.getCity());
         assertEquals(newDTO.getCountry(), fromDB.getCountry());
@@ -113,7 +113,7 @@ public class DestinationServiceImplTest {
         try{
             instance.update(null);
             fail("You can update null destination");
-        }catch(DAOException ex){
+        }catch(IllegalArgumentException ex){
         }
     }
 
@@ -131,7 +131,7 @@ public class DestinationServiceImplTest {
         try{
             instance.remove(null);
             fail("You can delete null destination");
-        }catch(DAOException ex){
+        }catch(IllegalArgumentException ex){
         }
         
     }
