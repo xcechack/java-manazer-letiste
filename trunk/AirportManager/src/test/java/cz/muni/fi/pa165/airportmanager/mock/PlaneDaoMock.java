@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.airportmanager.mock;
 import cz.muni.fi.pa165.airportmanager.Plane;
 import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,35 +32,101 @@ public class PlaneDaoMock implements PlaneDAO{
     }
 
     public Plane get(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (id == null) {
+            throw new NullPointerException("Id plane is null ");
+        }
+        for (Plane plane : mockDB) {
+            if (plane.getId().equals(id)) {
+                return plane;
+            }
+        }
+        return null;
     }
 
     public void update(Plane plane) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (plane == null) {
+            throw new NullPointerException("Plane is null when it is updated");
+        }
+        for (Plane pl : mockDB) {
+            if (pl.getId().equals(plane.getId())) {
+                pl.setMaxStewardessNumber(plane.getMaxStewardessNumber());
+                pl.setNumberSeats(plane.getNumberSeats());
+                pl.setProducer(plane.getProducer());
+                pl.setType(plane.getType());
+            }
+        }
     }
 
     public void remove(Plane plane) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (plane == null) {
+            throw new NullPointerException("Plane is null when it is removed");
+        }
+        int index = -1;
+        for (int i = 0; i < mockDB.size(); i++) {
+            if (plane.getId().equals(mockDB.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            mockDB.remove(index);
+        }
     }
 
     public List<Plane> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Collections.unmodifiableList(mockDB);
     }
 
     public List<Plane> findByProducer(String producer) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (producer == null) {
+            throw new NullPointerException("Country is null ");
+        }
+        List<Plane> result = new ArrayList<Plane>();
+        for (Plane pl : mockDB) {
+            if (pl.getProducer().equals(producer)) {
+                result.add(pl);
+            }
+        }
+        return Collections.unmodifiableList(result);
     }
 
     public List<Plane> findByType(String type) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (type == null) {
+            throw new NullPointerException("Country is null ");
+        }
+        List<Plane> result = new ArrayList<Plane>();
+        for (Plane pl : mockDB) {
+            if (pl.getType().equals(type)) {
+                result.add(pl);
+            }
+        }
+        return Collections.unmodifiableList(result);
     }
 
     public List<Plane> findByMaxNumberOfSeats(int number) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (number == 0) {
+            throw new NullPointerException("Country is null ");
+        }
+        List<Plane> result = new ArrayList<Plane>();
+        for (Plane pl : mockDB) {
+            if (pl.getNumberSeats() == number )) {
+                result.add(pl);
+            }
+        }
+        return Collections.unmodifiableList(result);
     }
 
     public List<Plane> findPlaneWithGreaterNumberOfSeats(int number) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (number == 0) {
+            throw new NullPointerException("Country is null ");
+        }
+        List<Plane> result = new ArrayList<Plane>();
+        for (Plane pl : mockDB) {
+            if (pl.getNumberSeats()>= number) {
+                result.add(pl);
+            }
+        }
+        return Collections.unmodifiableList(result);
     }
     
 }
