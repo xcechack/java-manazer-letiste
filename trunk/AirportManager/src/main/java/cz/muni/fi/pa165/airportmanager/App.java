@@ -21,31 +21,31 @@ public class App
     {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         
-        Plane airbus = new Plane();
+        PlaneDTO airbus = new PlaneDTO();
         airbus.setProducer("Airbus");
         airbus.setType("A380");
         airbus.setNumberSeats(800);
         airbus.setMaxStewardessNumber(12);
        
-        Destination bratislava = new Destination();
+        DestinationDTO bratislava = new DestinationDTO();
         bratislava.setCountry("Slovakia");
         bratislava.setCity("Bratislava");
 
-        Destination kosice = new Destination();
+        DestinationDTO kosice = new DestinationDTO();
         kosice.setCountry("Slovakia");
         kosice.setCity("Kosice");
         
         
-        Stewardess st1 = new Stewardess();
+        StewardessDTO st1 = new StewardessDTO();
         st1.setName("Jozin");
         st1.setSurname("Bazin");
         st1.setSex(Sex.male);
-        Stewardess st2 = new Stewardess();
+        StewardessDTO st2 = new StewardessDTO();
         st2.setName("Fero");
         st2.setSurname("Taraba");
         st2.setSex(Sex.male);
         
-        List<Stewardess> stewards = new ArrayList<Stewardess>();
+        List<StewardessDTO> stewards = new ArrayList<StewardessDTO>();
         stewards.add(st1);
         stewards.add(st2);
         
@@ -58,9 +58,9 @@ public class App
         //dService.create(bratislava);
         //dService.create(kosice);
         
-        pService.create(airbus);
+        //pService.create(airbus);
         //Create flgiht
-        Flight ar123 = new Flight();
+        FlightDTO ar123 = new FlightDTO();
         ar123.setDestinationStart(bratislava);
         ar123.setDestinationArrival(kosice);
         ar123.setPlane(airbus);
@@ -75,23 +75,42 @@ public class App
    
         fService.create(ar123);
         
-        List<Flight> fList = fService.findAll();
+        List<FlightDTO> fList = fService.findAll();
         Flight flight;
+      
+        
+        
         for(int i = 0; i < fList.size(); i++){
-            flight = fList.get(i);
-            List<Stewardess> stewardess = flight.getStewardess();
-            System.out.println("-----------------");
-            System.out.println(flight.getFlightIdentifier());
-            System.out.print("Stewardess: ");
-            for(int j = 0; j < stewardess.size(); j++){
-                System.out.print(stewardess.get(j).getSurname()+", ");
-            }
-            System.out.println();
-            System.out.println("Plane: "+flight.getPlane().getProducer()+" "+flight.getPlane().getType());
-            System.out.println("Departing from: "+flight.getDestinationStart().getCity()+", "+flight.getDestinationStart().getCountry());
-            System.out.println("Arriving to: "+flight.getDestinationArrival().getCity()+", "+flight.getDestinationArrival().getCountry());
-            System.out.println("-----------------");
+           // flight = fList.get(i);
+            
+            FlightDTO fDto = fList.get(i); //conv.flightToFlightDto(flight);
+            
+            System.out.println("===================================");
+            
+            
+            
+            
+            System.out.println("============   DTO:  ==============");
+            System.out.println(fDto);
+            //System.out.println("============   Entity:  ===========");
+           // System.out.println(flight);
+            
+            fDto.getDestinationStart().setCity("Prague");
+            fDto.getDestinationStart().setCountry("Czech republic");
+            
+            dService.update(EntityDTOMapper.destinationDTOToDestination(fDto.getDestinationStart()));
+            
+            System.out.println("============   Changed:  ==========");
+            FlightDTO fl2 = fService.get(fDto.getId());
+            System.out.println(fl2);
+            
+            System.out.println("===================================");
+            
+          
         }
+        
+        
+        
        
     }
 }

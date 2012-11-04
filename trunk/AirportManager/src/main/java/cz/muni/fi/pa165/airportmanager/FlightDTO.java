@@ -22,7 +22,7 @@ public class FlightDTO {
     private DestinationDTO destinationArrival;
     
     private List<StewardessDTO> stewardess;
-    
+
     public Long getId() {
         return id;
     }
@@ -30,15 +30,7 @@ public class FlightDTO {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public List<StewardessDTO> getStewardess() {
-        return stewardess;
-    }
 
-    public void setStewardess(List<StewardessDTO> stewardess) {
-        this.stewardess = stewardess;
-    }
-    
     public String getFlightIdentifier() {
         return flightIdentifier;
     }
@@ -62,7 +54,7 @@ public class FlightDTO {
     public void setTimeArrival(Timestamp timeArrival) {
         this.timeArrival = timeArrival;
     }
-    
+
     public PlaneDTO getPlane() {
         return plane;
     }
@@ -70,7 +62,7 @@ public class FlightDTO {
     public void setPlane(PlaneDTO plane) {
         this.plane = plane;
     }
-    
+
     public DestinationDTO getDestinationStart() {
         return destinationStart;
     }
@@ -78,7 +70,7 @@ public class FlightDTO {
     public void setDestinationStart(DestinationDTO destinationStart) {
         this.destinationStart = destinationStart;
     }
-    
+
     public DestinationDTO getDestinationArrival() {
         return destinationArrival;
     }
@@ -87,7 +79,47 @@ public class FlightDTO {
         this.destinationArrival = destinationArrival;
     }
 
+    public List<StewardessDTO> getStewardess() {
+        return stewardess;
+    }
+
+    public void setStewardess(List<StewardessDTO> stewardess) {
+        this.stewardess = stewardess;
+    }
     
+    @Override
+    public String toString() {
+            String ret = "";
+            ret += "-----------------\n";
+            ret += "Flight: \n";
+            
+            if(this.getFlightIdentifier()!=null){
+                ret += this.getFlightIdentifier()+"\n";
+            }
+            
+            ret += "Stewardess: ";
+            
+            if(this.stewardess != null){
+                for(int j = 0; j < this.stewardess.size(); j++){
+                    ret += this.stewardess.get(j).getSurname()+", ";
+                }
+            }
+            
+            ret += "\n";
+            
+            if(this.plane!=null && this.plane.getProducer()!= null && this.plane.getType()!=null){
+                ret += "Plane: "+this.plane.getProducer()+" "+this.plane.getType()+"\n";
+            }
+            if(this.destinationStart!=null){
+                ret += "Departing from: "+((this.destinationStart.getCity()!=null)?this.destinationStart.getCity():"")+", "+((this.destinationStart.getCountry()!=null)?this.destinationStart.getCountry():"")+"\n";
+            }
+            if(this.destinationStart!=null){
+                ret += "Arriving to: "+((this.destinationArrival.getCity()!=null)?this.destinationArrival.getCity():"")+", "+((this.destinationArrival.getCountry()!=null)?this.destinationArrival.getCountry():"")+"\n";
+            }
+            ret += "-----------------\n";
+            
+            return ret;
+    }
 
     @Override
     public int hashCode() {
@@ -109,8 +141,4 @@ public class FlightDTO {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "cz.muni.fi.pa165.airportmanager.FlightDTO[ id=" + id + " ]";
-    }
 }

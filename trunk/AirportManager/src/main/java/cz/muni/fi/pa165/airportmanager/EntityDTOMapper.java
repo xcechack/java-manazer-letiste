@@ -17,7 +17,9 @@ public class EntityDTOMapper {
     
     public static DestinationDTO destinationToDestinationDTO(Destination input)
     {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+        if(input == null) {
+            return null;
+        }
         
         DestinationDTO result = new DestinationDTO();
         
@@ -30,7 +32,9 @@ public class EntityDTOMapper {
     
     public static Destination destinationDTOToDestination(DestinationDTO input)
     {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+        if(input == null) {
+            return null;
+        }
         
         Destination result = new Destination();
         
@@ -43,7 +47,9 @@ public class EntityDTOMapper {
     
     public static StewardessDTO stewardessToStewardessDTO(Stewardess input)
     {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+        if(input == null) {
+            return null;
+        }
         
         StewardessDTO result = new StewardessDTO();
         
@@ -58,7 +64,9 @@ public class EntityDTOMapper {
     
     public static Stewardess stewardessDTOToStewardess(StewardessDTO input)
     {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+        if(input == null) {
+            return null;
+        }
         
         Stewardess result = new Stewardess();
         
@@ -71,56 +79,74 @@ public class EntityDTOMapper {
         return result;
     }
     
-    public static FlightDTO flightToFlightDTO(Flight input)
-    {
-        if(input == null)throw new IllegalArgumentException("destination is null");
-        
-        FlightDTO result = new FlightDTO();
-        
-        result.setTimeArrival(input.getTimeArrival());
-        result.setTimeStart(input.getTimeStart());
-        result.setDestinationArrival(destinationToDestinationDTO(input.getDestinationArrival()));
-        result.setDestinationStart(destinationToDestinationDTO(input.getDestinationStart()));
-        result.setFlightIdentifier(input.getFlightIdentifier());
-        result.setId(input.getId());
-        result.setPlane(planeToPlaneDTO(input.getPlane()));
-        
-        List<StewardessDTO> listOfStewardessDTO = new ArrayList<StewardessDTO>();
-        for(Stewardess stewardess : input.getStewardess())
-        {
-            listOfStewardessDTO.add(stewardessToStewardessDTO(stewardess));
+    public static FlightDTO flightToFlightDto(Flight flight){
+        if(flight!=null){
+            FlightDTO flDto = new FlightDTO();
+            flDto.setId(flight.getId());
+            flDto.setFlightIdentifier(flight.getFlightIdentifier());
+           
+            flDto.setPlane(EntityDTOMapper.planeToPlaneDTO(flight.getPlane()));
+            flDto.setDestinationStart(EntityDTOMapper.destinationToDestinationDTO(flight.getDestinationStart()));
+            flDto.setDestinationArrival(EntityDTOMapper.destinationToDestinationDTO(flight.getDestinationArrival()));
+            flDto.setTimeStart(flight.getTimeStart());
+            flDto.setTimeArrival(flight.getTimeArrival());
+            
+            if(flight.getStewardess() != null){
+                List<StewardessDTO> stewardessDtoList = new ArrayList<StewardessDTO>();
+                for(int i = 0; i < flight.getStewardess().size(); i++){
+                    stewardessDtoList.add(EntityDTOMapper.stewardessToStewardessDTO(flight.getStewardess().get(i)));
+                }
+                flDto.setStewardess(stewardessDtoList);
+            }else{
+                flDto.setStewardess(null);
+            }
+            
+            return flDto;
         }
-        result.setStewardess(listOfStewardessDTO);
-        
-        return result;
+        return null;
     }
     
-    public static Flight flightDTOToFlight(FlightDTO input)
-    {
-        if(input == null)throw new IllegalArgumentException("destination is null");
-        
-        Flight result = new Flight();
-        
-        result.setTimeArrival(input.getTimeArrival());
-        result.setTimeStart(input.getTimeStart());
-        result.setDestinationArrival(destinationDTOToDestination(input.getDestinationArrival()));
-        result.setDestinationStart(destinationDTOToDestination(input.getDestinationStart()));
-        result.setFlightIdentifier(input.getFlightIdentifier());
-        result.setId(input.getId());
-        result.setPlane(planeDTOToPlane(input.getPlane()));
-        
-        List<Stewardess> listOfStewardess = new ArrayList<Stewardess>();
-        for(StewardessDTO stewardess : input.getStewardess())
-        {
-            listOfStewardess.add(stewardessDTOToStewardess(stewardess));
+    public static Flight flightDtoToFlight(FlightDTO flDto){
+        if(flDto!=null){
+            Flight flight = new Flight();
+            flight.setId(flDto.getId());
+            flight.setFlightIdentifier(flDto.getFlightIdentifier());
+            flight.setPlane(EntityDTOMapper.planeDTOToPlane(flDto.getPlane()));
+            flight.setDestinationStart(EntityDTOMapper.destinationDTOToDestination(flDto.getDestinationStart()));
+            flight.setDestinationArrival(EntityDTOMapper.destinationDTOToDestination(flDto.getDestinationArrival()));
+            flight.setTimeStart(flDto.getTimeStart());
+            flight.setTimeArrival(flDto.getTimeArrival());
+            
+            if(flDto.getStewardess() != null){
+                List<Stewardess> stewardessList = new ArrayList<Stewardess>();
+                for(int i = 0; i < flDto.getStewardess().size(); i++){
+                    stewardessList.add(EntityDTOMapper.stewardessDTOToStewardess(flDto.getStewardess().get(i)));
+                }
+                flight.setStewardess(stewardessList);
+            }else{
+                flight.setStewardess(null);
+            }
+            
+            return flight;
         }
-        result.setStewardess(listOfStewardess);
-        
-        return result;
+        return null;
+    }
+    
+    public static List<FlightDTO> flightListToFlightDtoList(List<Flight> flights) {
+        List<FlightDTO> fDtoList = null;
+        if(flights.size() > 0){
+            fDtoList = new ArrayList<FlightDTO>();
+            for(int i = 0; i<flights.size(); i++){
+                fDtoList.add(EntityDTOMapper.flightToFlightDto(flights.get(i)));
+            }
+        }
+        return fDtoList;
     }
 
-    private static PlaneDTO planeToPlaneDTO(Plane input) {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+    public static PlaneDTO planeToPlaneDTO(Plane input) {
+        if(input == null) {
+            return null;
+        }
         
         PlaneDTO result = new PlaneDTO();
         
@@ -133,8 +159,10 @@ public class EntityDTOMapper {
         return result;
     }
 
-    private static Plane planeDTOToPlane(PlaneDTO input) {
-        if(input == null)throw new IllegalArgumentException("destination is null");
+    public static Plane planeDTOToPlane(PlaneDTO input) {
+        if(input == null) {
+            return null;
+        }
         
         Plane result = new Plane();
         
