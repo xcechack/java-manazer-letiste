@@ -7,12 +7,12 @@ package cz.muni.fi.pa165.airportmanager.services;
 import cz.muni.fi.pa165.airportmanager.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.DestinationDTO;
 import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
-import cz.muni.fi.pa165.airportmanager.FlightDAO;
-import cz.muni.fi.pa165.airportmanager.PlaneDAO;
-import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.Flight;
+import cz.muni.fi.pa165.airportmanager.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.FlightDTO;
+import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import cz.muni.fi.pa165.airportmanager.PlaneDTO;
+import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +64,7 @@ public class FlightServiceImpl implements FlightService {
                             try
                             {
                                 sDao.create(flight.getStewardess().get(i));
+                                fDto.getStewardess().get(i).setId(flight.getStewardess().get(i).getId());
                             }catch(Exception ex)
                             {
                                 throw new DAOException(ex.toString());
@@ -76,6 +77,7 @@ public class FlightServiceImpl implements FlightService {
                     try
                     {
                         pDao.create(flight.getPlane());
+                        fDto.getPlane().setId(flight.getPlane().getId());
                     }catch(Exception ex)
                     {
                         throw new DAOException(ex.toString());
@@ -85,6 +87,7 @@ public class FlightServiceImpl implements FlightService {
                     try
                     {
                         dDao.create(flight.getDestinationStart());
+                        fDto.getDestinationStart().setId(flight.getDestinationStart().getId());
                     }catch(Exception ex)
                     {
                         throw new DAOException(ex.toString());
@@ -94,6 +97,7 @@ public class FlightServiceImpl implements FlightService {
                     try
                     {
                         dDao.create(flight.getDestinationArrival());
+                        fDto.getDestinationArrival().setId(flight.getDestinationArrival().getId());
                     }catch(Exception ex)
                     {
                         throw new DAOException(ex.toString());
@@ -102,13 +106,14 @@ public class FlightServiceImpl implements FlightService {
                 try
                 {
                     fDao.create(flight);
+                    fDto.setId(flight.getId());
                 }catch(Exception ex)
                 {
                     throw new DAOException(ex.toString());
                 }
             
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     @Transactional
@@ -122,7 +127,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     
@@ -137,7 +142,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     
@@ -153,7 +158,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     @Transactional
@@ -168,7 +173,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     @Transactional
@@ -204,7 +209,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     @Transactional
@@ -218,7 +223,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     @Transactional
@@ -232,7 +237,7 @@ public class FlightServiceImpl implements FlightService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given flight was null.");
+            throw new NullPointerException("Given flight was null.");
         }
     }
     

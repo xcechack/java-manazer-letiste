@@ -29,11 +29,13 @@ public class StewardessServiceImpl implements StewardessService{
     }
     
     @Transactional
-    public void create(StewardessDTO stewardess) {
-        if(stewardess!=null){
+    public void create(StewardessDTO stewardessDTO) {
+        if(stewardessDTO!=null){
             try
             {
-                sDAO.create(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
+                Stewardess stewardess = EntityDTOMapper.stewardessDTOToStewardess(stewardessDTO);
+                sDAO.create(stewardess);
+                stewardessDTO.setId(stewardess.getId());
             }
             catch(Exception ex)
             {
