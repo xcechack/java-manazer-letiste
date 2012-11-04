@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
  */
 public class DestinationServiceImplTest {
 
-    private DestinationDAO destinationDAO;
     private DestinationServiceImpl instance;
 
     public DestinationServiceImplTest() {
@@ -28,7 +27,7 @@ public class DestinationServiceImplTest {
 
     @Before
     public void setUp() {
-        destinationDAO = new DestinationDAOMock();
+        DestinationDAO destinationDAO = new DestinationDAOMock();
         instance = new DestinationServiceImpl();
         instance.setDestinationDAO(destinationDAO);
     }
