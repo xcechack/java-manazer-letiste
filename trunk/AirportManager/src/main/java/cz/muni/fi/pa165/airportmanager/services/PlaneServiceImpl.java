@@ -40,6 +40,8 @@ public class PlaneServiceImpl implements PlaneService {
             {
                 throw new DAOException(ex.toString());
             }
+        }else{
+            throw new NullPointerException("Given plane was null");
         }
     }
     
@@ -55,7 +57,7 @@ public class PlaneServiceImpl implements PlaneService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
        }
         return result;
     }
@@ -71,7 +73,7 @@ public class PlaneServiceImpl implements PlaneService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
         }
     }
     
@@ -85,7 +87,7 @@ public class PlaneServiceImpl implements PlaneService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
         }
     }
     
@@ -114,7 +116,7 @@ public class PlaneServiceImpl implements PlaneService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
         }
         return result;
     }
@@ -131,7 +133,7 @@ public class PlaneServiceImpl implements PlaneService {
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
         }
         return result;
     }

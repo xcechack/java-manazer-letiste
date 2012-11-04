@@ -4,7 +4,6 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.Destination;
 import cz.muni.fi.pa165.airportmanager.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.DestinationDTO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
@@ -40,21 +39,21 @@ public class DestinationServiceImplTest {
         newDTO.setCity("Praha");
         instance.create(newDTO);
         DestinationDTO fromDB = instance.get(Long.valueOf(0));
-     //TODO
-     //   assertNotNull(newDTO.getId());                
-        
-     //   assertEquals(newDTO.getId(), fromDB.getId());
+        //TODO
+        //   assertNotNull(newDTO.getId());                
+
+        //   assertEquals(newDTO.getId(), fromDB.getId());
         assertEquals(newDTO.getCity(), fromDB.getCity());
         assertEquals(newDTO.getCountry(), fromDB.getCountry());
-        
-        
-        
-        try{
+
+
+
+        try {
             instance.create(null);
             fail("You can create null destination");
-        }catch(DAOException ex){
+        } catch (DAOException ex) {
         }
-        
+
     }
 
     @Test
@@ -62,31 +61,31 @@ public class DestinationServiceImplTest {
         DestinationDTO newDTO = new DestinationDTO();
         newDTO.setCountry("Czech Republic");
         newDTO.setCity("Praha");
-        
+
         DestinationDTO newDTO2 = new DestinationDTO();
         newDTO2.setCountry("Francie");
         newDTO2.setCity("Paříž");
-        
+
         instance.create(newDTO);
         instance.create(newDTO2);
-        
+
         DestinationDTO fromDB = instance.get(Long.valueOf(0));
         DestinationDTO fromDB2 = instance.get(Long.valueOf(1));
-        
-        
+
+
         assertEquals(newDTO.getCity(), fromDB.getCity());
         assertEquals(newDTO.getCountry(), fromDB.getCountry());
-        
-        
+
+
         assertEquals(newDTO2.getCity(), fromDB2.getCity());
         assertEquals(newDTO2.getCountry(), fromDB2.getCountry());
-        
-        
-        
-        try{
+
+
+
+        try {
             instance.get(null);
             fail("You can get destination with null id");
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -95,26 +94,26 @@ public class DestinationServiceImplTest {
         DestinationDTO newDTO = new DestinationDTO();
         newDTO.setCountry("Czech Republic");
         newDTO.setCity("Praha");
-        
+
         instance.create(newDTO);
-        
+
         newDTO.setId(Long.valueOf(0));
         newDTO.setCountry("Francie");
         newDTO.setCity("Paříž");
-        
-        
+
+
         instance.update(newDTO);
-        
+
         DestinationDTO fromDB = instance.get(Long.valueOf(0));
-        
-        
+
+
         assertEquals(newDTO.getCity(), fromDB.getCity());
         assertEquals(newDTO.getCountry(), fromDB.getCountry());
-        
-        try{
+
+        try {
             instance.update(null);
             fail("You can update null destination");
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
         }
     }
 
@@ -126,15 +125,15 @@ public class DestinationServiceImplTest {
         newDTO.setId(Long.valueOf(0));
         instance.create(newDTO);
         instance.remove(newDTO);
-        
+
         assertNull(instance.get(newDTO.getId()));
-        
-        try{
+
+        try {
             instance.remove(null);
             fail("You can delete null destination");
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
         }
-        
+
     }
 
     @Test
@@ -143,17 +142,17 @@ public class DestinationServiceImplTest {
         newDTO.setCountry("Czech Republic");
         newDTO.setCity("Praha");
         newDTO.setId(Long.valueOf(0));
-        
+
         DestinationDTO newDTO2 = new DestinationDTO();
         newDTO2.setCountry("Francie");
         newDTO2.setCity("Paříž");
         newDTO2.setId(Long.valueOf(1));
-        
+
         instance.create(newDTO);
         instance.create(newDTO2);
-        
-        List<DestinationDTO> destList = instance.findAll();        
-        
+
+        List<DestinationDTO> destList = instance.findAll();
+
         assertTrue(destList.contains(newDTO));
         assertTrue(destList.contains(newDTO2));
         assertEquals(2, destList.size());

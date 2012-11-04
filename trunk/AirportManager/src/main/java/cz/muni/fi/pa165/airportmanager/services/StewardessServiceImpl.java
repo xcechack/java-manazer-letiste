@@ -42,7 +42,7 @@ public class StewardessServiceImpl implements StewardessService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Stewardess must not be null.");
+            throw new NullPointerException("Stewardess must not be null.");
         }
     }
 
@@ -74,7 +74,7 @@ public class StewardessServiceImpl implements StewardessService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Stewardess must not be null.");
+            throw new NullPointerException("Stewardess must not be null.");
         }
     }
 
@@ -89,7 +89,7 @@ public class StewardessServiceImpl implements StewardessService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new IllegalArgumentException("Stewardess must not be null.");
+            throw new NullPointerException("Stewardess must not be null.");
         }
     }
 
