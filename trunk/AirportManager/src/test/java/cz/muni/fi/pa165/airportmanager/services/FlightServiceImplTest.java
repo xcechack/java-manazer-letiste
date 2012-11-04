@@ -257,6 +257,7 @@ public class FlightServiceImplTest {
         //destDAO.create(dest2);
         //destDAO.create(dest3);
 
+
         service.create(fl1);
         service.create(fl2);
         service.create(fl3);
@@ -280,10 +281,6 @@ public class FlightServiceImplTest {
         dest2.setCountry("czech rep.");
         DestinationDTO dest3 = new DestinationDTO();
         dest3.setCountry("hungary");
-
-        //destDAO.create(dest);
-        //destDAO.create(dest2);
-        //destDAO.create(dest3);
 
         fl1.setDestinationStart(dest2);
         fl1.setDestinationArrival(dest);
@@ -331,10 +328,6 @@ public class FlightServiceImplTest {
         pl1.setType("A380");
         pl2.setType("A340");
         pl3.setType("A319");
-
-        //planeDAO.create(pl1);
-        //planeDAO.create(pl2);
-        //planeDAO.create(pl3);
 
         fl1.setPlane(pl1);
         fl2.setPlane(pl2);
