@@ -109,7 +109,7 @@ public class PlaneDaoMock implements PlaneDAO{
         }
         List<Plane> result = new ArrayList<Plane>();
         for (Plane pl : mockDB) {
-            if (pl.getNumberSeats() == number )) {
+            if (pl.getNumberSeats() == number) {
                 result.add(pl);
             }
         }

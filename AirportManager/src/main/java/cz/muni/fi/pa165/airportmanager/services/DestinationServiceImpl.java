@@ -35,7 +35,9 @@ public class DestinationServiceImpl implements DestinationService {
     public void create(DestinationDTO destinationDTO) {
         try
         {
-            destinationDAO.create(EntityDTOMapper.destinationDTOToDestination(destinationDTO));
+            Destination destination= EntityDTOMapper.destinationDTOToDestination(destinationDTO);
+            destinationDAO.create(destination);
+            destinationDTO.setId(destination.getId());
         }catch(Exception ex)
         {
             throw new DAOException(ex.toString());

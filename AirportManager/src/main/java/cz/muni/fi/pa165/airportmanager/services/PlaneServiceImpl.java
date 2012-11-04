@@ -29,11 +29,13 @@ public class PlaneServiceImpl implements PlaneService {
     }
     
     @Transactional    
-    public void create(PlaneDTO plane) {
-        if(plane!=null){
+    public void create(PlaneDTO planeDTO) {
+        if(planeDTO!=null){
             try
             {
-                pDao.create(EntityDTOMapper.planeDTOToPlane(plane));
+                Plane plane = EntityDTOMapper.planeDTOToPlane(planeDTO);
+                pDao.create(plane);
+                planeDTO.setId(plane.getId());
             }catch(Exception ex)
             {
                 throw new DAOException(ex.toString());

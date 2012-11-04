@@ -4,13 +4,27 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
+import cz.muni.fi.pa165.airportmanager.Destination;
 import cz.muni.fi.pa165.airportmanager.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.DestinationDTO;
+import cz.muni.fi.pa165.airportmanager.Flight;
 import cz.muni.fi.pa165.airportmanager.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.FlightDTO;
+import cz.muni.fi.pa165.airportmanager.Plane;
 import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import cz.muni.fi.pa165.airportmanager.PlaneDTO;
+import cz.muni.fi.pa165.airportmanager.Stewardess;
 import cz.muni.fi.pa165.airportmanager.StewardessDAO;
+import cz.muni.fi.pa165.airportmanager.StewardessDTO;
+import cz.muni.fi.pa165.airportmanager.enums.Sex;
+import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
+import cz.muni.fi.pa165.airportmanager.mock.DestinationDAOMock;
+import cz.muni.fi.pa165.airportmanager.mock.FlightDAOMock;
+import cz.muni.fi.pa165.airportmanager.mock.PlaneDaoMock;
+import cz.muni.fi.pa165.airportmanager.mock.StewardessDAOMock;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,75 +39,20 @@ import static org.junit.Assert.*;
  */
 public class FlightServiceImplTest {
     
-    public FlightServiceImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    private FlightServiceImpl service;
     
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of setfDao method, of class FlightServiceImpl.
-     */
-    @Test
-    public void testSetfDao() {
-        System.out.println("setfDao");
-        FlightDAO fDao = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.setfDao(fDao);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setdDao method, of class FlightServiceImpl.
-     */
-    @Test
-    public void testSetdDao() {
-        System.out.println("setdDao");
-        DestinationDAO dDao = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.setdDao(dDao);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setpDao method, of class FlightServiceImpl.
-     */
-    @Test
-    public void testSetpDao() {
-        System.out.println("setpDao");
-        PlaneDAO pDao = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.setpDao(pDao);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setsDao method, of class FlightServiceImpl.
-     */
-    @Test
-    public void testSetsDao() {
-        System.out.println("setsDao");
-        StewardessDAO sDao = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.setsDao(sDao);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        StewardessDAO stewardessDAO = new StewardessDAOMock();
+        FlightDAO flightDAO = new FlightDAOMock();
+        DestinationDAO destinationDAO = new DestinationDAOMock();
+        PlaneDAO planeDAO = new PlaneDaoMock();
+        
+        service = new FlightServiceImpl();
+        service.setdDao(destinationDAO);
+        service.setfDao(flightDAO);
+        service.setpDao(planeDAO);
+        service.setsDao(stewardessDAO);
     }
 
     /**
@@ -102,11 +61,44 @@ public class FlightServiceImplTest {
     @Test
     public void testCreate() {
         System.out.println("create");
-        FlightDTO fDto = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.create(fDto);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        List<StewardessDTO> stew = new ArrayList<StewardessDTO>();
+        stew.add(generateStewardess(1));
+        stew.add(generateStewardess(2));
+        
+        FlightDTO flight = new FlightDTO();
+        flight.setDestinationArrival(generateDestination(2));
+        flight.setDestinationStart(generateDestination(1));
+        flight.setFlightIdentifier("arl688");
+        flight.setPlane(generatePlane(1));
+        flight.setStewardess(Collections.unmodifiableList(stew));
+        flight.setTimeArrival(new Timestamp(123456789));
+        flight.setTimeStart(new Timestamp(123444444));
+        
+        service.create(flight);
+        
+        assertNotNull(flight.getId());
+        FlightDTO flightFormDb = service.get(flight.getId());
+        assertNotNull(flightFormDb);
+        
+        assertEquals(flight.getDestinationArrival(), flightFormDb.getDestinationArrival());
+        assertEquals(flight.getDestinationStart(), flightFormDb.getDestinationStart());
+        assertEquals(flight.getFlightIdentifier(), flightFormDb.getFlightIdentifier());
+        assertEquals(flight.getId(), flightFormDb.getId());
+        assertEquals(flight.getPlane(), flightFormDb.getPlane());
+        assertEquals(flight.getTimeArrival(), flightFormDb.getTimeArrival());
+        assertEquals(flight.getTimeStart(), flightFormDb.getTimeStart());
+        
+        assertNotNull(flightFormDb.getStewardess());
+        for(int i = 0; i < flight.getStewardess().size(); i++){
+            assertEquals(flight.getStewardess().get(i), flightFormDb.getStewardess().get(i));
+        }
+        
+        try{
+            service.create(null);
+            fail();
+        }catch(NullPointerException ex){
+        }
     }
 
     /**
@@ -115,13 +107,7 @@ public class FlightServiceImplTest {
     @Test
     public void testGet() {
         System.out.println("get");
-        Long id = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        FlightDTO expResult = null;
-        FlightDTO result = instance.get(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -130,13 +116,7 @@ public class FlightServiceImplTest {
     @Test
     public void testFindByIdentifier() {
         System.out.println("findByIdentifier");
-        String identifier = "";
-        FlightServiceImpl instance = new FlightServiceImpl();
-        List expResult = null;
-        List result = instance.findByIdentifier(identifier);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -145,11 +125,7 @@ public class FlightServiceImplTest {
     @Test
     public void testUpdate() {
         System.out.println("update");
-        FlightDTO fDto = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.update(fDto);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -158,11 +134,7 @@ public class FlightServiceImplTest {
     @Test
     public void testRemove() {
         System.out.println("remove");
-        FlightDTO fDto = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.remove(fDto);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -171,10 +143,7 @@ public class FlightServiceImplTest {
     @Test
     public void testRemoveAll() {
         System.out.println("removeAll");
-        FlightServiceImpl instance = new FlightServiceImpl();
-        instance.removeAll();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -183,12 +152,7 @@ public class FlightServiceImplTest {
     @Test
     public void testFindAll() {
         System.out.println("findAll");
-        FlightServiceImpl instance = new FlightServiceImpl();
-        List expResult = null;
-        List result = instance.findAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -197,13 +161,7 @@ public class FlightServiceImplTest {
     @Test
     public void testFindFlightsByDepartureDestination() {
         System.out.println("findFlightsByDepartureDestination");
-        DestinationDTO destination = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        List expResult = null;
-        List result = instance.findFlightsByDepartureDestination(destination);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -212,13 +170,7 @@ public class FlightServiceImplTest {
     @Test
     public void testFindFlightsByArrivalDestination() {
         System.out.println("findFlightsByArrivalDestination");
-        DestinationDTO destination = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        List expResult = null;
-        List result = instance.findFlightsByArrivalDestination(destination);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -227,12 +179,31 @@ public class FlightServiceImplTest {
     @Test
     public void testFindFlightsByPlane() {
         System.out.println("findFlightsByPlane");
-        PlaneDTO plane = null;
-        FlightServiceImpl instance = new FlightServiceImpl();
-        List expResult = null;
-        List result = instance.findFlightsByPlane(plane);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+    }
+    
+    private static StewardessDTO generateStewardess(int sequence){
+        StewardessDTO stewardess = new StewardessDTO();
+        stewardess.setBirthNumber("111111/" + sequence);
+        stewardess.setName("Jane" + sequence);
+        stewardess.setSex(Sex.values()[sequence % 2]);
+        stewardess.setSurname("Doe" + sequence);
+        return stewardess;
+    }
+    
+    private static PlaneDTO generatePlane(int sequence){
+        PlaneDTO plane = new PlaneDTO();
+        plane.setMaxStewardessNumber((sequence + 1) * 10);
+        plane.setNumberSeats(sequence);
+        plane.setProducer("Boeing_" + sequence);
+        plane.setType(String.valueOf(sequence));
+        return plane;
+    }
+    
+    private static DestinationDTO generateDestination(int sequence){
+        DestinationDTO dest = new DestinationDTO();
+        dest.setCity("City_" + sequence);
+        dest.setCountry("Country_" + sequence);
+        return dest;
     }
 }
