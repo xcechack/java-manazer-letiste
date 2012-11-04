@@ -20,21 +20,21 @@ import static org.junit.Assert.*;
  * @author Frkal
  */
 public class StewardessServiceImplTest {
-    
+
     private StewardessDAO stewardessDAO;
     private StewardessServiceImpl instance;
-    
+
     public StewardessServiceImplTest() {
     }
-    
+
     @Before
     public void setUp() {
         stewardessDAO = new StewardessDAOMock();
         instance = new StewardessServiceImpl();
         instance.setsDAO(stewardessDAO);//setDestinationDAO(destinationDAO);
-    
+
     }
-    
+
     /**
      * Test of create method, of class StewardessServiceImpl.
      */
@@ -47,16 +47,16 @@ public class StewardessServiceImplTest {
         newSDTO.setSurname("Doe");
         instance.create(newSDTO);
         StewardessDTO stewFromDB = instance.get(Long.valueOf(0));
-        
+
         assertEquals(newSDTO.getBirthNumber(), stewFromDB.getBirthNumber());
         assertEquals(newSDTO.getName(), stewFromDB.getName());
         assertEquals(newSDTO.getSex(), stewFromDB.getSex());
         assertEquals(newSDTO.getSurname(), stewFromDB.getSurname());
-        
-        try{
+
+        try {
             instance.create(null);
             fail("Method create can be called with null value.");
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -70,8 +70,8 @@ public class StewardessServiceImplTest {
         stew1.setName("Jane");
         stew1.setSex(Sex.female);
         stew1.setSurname("Doe");
-        
-        
+
+
         StewardessDTO stew2 = new StewardessDTO();
         stew2.setBirthNumber("222222/6587");
         stew2.setName("Johnnie");
@@ -80,34 +80,34 @@ public class StewardessServiceImplTest {
         //create
         instance.create(stew1);
         instance.create(stew2);
-        
+
         StewardessDTO stew1FromDB = instance.get(Long.valueOf(0));
         StewardessDTO stew2FromDB = instance.get(Long.valueOf(1));
-        
+
         //test 
         assertNotNull(stew1.getId());
         assertNotNull(stew2.getId());
-        
-       // StewardessDTO stew1FromDB = instance.get(stew1.getId());
-      //  StewardessDTO stew2FromDB = instance.get(stew2.getId());
-        
-        
+
+        // StewardessDTO stew1FromDB = instance.get(stew1.getId());
+        //  StewardessDTO stew2FromDB = instance.get(stew2.getId());
+
+
         assertEquals(stew1.getId(), stew1FromDB.getId());
         assertEquals(stew1.getBirthNumber(), stew1FromDB.getBirthNumber());
         assertEquals(stew1.getName(), stew1FromDB.getName());
         assertEquals(stew1.getSex(), stew1FromDB.getSex());
         assertEquals(stew1.getSurname(), stew1FromDB.getSurname());
-        
+
         assertEquals(stew2.getId(), stew2FromDB.getId());
         assertEquals(stew2.getBirthNumber(), stew2FromDB.getBirthNumber());
         assertEquals(stew2.getName(), stew2FromDB.getName());
         assertEquals(stew2.getSex(), stew2FromDB.getSex());
         assertEquals(stew2.getSurname(), stew2FromDB.getSurname());
-        
-        try{
+
+        try {
             instance.get(null);
             fail("Method can get stewardess with null id.");
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -123,32 +123,32 @@ public class StewardessServiceImplTest {
         stew1.setSurname("Walker");
         //create
         instance.create(stew1);
-       
+
         stew1.setName("Jack");
         stew1.setSurname("Daniels");
         stew1.setBirthNumber("333222/55555");
         stew1.setSex(Sex.female);
-        
-        
+
+
         instance.update(stew1);
         StewardessDTO stew1FromDB = instance.get(Long.valueOf(0));
         assertNotNull(stew1.getId());
-        
+
         //StewardessDTO stew1FromDB = dao.get(stew1.getId());
-        
+
         assertEquals(stew1.getId(), stew1FromDB.getId());
-        
+
         assertEquals(stew1.getBirthNumber(), stew1FromDB.getBirthNumber());
         assertEquals(stew1.getName(), stew1FromDB.getName());
         assertEquals(stew1.getSex(), stew1FromDB.getSex());
         assertEquals(stew1.getSurname(), stew1FromDB.getSurname());
-        
-        try{
+
+        try {
             instance.update(null);
             fail("Method can update stewardess with null value.");
-        }catch(NullPointerException ex){
-        } 
-        
+        } catch (NullPointerException ex) {
+        }
+
     }
 
     /**
@@ -165,14 +165,14 @@ public class StewardessServiceImplTest {
         instance.create(stew);
         //test
         assertNotNull(stew.getId());
-        
+
         instance.remove(stew);
-             
+
         assertNull(instance.get(stew.getId()));
-        try{
+        try {
             instance.remove(null);
             fail("Method can remove null stewardess.");
-        }catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -186,31 +186,31 @@ public class StewardessServiceImplTest {
         stew1.setName("Jane");
         stew1.setSex(Sex.female);
         stew1.setSurname("Doe");
-        
+
         StewardessDTO stew2 = new StewardessDTO();
         stew2.setBirthNumber("222222/6587");
         stew2.setName("Johnnie");
         stew2.setSex(Sex.male);
         stew2.setSurname("Walker");
-                
+
         StewardessDTO stew3 = new StewardessDTO();
         stew3.setBirthNumber("222222/6587");
         stew3.setName("Johnnie");
         stew3.setSex(Sex.male);
         stew3.setSurname("Walker");
-        
+
         //create
         instance.create(stew1);
         instance.create(stew2);
         instance.create(stew3);
-        
+
         //test 
         List<StewardessDTO> list = instance.findAll();
-        
+
         assertTrue(list.contains(stew1));
         assertTrue(list.contains(stew2));
         assertTrue(list.contains(stew3));
-        
+
 
     }
 }
