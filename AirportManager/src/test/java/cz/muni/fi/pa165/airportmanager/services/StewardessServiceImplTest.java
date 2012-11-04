@@ -85,20 +85,20 @@ public class StewardessServiceImplTest {
         StewardessDTO stew2FromDB = instance.get(Long.valueOf(1));
         
         //test 
-        //assertNotNull(stew1.getId());
-        //assertNotNull(stew2.getId());
+        assertNotNull(stew1.getId());
+        assertNotNull(stew2.getId());
         
-        //Stewardess stew1FromDB = dao.get(stew1.getId());
-        //Stewardess stew2FromDB = dao.get(stew2.getId());
+       // StewardessDTO stew1FromDB = instance.get(stew1.getId());
+      //  StewardessDTO stew2FromDB = instance.get(stew2.getId());
         
         
-       // assertEquals(stew1.getId(), stew1FromDB.getId());
+        assertEquals(stew1.getId(), stew1FromDB.getId());
         assertEquals(stew1.getBirthNumber(), stew1FromDB.getBirthNumber());
         assertEquals(stew1.getName(), stew1FromDB.getName());
         assertEquals(stew1.getSex(), stew1FromDB.getSex());
         assertEquals(stew1.getSurname(), stew1FromDB.getSurname());
         
-        //assertEquals(stew2.getId(), stew2FromDB.getId());
+        assertEquals(stew2.getId(), stew2FromDB.getId());
         assertEquals(stew2.getBirthNumber(), stew2FromDB.getBirthNumber());
         assertEquals(stew2.getName(), stew2FromDB.getName());
         assertEquals(stew2.getSex(), stew2FromDB.getSex());
@@ -131,12 +131,13 @@ public class StewardessServiceImplTest {
         
         
         instance.update(stew1);
-        //assertNotNull(stew1.getId());
-        
-        //Stewardess stew1FromDB = dao.get(stew1.getId());
-        
-        //assertEquals(stew1.getId(), stew1FromDB.getId());
         StewardessDTO stew1FromDB = instance.get(Long.valueOf(0));
+        assertNotNull(stew1.getId());
+        
+        //StewardessDTO stew1FromDB = dao.get(stew1.getId());
+        
+        assertEquals(stew1.getId(), stew1FromDB.getId());
+        
         assertEquals(stew1.getBirthNumber(), stew1FromDB.getBirthNumber());
         assertEquals(stew1.getName(), stew1FromDB.getName());
         assertEquals(stew1.getSex(), stew1FromDB.getSex());
@@ -163,11 +164,11 @@ public class StewardessServiceImplTest {
         //create
         instance.create(stew);
         //test
-        //assertNotNull(stew.getId());
+        assertNotNull(stew.getId());
         
         instance.remove(stew);
              
-        //assertNull(instance.get(stew.getId()));
+        assertNull(instance.get(stew.getId()));
         try{
             instance.remove(null);
             fail("Method can remove null stewardess.");
