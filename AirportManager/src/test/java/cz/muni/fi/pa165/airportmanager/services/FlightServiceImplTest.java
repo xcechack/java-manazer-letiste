@@ -42,6 +42,13 @@ public class FlightServiceImplTest {
     private FlightServiceImpl service;
     
     
+    private DestinationServiceImpl destDAO;
+    
+    private PlaneServiceImpl planeDAO;
+    
+    private StewardessServiceImpl stewardessDAO;
+    
+    
     @Before
     public void setUp() {
         StewardessDAO stewardessDAO = new StewardessDAOMock();
@@ -246,9 +253,9 @@ public class FlightServiceImplTest {
 
         expList.add(fl3);
 
-        //dest.create(dest);
-        //dest.create(dest2);
-        //dest.create(dest3);
+        //destDAO.create(dest);
+        //destDAO.create(dest2);
+        //destDAO.create(dest3);
 
         service.create(fl1);
         service.create(fl2);

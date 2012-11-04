@@ -55,85 +55,185 @@ public class PlaneServiceImplTest {
 
     @Test
     public void testGet() {
-        System.out.println("get");
-        Long id = null;
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        PlaneDTO expResult = null;
-        PlaneDTO result = instance.get(id);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+
+        PlaneDTO getPlane = instance.get(plane1.getId());
+
+        assertEquals(getPlane.getId(), plane1.getId());
+        if (getPlane.getId().equals(plane2.getId())) {
+            fail("id shouldn't be same");
+        }
+        assertNotSame(plane2, getPlane);
+        assertDeepEquals(plane1, getPlane);
+
+        try {
+            instance.get(null);
+            fail("can't get plane with null id");
+        } catch (NullPointerException ex) {
+        }
     }
 
     @Test
     public void testUpdate() {
-        System.out.println("update");
-        PlaneDTO plane = null;
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        instance.update(plane);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+        plane1.setProducer("Airbus");
+        plane1.setType("A500");
+        plane1.setMaxStewardessNumber(6);
+        plane1.setNumberSeats(200);
+        instance.update(plane1);
+
+        PlaneDTO getPlane = instance.get(plane1.getId());
+
+        assertDeepEquals(plane1, getPlane);
+        assertDeepEquals(plane2, instance.get(plane2.getId()));
+
+        try {
+            instance.update(null);
+            fail("can't update null");
+        } catch (NullPointerException ex) {
+        }
     }
 
     @Test
     public void testRemove() {
-        System.out.println("remove");
-        PlaneDTO plane = null;
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        instance.remove(plane);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+
+        instance.create(plane1);
+        instance.create(plane2);
+
+        instance.remove(plane1);
+
+        assertNotNull(instance.get(plane2.getId()));
+        assertNull(instance.get(plane1.getId()));
+
+        try {
+            instance.remove(null);
+            fail("removing null");
+        } catch (NullPointerException ex) {
+        }
     }
 
     @Test
     public void testFindAll() {
-        System.out.println("findAll");
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        List expResult = null;
-        List result = instance.findAll();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane3 = newPlane("Boeing", "A800", 650, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+
+        List<PlaneDTO> planes = instance.findAll();
+
+        if (planes.contains(plane3)) {
+            fail("can't contain plane3");
+        }
+        if (planes.size() != 2) {
+            fail("wrong number of planes");
+        }
+        if (planes.get(0).getId().equals(plane1.getId())) {
+            assertDeepEquals(planes.get(0), plane1);
+            assertDeepEquals(planes.get(1), plane2);
+        } else {
+            assertDeepEquals(planes.get(0), plane2);
+            assertDeepEquals(planes.get(1), plane1);
+        }
     }
 
     @Test
     public void testFindByProducer() {
-        System.out.println("findByProducer");
-        String producer = "";
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        List expResult = null;
-        List result = instance.findByProducer(producer);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "XRJ-800", 650, 10);
+
+        instance.create(plane1);
+        instance.create(plane2);
+
+        List<PlaneDTO> planes = instance.findByType("A800");
+        if (planes.size() != 1) {
+            fail("wrong number of planes");
+        }
+
+        assertEquals(plane1.getId(), planes.get(0).getId());
+        assertDeepEquals(plane1, planes.get(0));
+        try {
+            instance.findByType(null);
+            fail("find by type with null");
+        } catch (NullPointerException ex) {
+        }
     }
 
     @Test
     public void testFindByType() {
-        System.out.println("findByType");
-        String type = "";
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        List expResult = null;
-        List result = instance.findByType(type);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane2 = newPlane("Airbus", "A800", 650, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+
+        List<PlaneDTO> list = instance.findByProducer("Boeing");
+
+        if (list.size() != 1) {
+            fail("wrong number of planes");
+        }
+        assertEquals(plane1.getId(), list.get(0).getId());
+        assertDeepEquals(plane1, list.get(0));
+        try {
+            instance.findByProducer(null);
+            fail("find by producer with null");
+        } catch (NullPointerException ex) {
+        }
     }
 
     @Test
     public void testFindByMaxNumberOfSeats() {
-        System.out.println("findByMaxNumberOfSeats");
-        int number = 0;
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        List expResult = null;
-        List result = instance.findByMaxNumberOfSeats(number);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 649, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane3 = newPlane("Boeing", "A800", 651, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+        instance.create(plane3);
+
+        List<PlaneDTO> planes = instance.findByMaxNumberOfSeats(650);
+        
+        if (planes.size() != 1) {
+            fail("wrong number of planes");
+        }
+
+//        if (planes.get(0).getId().equals(plane1.getId())) {
+//            assertEquals(planes.get(0).getId(), plane1.getId());
+//            assertEquals(planes.get(1).getId(), plane2.getId());
+//        } else {
+//            assertEquals(planes.get(0).getId(), plane2.getId());
+//            assertEquals(planes.get(1).getId(), plane1.getId());
+//        }
     }
 
     @Test
     public void testFindPlaneWithGreaterNumberOfSeats() {
-        System.out.println("findPlaneWithGreaterNumberOfSeats");
-        int number = 0;
-        PlaneServiceImpl instance = new PlaneServiceImpl();
-        List expResult = null;
-        List result = instance.findPlaneWithGreaterNumberOfSeats(number);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        PlaneDTO plane1 = newPlane("Boeing", "A800", 649, 10);
+        PlaneDTO plane2 = newPlane("Boeing", "A800", 650, 10);
+        PlaneDTO plane3 = newPlane("Boeing", "A800", 651, 10);
+        instance.create(plane1);
+        instance.create(plane2);
+        instance.create(plane3);
+
+        List<PlaneDTO> planes = instance.findPlaneWithGreaterNumberOfSeats(650);
+
+        if (planes.size() != 2) {
+            fail("wrong number of planes");
+        }
+
+        if (planes.get(0).getId().equals(plane2.getId())) {
+            assertEquals(planes.get(0).getId(), plane2.getId());
+            assertEquals(planes.get(1).getId(), plane3.getId());
+        } else {
+            assertEquals(planes.get(0).getId(), plane3.getId());
+            assertEquals(planes.get(1).getId(), plane2.getId());
+        }
     }
     
     private static PlaneDTO newPlane(String producer, String type, int numberSeats, int maxStewardessNumber)
