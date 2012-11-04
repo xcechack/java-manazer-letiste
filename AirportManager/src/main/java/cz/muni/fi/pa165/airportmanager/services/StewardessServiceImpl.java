@@ -4,8 +4,10 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
+import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
 import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.Stewardess;
+import cz.muni.fi.pa165.airportmanager.StewardessDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,44 +28,66 @@ public class StewardessServiceImpl implements StewardessService{
     }
     
     @Transactional
-    public void create(Stewardess stewardess) {
+    public void create(StewardessDTO stewardess) {
         if(stewardess!=null){
-            sDAO.create(stewardess);
+            try
+            {
+                sDAO.create(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
+            }
+            catch(NullPointerException ex){}
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
     }
 
     @Transactional
-    public Stewardess get(Long id) {
+    public StewardessDTO get(Long id) {
+        StewardessDTO result = null;
         if(id!=null){
-            return sDAO.get(id);
+            try
+            {
+                result = EntityDTOMapper.stewardessToStewardessDTO(sDAO.get(id));
+            }catch(NullPointerException ex){}
         }else{
             throw new NullPointerException("Id must not be null.");
         }
+        return result;
     }
 
     @Transactional
-    public void update(Stewardess stewardess) {
+    public void update(StewardessDTO stewardess) {
         if(stewardess!=null){
-            sDAO.update(stewardess);
+            try
+            {
+                sDAO.update(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
+            }catch(NullPointerException ex){}
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
     }
 
     @Transactional
-    public void remove(Stewardess stewardess) {
+    public void remove(StewardessDTO stewardess) {
         if(stewardess!=null){
-            sDAO.remove(stewardess);
+            try
+            {
+                sDAO.remove(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
+            }catch(NullPointerException ex){}
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
     }
 
     @Transactional
-    public List<Stewardess> findAll() {
-        return sDAO.findAll();
+    public List<StewardessDTO> findAll() {
+        List<StewardessDTO> result = null;
+        
+        try
+        {
+            result = EntityDTOMapper.stewardessListToStewardessDTOList(sDAO.findAll());
+        }catch(NullPointerException ex){}
+        
+        return result;
     }
     
 }

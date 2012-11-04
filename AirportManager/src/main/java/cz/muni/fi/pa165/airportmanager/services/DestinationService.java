@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.airportmanager.services;
 
 import cz.muni.fi.pa165.airportmanager.Destination;
+import cz.muni.fi.pa165.airportmanager.DestinationDTO;
 import java.util.List;
 
 /**
@@ -15,11 +16,11 @@ public interface DestinationService {
     /**
      * Creates new destination
      * 
-     * @param destination Destination we want to store.
+     * @param destinationDTO Destination we want to store.
      * @throws NullPointerException when given destination is null. 
      * @return nothing.
      */
-    void create(Destination destination);
+    void create(DestinationDTO destinationDTO);
     /**
      * Returns Destination entity with given id.
      * 
@@ -27,30 +28,30 @@ public interface DestinationService {
      * @param id Id of destination entity.
      * @return Destination with given id or null if destination doesnt exists.
      */
-    Destination get(Long id);
+    DestinationDTO get(Long id);
     
     /**
      * Update existing destination
-     * @param destination destination we want to update
+     * @param destinationDTO destination we want to update
      * @return nothing
      * @throws NullPointerException when given destination is null.
      */
-    void update(Destination destination);
+    void update(DestinationDTO destinationDTO);
     
     /**
      * Delete existing destination
-     * @param destination destination we want to delete
+     * @param destinationDTO destination we want to delete
      * @return nothing
      * @throws NullPointerException when given destination is null.
      */
-    void remove(Destination destination);
+    void remove(DestinationDTO destinationDTO);
     
     /**
      * Retrieve all destinations
      * @param nothing
      * @return List with all destinations.
      */
-    List<Destination> findAll();
+    List<DestinationDTO> findAll();
     
     /**
      * Retrieves all destinations with given country name. 
@@ -58,7 +59,7 @@ public interface DestinationService {
      * @return List of destinations with given country.
      * @throws NullPointerException when given country is null.
      */
-    List<Destination> findByCountry(String country);
+    List<DestinationDTO> findByCountry(String country);
     
     /**
      * Retrievec all destinations with given city name.
@@ -66,5 +67,5 @@ public interface DestinationService {
      * @return List of destinations with given city.
      * @throws NullPointerException when given city is null.
      */
-    List<Destination> findByCity(String city);
+    List<DestinationDTO> findByCity(String city);
 }

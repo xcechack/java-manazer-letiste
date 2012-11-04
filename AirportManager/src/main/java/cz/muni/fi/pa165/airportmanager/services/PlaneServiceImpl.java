@@ -4,8 +4,10 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
+import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
 import cz.muni.fi.pa165.airportmanager.Plane;
 import cz.muni.fi.pa165.airportmanager.PlaneDAO;
+import cz.muni.fi.pa165.airportmanager.PlaneDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,70 +28,106 @@ public class PlaneServiceImpl implements PlaneService {
     }
     
     @Transactional    
-    public void create(Plane plane) {
+    public void create(PlaneDTO plane) {
         if(plane!=null){
-            pDao.create(plane);
+            try
+            {
+                pDao.create(EntityDTOMapper.planeDTOToPlane(plane));
+            }catch(IllegalArgumentException ex){}
         }
     }
     
     @Transactional
-    public Plane get(Long id) {
+    public PlaneDTO get(Long id) {
+        PlaneDTO result = null;
         if(id!=null){
-            return pDao.get(id);
+            try
+            {
+                result = EntityDTOMapper.planeToPlaneDTO(pDao.get(id));
+            }catch(IllegalArgumentException ex){}
         }else{
             throw new IllegalArgumentException("Given argument was null.");
        }
+        return result;
     }
     
     @Transactional
-    public void update(Plane plane) {
+    public void update(PlaneDTO plane) {
         if(plane!=null){
-            pDao.update(plane);
+            try
+            {
+                pDao.update(EntityDTOMapper.planeDTOToPlane(plane));
+            }catch(IllegalArgumentException ex){}
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
     }
     
     @Transactional
-    public void remove(Plane plane) {
+    public void remove(PlaneDTO plane) {
         if(plane!=null){
-            pDao.remove(plane);
+            try{
+            pDao.remove(EntityDTOMapper.planeDTOToPlane(plane));
+            }catch(IllegalArgumentException ex){}
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
     }
     
     @Transactional
-    public List<Plane> findAll() {
-        return pDao.findAll();
+    public List<PlaneDTO> findAll() {
+        List<PlaneDTO> result = null;
+        try
+        {
+            result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findAll());
+        }catch(Exception ex){}
+        return result;
     }
     
     @Transactional
-    public List<Plane> findByProducer(String producer) {
+    public List<PlaneDTO> findByProducer(String producer) {
+        List<PlaneDTO> result = null;
         if(producer!=null){
-            return pDao.findByProducer(producer);
+            try
+            {
+                result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByProducer(producer));
+            }catch(IllegalArgumentException ex){}
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
+        return result;
     }
     
     @Transactional
-    public List<Plane> findByType(String type) {
+    public List<PlaneDTO> findByType(String type) {
+        List<PlaneDTO> result = null;
         if(type!=null){
-            return pDao.findByType(type);
+            try
+            {
+                result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByType(type));
+            }catch(IllegalArgumentException ex){}
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
+        return result;
     }
     
     @Transactional
-    public List<Plane> findByMaxNumberOfSeats(int number) {
-        return pDao.findByMaxNumberOfSeats(number);
+    public List<PlaneDTO> findByMaxNumberOfSeats(int number) {
+        List<PlaneDTO> result = null;
+        try{
+            result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByMaxNumberOfSeats(number));
+        }catch(IllegalArgumentException ex){}
+        return result;
     }
     
     @Transactional
-    public List<Plane> findPlaneWithGreaterNumberOfSeats(int number) {
-        return pDao.findPlaneWithGreaterNumberOfSeats(number);
+    public List<PlaneDTO> findPlaneWithGreaterNumberOfSeats(int number) {
+        List<PlaneDTO> result = null;
+        try{
+            result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findPlaneWithGreaterNumberOfSeats(number));
+        }catch(IllegalArgumentException ex){}
+        return result;
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.Stewardess;
+import cz.muni.fi.pa165.airportmanager.StewardessDTO;
 import java.util.List;
 
 /**
@@ -15,11 +15,11 @@ public interface StewardessService {
     /**
      * Create new stewardess
      * 
-     * @param stewardess stewardess we want to store.
+     * @param stewardessDTO stewardess we want to store.
      * @throws NullPointerException when argument is null.
      * @return nothing.
      */
-    void create(Stewardess stewardess);
+    void create(StewardessDTO stewardessDTO);
     /**
      * Returns Stewardess entity with given id.
      * 
@@ -27,25 +27,25 @@ public interface StewardessService {
      * @param id Id of destination entity.
      * @return Stewardess with given id or null if stewardess doesnt exists.
      */
-    Stewardess get(Long id);
+    StewardessDTO get(Long id);
     /**
      * Update existing destination
-     * @param stewardess stewardess we want to update
+     * @param stewardessDTO stewardess we want to update
      * @return nothing
      * @throws NullPointerException when given stewardess doesnt exist.
      */
-    void update(Stewardess stewardess);
+    void update(StewardessDTO stewardessDTO);
     /**
      * Delete existing stewardess
      * @param stewardess stewardess we want to delete
      * @return nothing
      * @throws NullPointerException when given stewardess doesnt exist.
      */
-    void remove(Stewardess stewardess);
+    void remove(StewardessDTO stewardessDTO);
     /**
      * Retrieve all stewardess
      * @param nothing
      * @return List with all stewardess.
      */
-    List<Stewardess> findAll();
+    List<StewardessDTO> findAll();
 }
