@@ -71,7 +71,7 @@ public class DestinationServiceImpl implements DestinationService {
             throw new DAOException(ex.toString());
         }
         }else{
-            throw new IllegalArgumentException("Given argument was null.");
+            throw new NullPointerException("Given argument was null.");
         }
     }
     
@@ -86,7 +86,7 @@ public class DestinationServiceImpl implements DestinationService {
                 throw new DAOException(ex.toString());
             }
             }else{
-                throw new IllegalArgumentException("Given argument was null.");
+                throw new NullPointerException("Given argument was null.");
         }
     }
     
