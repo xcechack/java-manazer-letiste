@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
+import cz.muni.fi.pa165.airportmanager.Destination;
 import cz.muni.fi.pa165.airportmanager.DestinationDAO;
 import cz.muni.fi.pa165.airportmanager.DestinationDTO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
@@ -97,7 +98,7 @@ public class DestinationServiceImplTest {
         
         instance.create(newDTO);
         
-        
+        newDTO.setId(Long.valueOf(0));
         newDTO.setCountry("Francie");
         newDTO.setCity("Paříž");
         
@@ -122,7 +123,7 @@ public class DestinationServiceImplTest {
         DestinationDTO newDTO = new DestinationDTO();
         newDTO.setCountry("Czech Republic");
         newDTO.setCity("Praha");
-        
+        newDTO.setId(Long.valueOf(0));
         instance.create(newDTO);
         instance.remove(newDTO);
         
@@ -138,7 +139,24 @@ public class DestinationServiceImplTest {
 
     @Test
     public void testFindAll() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        newDTO.setId(Long.valueOf(0));
+        
+        DestinationDTO newDTO2 = new DestinationDTO();
+        newDTO2.setCountry("Francie");
+        newDTO2.setCity("Paříž");
+        newDTO2.setId(Long.valueOf(1));
+        
+        instance.create(newDTO);
+        instance.create(newDTO2);
+        
+        List<DestinationDTO> destList = instance.findAll();        
+        
+        assertTrue(destList.contains(newDTO));
+        assertTrue(destList.contains(newDTO2));
+        assertEquals(2, destList.size());
     }
 
     @Test
