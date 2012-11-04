@@ -161,11 +161,71 @@ public class DestinationServiceImplTest {
 
     @Test
     public void testFindByCountry() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        newDTO.setId(Long.valueOf(0));
+        
+        DestinationDTO newDTO2 = new DestinationDTO();
+        newDTO2.setCountry("Francie");
+        newDTO2.setCity("Paříž");
+        newDTO2.setId(Long.valueOf(1));
+        
+        DestinationDTO newDTO3 = new DestinationDTO();
+        newDTO3.setCountry("Francie");
+        newDTO3.setCity("Lyon");
+        newDTO3.setId(Long.valueOf(2));
+        
+        instance.create(newDTO);
+        instance.create(newDTO2);
+        instance.create(newDTO3);
+        
+        List<DestinationDTO> destList = instance.findByCountry("Francie");;        
+        
+        assertFalse(destList.contains(newDTO));
+        assertTrue(destList.contains(newDTO2));
+        assertTrue(destList.contains(newDTO3));
+        assertEquals(2, destList.size());
+        
+        try{
+            instance.findByCountry(null);
+            fail("You can find by country when country is null");
+        }catch(NullPointerException ex){
+        }
     }
 
     @Test
     public void testFindByCity() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        newDTO.setId(Long.valueOf(0));
+        
+        DestinationDTO newDTO2 = new DestinationDTO();
+        newDTO2.setCountry("Francie");
+        newDTO2.setCity("Paříž");
+        newDTO2.setId(Long.valueOf(1));
+        
+        DestinationDTO newDTO3 = new DestinationDTO();
+        newDTO3.setCountry("USA");
+        newDTO3.setCity("Paříž");
+        newDTO3.setId(Long.valueOf(2));
+        
+        instance.create(newDTO);
+        instance.create(newDTO2);
+        instance.create(newDTO3);
+        
+        List<DestinationDTO> destList = instance.findByCity("Paříž");       
+        
+        assertFalse(destList.contains(newDTO));
+        assertTrue(destList.contains(newDTO2));
+        assertTrue(destList.contains(newDTO3));
+        assertEquals(2, destList.size());
+        
+        try{
+            instance.findByCity(null);
+            fail("You can find by city when country is null");
+        }catch(NullPointerException ex){
+        }
     }
 }
