@@ -61,7 +61,7 @@ public class FlightServiceImplTest {
     @Test
     public void testCreate() {
         System.out.println("create");
-
+        //PREPARATION
         List<StewardessDTO> stew = new ArrayList<StewardessDTO>();
         stew.add(generateStewardess(1));
         stew.add(generateStewardess(2));
@@ -75,25 +75,17 @@ public class FlightServiceImplTest {
         flight.setTimeArrival(new Timestamp(123456789));
         flight.setTimeStart(new Timestamp(123444444));
         
+        //CREATE
         service.create(flight);
         
+        //ASSERT
         assertNotNull(flight.getId());
         FlightDTO flightFormDb = service.get(flight.getId());
         assertNotNull(flightFormDb);
         
-        assertEquals(flight.getDestinationArrival(), flightFormDb.getDestinationArrival());
-        assertEquals(flight.getDestinationStart(), flightFormDb.getDestinationStart());
-        assertEquals(flight.getFlightIdentifier(), flightFormDb.getFlightIdentifier());
-        assertEquals(flight.getId(), flightFormDb.getId());
-        assertEquals(flight.getPlane(), flightFormDb.getPlane());
-        assertEquals(flight.getTimeArrival(), flightFormDb.getTimeArrival());
-        assertEquals(flight.getTimeStart(), flightFormDb.getTimeStart());
+        assertFlightEquals(flightFormDb, flight);
         
-        assertNotNull(flightFormDb.getStewardess());
-        for(int i = 0; i < flight.getStewardess().size(); i++){
-            assertEquals(flight.getStewardess().get(i), flightFormDb.getStewardess().get(i));
-        }
-        
+        //NON-STANDARD SITUATIONS
         try{
             service.create(null);
             fail();
@@ -205,5 +197,24 @@ public class FlightServiceImplTest {
         dest.setCity("City_" + sequence);
         dest.setCountry("Country_" + sequence);
         return dest;
+    }
+    
+    private static void assertFlightEquals(FlightDTO f1, FlightDTO f2){
+        assertEquals(f1.getDestinationArrival(), f2.getDestinationArrival());
+        assertEquals(f1.getDestinationStart(), f2.getDestinationStart());
+        assertEquals(f1.getFlightIdentifier(), f2.getFlightIdentifier());
+        assertEquals(f1.getId(), f2.getId());
+        assertEquals(f1.getPlane(), f2.getPlane());
+        assertEquals(f1.getTimeArrival(), f2.getTimeArrival());
+        assertEquals(f1.getTimeStart(), f2.getTimeStart());
+        
+        if(f1.getStewardess() == null){
+            assertNull(f2.getStewardess());
+        }else{
+            assertNotNull(f2.getStewardess());
+            for(int i = 0; i < f1.getStewardess().size(); i++){
+                assertEquals(f1.getStewardess().get(i), f2.getStewardess().get(i));
+            }
+        }  
     }
 }
