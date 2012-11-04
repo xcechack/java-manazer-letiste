@@ -5,12 +5,14 @@
 package cz.muni.fi.pa165.airportmanager.services;
 
 import cz.muni.fi.pa165.airportmanager.DestinationDAO;
+import cz.muni.fi.pa165.airportmanager.DestinationDTO;
+import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
 import cz.muni.fi.pa165.airportmanager.FlightDAO;
 import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import cz.muni.fi.pa165.airportmanager.StewardessDAO;
-import cz.muni.fi.pa165.airportmanager.Destination;
 import cz.muni.fi.pa165.airportmanager.Flight;
-import cz.muni.fi.pa165.airportmanager.Plane;
+import cz.muni.fi.pa165.airportmanager.FlightDTO;
+import cz.muni.fi.pa165.airportmanager.PlaneDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +50,13 @@ public class FlightServiceImpl implements FlightService {
         this.sDao = sDao;
     }
     
+    
+    
+    
     @Transactional
-    public void create(Flight flight) {
-        if(flight!=null){
-           
+    public void create(FlightDTO fDto) {
+        if(fDto!=null){
+                Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
                 if(flight.getStewardess() != null){
                     for(int i=0; i < flight.getStewardess().size(); i++){
                         if(flight.getStewardess().get(i) != null && flight.getStewardess().get(i).getId()==null){
@@ -77,32 +82,36 @@ public class FlightServiceImpl implements FlightService {
         }
     }
     @Transactional
-    public Flight get(Long id) {
+    public FlightDTO get(Long id) {
         if(id!=null){
-            return fDao.get(id);
+            return EntityDTOMapper.flightToFlightDto(fDao.get(id));
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
+    
     @Transactional
-    public List<Flight> findByIdentifier(String identifier) {
+    public List<FlightDTO> findByIdentifier(String identifier) {
         if(identifier!=null){
-            return fDao.findByIdentifier(identifier);
+            return EntityDTOMapper.flightListToFlightDtoList(fDao.findByIdentifier(identifier));
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
+    
     @Transactional
-    public void update(Flight flight) {
-        if(flight!=null){
+    public void update(FlightDTO fDto) {
+        if(fDto!=null){
+            Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
             fDao.update(flight);
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
     @Transactional
-    public void remove(Flight flight) {
-        if(flight!=null){
+    public void remove(FlightDTO fDto) {
+        if(fDto!=null){
+            Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
             fDao.remove(flight);
         }else{
             throw new IllegalArgumentException("Given flight was null.");
@@ -112,30 +121,32 @@ public class FlightServiceImpl implements FlightService {
     public void removeAll() {
         fDao.removeAll();
     }
+    
     @Transactional
-    public List<Flight> findAll() {
-        return fDao.findAll();
+    public List<FlightDTO> findAll() {
+        return EntityDTOMapper.flightListToFlightDtoList(fDao.findAll());
     }
+    
     @Transactional
-    public List<Flight> findFlightsByDepartureDestination(Destination destination) {
+    public List<FlightDTO> findFlightsByDepartureDestination(DestinationDTO destination) {
         if(destination!=null){
-            return fDao.findFlightsByDepartureDestination(destination);
+            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByDepartureDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
     @Transactional
-    public List<Flight> findFlightsByArrivalDestination(Destination destination) {
+    public List<FlightDTO> findFlightsByArrivalDestination(DestinationDTO destination) {
         if(destination!=null){
-            return fDao.findFlightsByArrivalDestination(destination);
+            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByArrivalDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
     @Transactional
-    public List<Flight> findFlightsByPlane(Plane plane) {
+    public List<FlightDTO> findFlightsByPlane(PlaneDTO plane) {
         if(plane!=null){
-            return fDao.findFlightsByPlane(plane);
+            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByPlane(EntityDTOMapper.planeDTOToPlane(plane)));
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }

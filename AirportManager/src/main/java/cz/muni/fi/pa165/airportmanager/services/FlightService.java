@@ -4,9 +4,9 @@
  */
 package cz.muni.fi.pa165.airportmanager.services;
 
-import cz.muni.fi.pa165.airportmanager.Destination;
-import cz.muni.fi.pa165.airportmanager.Flight;
-import cz.muni.fi.pa165.airportmanager.Plane;
+import cz.muni.fi.pa165.airportmanager.DestinationDTO;
+import cz.muni.fi.pa165.airportmanager.FlightDTO;
+import cz.muni.fi.pa165.airportmanager.PlaneDTO;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public interface FlightService {
      * @throws IllegalArgumentException when argument is not Flight class instance. 
      * @return nothing.
      */
-    void create(Flight flight);
+    void create(FlightDTO fDto);
     /**
      * Returns Flight entity with given id.
      * 
@@ -29,7 +29,7 @@ public interface FlightService {
      * @param id Id of flight entity.
      * @return Flight with given id or null if flight doesnt exists.
      */
-    Flight get(Long id);
+    FlightDTO get(Long id);
     
     /**
      * Returns Flights with given flight identifier.
@@ -40,7 +40,7 @@ public interface FlightService {
      * Differences between flights in returned list should be departure/arrival date,
      * stewards on board and sometimes it is operated by different plane.
      */
-    List<Flight> findByIdentifier(String identifier);
+    List<FlightDTO> findByIdentifier(String identifier);
     
     /**
      * Update existing flight
@@ -48,7 +48,7 @@ public interface FlightService {
      * @return nothing
      * @throws IllegalArgumentException when given flight doesnt exist.
      */
-    void update(Flight flight);
+    void update(FlightDTO flight);
     
     /**
      * Delete existing flight
@@ -56,7 +56,7 @@ public interface FlightService {
      * @return nothing
      * @throws IlleagalArgumentException when given flight doesnt exist or is null.
      */
-    void remove(Flight flight);
+    void remove(FlightDTO flight);
     
     /**
      * Delete all flights from Database
@@ -67,7 +67,7 @@ public interface FlightService {
      * @param nothing
      * @return List with all flights.
      */
-    List<Flight> findAll();
+    List<FlightDTO> findAll();
     
     /**
      * Retrieve all flights departing from given destination.
@@ -75,7 +75,7 @@ public interface FlightService {
      * @return List of flights with given departure destination
      * @throws IllegalArgumentException if given destination is null
      */
-    List<Flight> findFlightsByDepartureDestination(Destination destination);
+    List<FlightDTO> findFlightsByDepartureDestination(DestinationDTO destination);
     
     /**
      * Retrieve flights arriving to given destination
@@ -83,7 +83,7 @@ public interface FlightService {
      * @return List of flights with given arrival destination
      * @throws IllegalArgumentException if given destination is null
      */
-    List<Flight> findFlightsByArrivalDestination(Destination destination);
+    List<FlightDTO> findFlightsByArrivalDestination(DestinationDTO destination);
     
     /**
      * Retrieve flights operated by given plane
@@ -91,5 +91,5 @@ public interface FlightService {
      * @return List of flights operated by given plane
      * @throws IllegalArgumentException if given flight
      */
-    List<Flight> findFlightsByPlane(Plane plane);
+    List<FlightDTO> findFlightsByPlane(PlaneDTO plane);
 }
