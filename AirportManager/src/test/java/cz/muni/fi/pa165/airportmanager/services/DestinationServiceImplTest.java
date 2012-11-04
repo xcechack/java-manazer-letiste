@@ -179,7 +179,7 @@ public class DestinationServiceImplTest {
         instance.create(newDTO2);
         instance.create(newDTO3);
         
-        List<DestinationDTO> destList = instance.findByCountry("Francie");;        
+        List<DestinationDTO> destList = instance.findByCountry("Francie");        
         
         assertFalse(destList.contains(newDTO));
         assertTrue(destList.contains(newDTO2));
