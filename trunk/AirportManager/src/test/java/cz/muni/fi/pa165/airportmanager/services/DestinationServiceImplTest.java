@@ -113,7 +113,7 @@ public class DestinationServiceImplTest {
         try {
             instance.update(null);
             fail("You can update null destination");
-        } catch (IllegalArgumentException ex) {
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -131,7 +131,7 @@ public class DestinationServiceImplTest {
         try {
             instance.remove(null);
             fail("You can delete null destination");
-        } catch (IllegalArgumentException ex) {
+        } catch (NullPointerException ex) {
         }
 
     }
