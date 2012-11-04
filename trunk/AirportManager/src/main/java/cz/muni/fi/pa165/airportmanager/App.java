@@ -98,7 +98,7 @@ public class App
             fDto.getDestinationStart().setCity("Prague");
             fDto.getDestinationStart().setCountry("Czech republic");
             
-            dService.update(EntityDTOMapper.destinationDTOToDestination(fDto.getDestinationStart()));
+            dService.update(fDto.getDestinationStart());
             
             System.out.println("============   Changed:  ==========");
             FlightDTO fl2 = fService.get(fDto.getId());
