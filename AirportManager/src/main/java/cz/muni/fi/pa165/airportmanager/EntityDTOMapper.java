@@ -45,7 +45,7 @@ public class EntityDTOMapper {
         return result;
     }
     
-     public static List<DestinationDTO> destinationListToStewardessDTOList(List<Destination> destination){
+     public static List<DestinationDTO> destinationListToDestinationDTOList(List<Destination> destination){
         if(destination == null){
             return null;
         }
