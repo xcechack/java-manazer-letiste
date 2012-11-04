@@ -45,6 +45,20 @@ public class EntityDTOMapper {
         return result;
     }
     
+     public static List<DestinationDTO> destinationListToStewardessDTOList(List<Destination> destination){
+        if(destination == null){
+            return null;
+        }
+         
+        
+        List<DestinationDTO> dDtoList =  new ArrayList<DestinationDTO>();
+        for(int i = 0; i<destination.size(); i++){
+            dDtoList.add(EntityDTOMapper.destinationToDestinationDTO(destination.get(i)));
+        }
+        
+        return dDtoList;
+    }
+    
     public static StewardessDTO stewardessToStewardessDTO(Stewardess input)
     {
         if(input == null) {
@@ -77,6 +91,20 @@ public class EntityDTOMapper {
         result.setSex(input.getSex());
         
         return result;
+    }
+    
+    public static List<StewardessDTO> stewardessListToStewardessDTOList(List<Stewardess> stewardess){
+        
+        if(stewardess == null){
+            return null;
+        }
+       
+        List<StewardessDTO> sDtoList = new ArrayList<StewardessDTO>();
+        for(int i = 0; i<stewardess.size(); i++){
+            sDtoList.add(EntityDTOMapper.stewardessToStewardessDTO(stewardess.get(i)));
+        }
+      
+        return sDtoList;
     }
     
     public static FlightDTO flightToFlightDto(Flight flight){
@@ -133,13 +161,15 @@ public class EntityDTOMapper {
     }
     
     public static List<FlightDTO> flightListToFlightDtoList(List<Flight> flights) {
-        List<FlightDTO> fDtoList = null;
-        if(flights.size() > 0){
-            fDtoList = new ArrayList<FlightDTO>();
-            for(int i = 0; i<flights.size(); i++){
-                fDtoList.add(EntityDTOMapper.flightToFlightDto(flights.get(i)));
-            }
+        if(flights == null){
+            return null;
         }
+        List<FlightDTO> fDtoList =  new ArrayList<FlightDTO>();
+       
+        for(int i = 0; i<flights.size(); i++){
+           fDtoList.add(EntityDTOMapper.flightToFlightDto(flights.get(i)));
+        }
+        
         return fDtoList;
     }
 
@@ -173,5 +203,16 @@ public class EntityDTOMapper {
         result.setType(input.getType());
         
         return result;
+    }
+    public static List<PlaneDTO> planeListToPlaneDTOList(List<Plane> planes){
+        if(planes == null){
+            return null;
+        }
+        
+        List<PlaneDTO> pDtoList = new ArrayList<PlaneDTO>();
+        for(int i = 0; i<planes.size(); i++){
+            pDtoList.add(EntityDTOMapper.planeToPlaneDTO(planes.get(i)));
+        }
+        return pDtoList;
     }
 }
