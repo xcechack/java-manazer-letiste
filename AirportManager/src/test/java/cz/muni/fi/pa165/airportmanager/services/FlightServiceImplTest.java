@@ -98,8 +98,11 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testGet() {
-        System.out.println("get");
+        FlightDTO flight = new FlightDTO();
+        flight.setFlightIdentifier("testFlight");
 
+        service.create(flight);
+        assertEquals(service.get(flight.getId()), flight);
     }
 
     /**
@@ -107,7 +110,14 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testFindByIdentifier() {
-        System.out.println("findByIdentifier");
+        FlightDTO flight = new FlightDTO();
+        flight.setFlightIdentifier("testFlightID");
+
+        service.create(flight);
+        List<FlightDTO> expList = new ArrayList<FlightDTO>();
+        expList.add(flight);
+        assertEquals(service.findByIdentifier(flight.getFlightIdentifier()), expList);
+    
 
     }
 
@@ -116,8 +126,14 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testUpdate() {
-        System.out.println("update");
+        FlightDTO flight = new FlightDTO();
+        flight.setFlightIdentifier("testFlightID2");
+        service.create(flight);
 
+        flight.setFlightIdentifier("updatedFlightID");
+        service.update(flight);
+
+        assertEquals(service.get(flight.getId()).getFlightIdentifier(), flight.getFlightIdentifier());
     }
 
     /**
@@ -125,7 +141,25 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testRemove() {
-        System.out.println("remove");
+        service.removeAll();
+        FlightDTO fl1 = new FlightDTO();
+        fl1.setFlightIdentifier("TEST1");
+        FlightDTO fl2 = new FlightDTO();
+        fl2.setFlightIdentifier("TEST2");
+
+        service.create(fl1);
+        service.create(fl2);
+
+        service.remove(fl2);
+        if (service.findAll().contains(fl2)) {
+            fail("Failed removing flight 2");
+        }
+
+        service.remove(fl1);
+
+        if (service.findAll().size() > 0) {
+            fail("Error removing flight 1");
+        }
 
     }
 
@@ -134,7 +168,20 @@ public class FlightServiceImplTest {
      */
     @Test
     public void testRemoveAll() {
-        System.out.println("removeAll");
+        FlightDTO fl1 = new FlightDTO();
+        fl1.setFlightIdentifier("TEST1");
+        FlightDTO fl2 = new FlightDTO();
+        fl2.setFlightIdentifier("TEST2");
+        service.create(fl1);
+        service.create(fl2);
+
+        service.removeAll();
+
+        if (service.findAll().size() > 0) {
+            fail("Failed to remove all flights from DB");
+            System.out.println(service.findAll());
+        }
+    
 
     }
 
