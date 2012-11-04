@@ -13,6 +13,7 @@ import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.Flight;
 import cz.muni.fi.pa165.airportmanager.FlightDTO;
 import cz.muni.fi.pa165.airportmanager.PlaneDTO;
+import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,22 +61,51 @@ public class FlightServiceImpl implements FlightService {
                 if(flight.getStewardess() != null){
                     for(int i=0; i < flight.getStewardess().size(); i++){
                         if(flight.getStewardess().get(i) != null && flight.getStewardess().get(i).getId()==null){
-                            sDao.create(flight.getStewardess().get(i));
+                            try
+                            {
+                                sDao.create(flight.getStewardess().get(i));
+                            }catch(Exception ex)
+                            {
+                                throw new DAOException(ex.toString());
+                            }
                         }
                     }
                 }
                 
                 if(flight.getPlane() != null && flight.getPlane().getId()==null){
-                     pDao.create(flight.getPlane());
+                    try
+                    {
+                        pDao.create(flight.getPlane());
+                    }catch(Exception ex)
+                    {
+                        throw new DAOException(ex.toString());
+                    }
                 }
                 if(flight.getDestinationStart() != null && flight.getDestinationStart().getId()==null){
-                     dDao.create(flight.getDestinationStart());
+                    try
+                    {
+                        dDao.create(flight.getDestinationStart());
+                    }catch(Exception ex)
+                    {
+                        throw new DAOException(ex.toString());
+                    }
                 }
                 if(flight.getDestinationArrival() != null && flight.getDestinationArrival().getId()==null){
-                     dDao.create(flight.getDestinationArrival());
+                    try
+                    {
+                        dDao.create(flight.getDestinationArrival());
+                    }catch(Exception ex)
+                    {
+                        throw new DAOException(ex.toString());
+                    }
                 }
-               
-                fDao.create(flight);
+                try
+                {
+                    fDao.create(flight);
+                }catch(Exception ex)
+                {
+                    throw new DAOException(ex.toString());
+                }
             
         }else{
             throw new IllegalArgumentException("Given flight was null.");
@@ -84,7 +114,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public FlightDTO get(Long id) {
         if(id!=null){
-            return EntityDTOMapper.flightToFlightDto(fDao.get(id));
+            try
+            {
+                return EntityDTOMapper.flightToFlightDto(fDao.get(id));
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
@@ -93,7 +129,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public List<FlightDTO> findByIdentifier(String identifier) {
         if(identifier!=null){
-            return EntityDTOMapper.flightListToFlightDtoList(fDao.findByIdentifier(identifier));
+            try
+            {
+                return EntityDTOMapper.flightListToFlightDtoList(fDao.findByIdentifier(identifier));
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
@@ -103,7 +145,13 @@ public class FlightServiceImpl implements FlightService {
     public void update(FlightDTO fDto) {
         if(fDto!=null){
             Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
-            fDao.update(flight);
+            try
+            {
+                fDao.update(flight);
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
@@ -112,25 +160,49 @@ public class FlightServiceImpl implements FlightService {
     public void remove(FlightDTO fDto) {
         if(fDto!=null){
             Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
-            fDao.remove(flight);
+            try
+            {
+                fDao.remove(flight);
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
     }
     @Transactional
     public void removeAll() {
-        fDao.removeAll();
+        try
+        {
+            fDao.removeAll();
+        }catch(Exception ex)
+        {
+            throw new DAOException(ex.toString());
+        }
     }
     
     @Transactional
     public List<FlightDTO> findAll() {
-        return EntityDTOMapper.flightListToFlightDtoList(fDao.findAll());
+        try
+        {
+            return EntityDTOMapper.flightListToFlightDtoList(fDao.findAll());
+        }catch(Exception ex)
+        {
+            throw new DAOException(ex.toString());
+        }
     }
     
     @Transactional
     public List<FlightDTO> findFlightsByDepartureDestination(DestinationDTO destination) {
         if(destination!=null){
-            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByDepartureDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
+            try
+            {
+                return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByDepartureDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
@@ -138,7 +210,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public List<FlightDTO> findFlightsByArrivalDestination(DestinationDTO destination) {
         if(destination!=null){
-            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByArrivalDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
+            try
+            {
+                return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByArrivalDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }
@@ -146,7 +224,13 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public List<FlightDTO> findFlightsByPlane(PlaneDTO plane) {
         if(plane!=null){
-            return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByPlane(EntityDTOMapper.planeDTOToPlane(plane)));
+            try
+            {
+                return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByPlane(EntityDTOMapper.planeDTOToPlane(plane)));
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given flight was null.");
         }

@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
 import cz.muni.fi.pa165.airportmanager.Plane;
 import cz.muni.fi.pa165.airportmanager.PlaneDAO;
 import cz.muni.fi.pa165.airportmanager.PlaneDTO;
+import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,10 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 pDao.create(EntityDTOMapper.planeDTOToPlane(plane));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }
     }
     
@@ -44,7 +48,10 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeToPlaneDTO(pDao.get(id));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given argument was null.");
        }
@@ -57,7 +64,10 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 pDao.update(EntityDTOMapper.planeDTOToPlane(plane));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
@@ -68,7 +78,10 @@ public class PlaneServiceImpl implements PlaneService {
         if(plane!=null){
             try{
             pDao.remove(EntityDTOMapper.planeDTOToPlane(plane));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
@@ -80,7 +93,10 @@ public class PlaneServiceImpl implements PlaneService {
         try
         {
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findAll());
-        }catch(Exception ex){}
+        }catch(Exception ex)
+        {
+            throw new DAOException(ex.toString());
+        }
         return result;
     }
     
@@ -91,7 +107,10 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByProducer(producer));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
@@ -105,7 +124,10 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByType(type));
-            }catch(IllegalArgumentException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Given argument was null.");
         }
@@ -117,7 +139,10 @@ public class PlaneServiceImpl implements PlaneService {
         List<PlaneDTO> result = null;
         try{
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByMaxNumberOfSeats(number));
-        }catch(IllegalArgumentException ex){}
+        }catch(Exception ex)
+        {
+            throw new DAOException(ex.toString());
+        }
         return result;
     }
     
@@ -126,7 +151,10 @@ public class PlaneServiceImpl implements PlaneService {
         List<PlaneDTO> result = null;
         try{
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findPlaneWithGreaterNumberOfSeats(number));
-        }catch(IllegalArgumentException ex){}
+        }catch(Exception ex)
+        {
+            throw new DAOException(ex.toString());
+        }
         return result;
     }
     

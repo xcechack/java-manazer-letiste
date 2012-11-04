@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.airportmanager.EntityDTOMapper;
 import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.Stewardess;
 import cz.muni.fi.pa165.airportmanager.StewardessDTO;
+import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,10 @@ public class StewardessServiceImpl implements StewardessService{
             {
                 sDAO.create(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
             }
-            catch(NullPointerException ex){}
+            catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
@@ -47,7 +51,10 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 result = EntityDTOMapper.stewardessToStewardessDTO(sDAO.get(id));
-            }catch(NullPointerException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new NullPointerException("Id must not be null.");
         }
@@ -60,7 +67,10 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 sDAO.update(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
-            }catch(NullPointerException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
@@ -72,7 +82,10 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 sDAO.remove(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
-            }catch(NullPointerException ex){}
+            }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new IllegalArgumentException("Stewardess must not be null.");
         }
@@ -85,7 +98,10 @@ public class StewardessServiceImpl implements StewardessService{
         try
         {
             result = EntityDTOMapper.stewardessListToStewardessDTOList(sDAO.findAll());
-        }catch(NullPointerException ex){}
+        }catch(Exception ex)
+            {
+                throw new DAOException(ex.toString());
+            }
         
         return result;
     }
