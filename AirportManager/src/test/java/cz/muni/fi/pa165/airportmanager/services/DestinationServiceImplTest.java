@@ -36,8 +36,8 @@ public class DestinationServiceImplTest {
     @Test
     public void testCreate() {
         DestinationDTO newDTO = new DestinationDTO();
-        newDTO.setCountry("Neco");
-        newDTO.setCity("Neoc2");
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
         instance.create(newDTO);
         DestinationDTO fromDB = instance.get(Long.valueOf(0));
      //TODO
@@ -59,17 +59,82 @@ public class DestinationServiceImplTest {
 
     @Test
     public void testGet() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        
+        DestinationDTO newDTO2 = new DestinationDTO();
+        newDTO2.setCountry("Francie");
+        newDTO2.setCity("Paříž");
+        
+        instance.create(newDTO);
+        instance.create(newDTO2);
+        
+        DestinationDTO fromDB = instance.get(Long.valueOf(0));
+        DestinationDTO fromDB2 = instance.get(Long.valueOf(1));
+        
+        
+        assertEquals(newDTO.getCity(), fromDB.getCity());
+        assertEquals(newDTO.getCountry(), fromDB.getCountry());
+        
+        
+        assertEquals(newDTO2.getCity(), fromDB2.getCity());
+        assertEquals(newDTO2.getCountry(), fromDB2.getCountry());
+        
+        
+        
+        try{
+            instance.get(null);
+            fail("You can get destination with null id");
+        }catch(DAOException ex){
+        }
     }
 
     @Test
     public void testUpdate() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        
+        instance.create(newDTO);
+        
+        
+        newDTO.setCountry("Francie");
+        newDTO.setCity("Paříž");
+        
+        
+        instance.update(newDTO);
+        
+        DestinationDTO fromDB = instance.get(Long.valueOf(0));
+        DestinationDTO fromDB2 = instance.get(Long.valueOf(1));
+        
+        assertEquals(newDTO.getCity(), fromDB.getCity());
+        assertEquals(newDTO.getCountry(), fromDB.getCountry());
+        
+        try{
+            instance.update(null);
+            fail("You can update null destination");
+        }catch(DAOException ex){
+        }
     }
 
     @Test
     public void testRemove() {
-        fail("The test case is a prototype.");
+        DestinationDTO newDTO = new DestinationDTO();
+        newDTO.setCountry("Czech Republic");
+        newDTO.setCity("Praha");
+        
+        instance.create(newDTO);
+        instance.remove(newDTO);
+        
+        assertNull(instance.get(newDTO.getId()));
+        
+        try{
+            instance.remove(null);
+            fail("You can delete null destination");
+        }catch(DAOException ex){
+        }
+        
     }
 
     @Test
