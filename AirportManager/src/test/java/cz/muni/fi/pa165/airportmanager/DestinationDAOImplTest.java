@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DestinationDAOImplTest {
     
     @Autowired
-    private DestinationDAOImpl dao;
+    private DestinationDAO dao;
     
 
     
@@ -66,7 +67,7 @@ public class DestinationDAOImplTest {
         try{
             dao.create(null);
             fail("You can create null destination");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
     }
 
@@ -113,7 +114,7 @@ public class DestinationDAOImplTest {
         try{
             dao.get(null);
             fail("You can get destination with null id");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
         
         
@@ -157,7 +158,7 @@ public class DestinationDAOImplTest {
         try{
             dao.update(null);
             fail("You can update null destination");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
     }
 
@@ -174,17 +175,17 @@ public class DestinationDAOImplTest {
          
         
         dao.create(dest);
-        
+        Long id = dest.getId();
          
         dao.remove(dest);       
             
         
-        assertNull(dao.get(dest.getId()));
+        assertNull(dao.get(id));
         
         try{
             dao.remove(null);
             fail("You can delete null destination");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
     }
         
@@ -255,7 +256,7 @@ public class DestinationDAOImplTest {
         try{
             dao.findByCountry(null);
             fail("You can find by country when country is null");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
         
     }
@@ -294,7 +295,7 @@ public class DestinationDAOImplTest {
         try{
             dao.findByCity(null);
             fail("You can find by city when country is null");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
     }
 }

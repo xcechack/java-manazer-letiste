@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import static org.junit.Assert.*;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,12 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/resources/applicationContext.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-
-
 public class StewardessDAOImplTest{
     
     @Autowired
-    private StewardessDAOImpl dao;
+    private StewardessDAO dao;
  
     
     @Before
@@ -71,7 +70,7 @@ public class StewardessDAOImplTest{
         try{
             dao.create(null);
             fail("Method create can be called with null value.");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
     }
 
@@ -122,7 +121,7 @@ public class StewardessDAOImplTest{
         try{
             dao.get(null);
             fail("Method can get stewardess with null id.");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
 
     }
@@ -163,7 +162,7 @@ public class StewardessDAOImplTest{
         try{
             dao.update(null);
             fail("Method can update stewardess with null value.");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
         
     }
@@ -192,7 +191,7 @@ public class StewardessDAOImplTest{
         try{
             dao.remove(null);
             fail("Method can remove null stewardess.");
-        }catch(NullPointerException ex){
+        }catch(DataAccessException ex){
         }
         
     }

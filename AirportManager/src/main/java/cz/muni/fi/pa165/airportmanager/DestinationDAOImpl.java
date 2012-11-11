@@ -26,14 +26,14 @@ public class DestinationDAOImpl implements DestinationDAO {
      }*/
     public void create(Destination destination) {
         if (destination == null) {
-            throw new NullPointerException("Destination is null when it is created");
+            throw new IllegalArgumentException("Destination is null when it is created");
         }
         em.persist(destination);
     }
 
     public Destination get(Long id) {
         if (id == null) {
-            throw new NullPointerException("Id destination is null ");
+            throw new IllegalArgumentException("Id destination is null ");
         }
 
         Destination dest = em.find(Destination.class, id);
@@ -43,7 +43,7 @@ public class DestinationDAOImpl implements DestinationDAO {
 
     public void update(Destination destination) {
         if (destination == null) {
-            throw new NullPointerException("Destination is null when it is updated");
+            throw new IllegalArgumentException("Destination is null when it is updated");
         }
 
         em.merge(destination);
@@ -51,7 +51,7 @@ public class DestinationDAOImpl implements DestinationDAO {
 
     public void remove(Destination destination) {
         if (destination == null) {
-            throw new NullPointerException("Destination is null when it is removed");
+            throw new IllegalArgumentException("Destination is null when it is removed");
         }
 
         Destination managedDest = em.find(Destination.class, destination.getId());
@@ -69,7 +69,7 @@ public class DestinationDAOImpl implements DestinationDAO {
     public List<Destination> findByCountry(String country) {
 
         if (country == null) {
-            throw new NullPointerException("Country is null ");
+            throw new IllegalArgumentException("Country is null ");
         }
 
         List<Destination> dest;
@@ -83,7 +83,7 @@ public class DestinationDAOImpl implements DestinationDAO {
 
     public List<Destination> findByCity(String city) {
         if (city == null) {
-            throw new NullPointerException("Sity is null ");
+            throw new IllegalArgumentException("Sity is null ");
         }
 
         List<Destination> dest;

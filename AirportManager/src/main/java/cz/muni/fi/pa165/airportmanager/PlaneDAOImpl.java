@@ -61,7 +61,7 @@ public class PlaneDAOImpl implements PlaneDAO{
         }
         else
         {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         }
        
     }
