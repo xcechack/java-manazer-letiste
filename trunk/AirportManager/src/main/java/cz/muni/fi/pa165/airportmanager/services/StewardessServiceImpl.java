@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.airportmanager.StewardessDTO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +38,9 @@ public class StewardessServiceImpl implements StewardessService{
                 sDAO.create(stewardess);
                 stewardessDTO.setId(stewardess.getId());
             }
-            catch(Exception ex)
+            catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -53,8 +55,9 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 result = EntityDTOMapper.stewardessToStewardessDTO(sDAO.get(id));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -69,8 +72,9 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 sDAO.update(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -84,8 +88,9 @@ public class StewardessServiceImpl implements StewardessService{
             try
             {
                 sDAO.remove(EntityDTOMapper.stewardessDTOToStewardess(stewardess));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -100,10 +105,10 @@ public class StewardessServiceImpl implements StewardessService{
         try
         {
             result = EntityDTOMapper.stewardessListToStewardessDTOList(sDAO.findAll());
-        }catch(Exception ex)
-            {
-                throw new DAOException(ex.toString());
-            }
+        }catch(DataAccessException ex)
+        {
+            throw new DAOException(ex.toString());
+        }
         
         return result;
     }

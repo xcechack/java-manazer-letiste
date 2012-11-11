@@ -16,6 +16,7 @@ import cz.muni.fi.pa165.airportmanager.StewardessDAO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,8 +66,9 @@ public class FlightServiceImpl implements FlightService {
                             {
                                 sDao.create(flight.getStewardess().get(i));
                                 fDto.getStewardess().get(i).setId(flight.getStewardess().get(i).getId());
-                            }catch(Exception ex)
+                            }catch(DataAccessException ex)
                             {
+                                //DAO operation failed
                                 throw new DAOException(ex.toString());
                             }
                         }
@@ -78,8 +80,9 @@ public class FlightServiceImpl implements FlightService {
                     {
                         pDao.create(flight.getPlane());
                         fDto.getPlane().setId(flight.getPlane().getId());
-                    }catch(Exception ex)
+                    }catch(DataAccessException ex)
                     {
+                        //DAO operation failed
                         throw new DAOException(ex.toString());
                     }
                 }
@@ -88,8 +91,9 @@ public class FlightServiceImpl implements FlightService {
                     {
                         dDao.create(flight.getDestinationStart());
                         fDto.getDestinationStart().setId(flight.getDestinationStart().getId());
-                    }catch(Exception ex)
+                    }catch(DataAccessException ex)
                     {
+                        //DAO operation failed
                         throw new DAOException(ex.toString());
                     }
                 }
@@ -98,8 +102,9 @@ public class FlightServiceImpl implements FlightService {
                     {
                         dDao.create(flight.getDestinationArrival());
                         fDto.getDestinationArrival().setId(flight.getDestinationArrival().getId());
-                    }catch(Exception ex)
+                    }catch(DataAccessException ex)
                     {
+                        //DAO operation failed
                         throw new DAOException(ex.toString());
                     }
                 }
@@ -107,8 +112,9 @@ public class FlightServiceImpl implements FlightService {
                 {
                     fDao.create(flight);
                     fDto.setId(flight.getId());
-                }catch(Exception ex)
+                }catch(DataAccessException ex)
                 {
+                    //DAO operation failed
                     throw new DAOException(ex.toString());
                 }
             
@@ -122,8 +128,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 return EntityDTOMapper.flightToFlightDto(fDao.get(id));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -137,8 +144,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 return EntityDTOMapper.flightListToFlightDtoList(fDao.findByIdentifier(identifier));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -153,8 +161,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 fDao.update(flight);
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -168,8 +177,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 fDao.remove(flight);
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -181,8 +191,9 @@ public class FlightServiceImpl implements FlightService {
         try
         {
             fDao.removeAll();
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
     }
@@ -192,8 +203,9 @@ public class FlightServiceImpl implements FlightService {
         try
         {
             return EntityDTOMapper.flightListToFlightDtoList(fDao.findAll());
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
     }
@@ -204,8 +216,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByDepartureDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -218,8 +231,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByArrivalDestination(EntityDTOMapper.destinationDTOToDestination(destination)));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -232,8 +246,9 @@ public class FlightServiceImpl implements FlightService {
             try
             {
                 return EntityDTOMapper.flightListToFlightDtoList(fDao.findFlightsByPlane(EntityDTOMapper.planeDTOToPlane(plane)));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{

@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.airportmanager.PlaneDTO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,9 @@ public class PlaneServiceImpl implements PlaneService {
                 Plane plane = EntityDTOMapper.planeDTOToPlane(planeDTO);
                 pDao.create(plane);
                 planeDTO.setId(plane.getId());
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -52,8 +54,9 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeToPlaneDTO(pDao.get(id));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -68,8 +71,9 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 pDao.update(EntityDTOMapper.planeDTOToPlane(plane));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -82,8 +86,9 @@ public class PlaneServiceImpl implements PlaneService {
         if(plane!=null){
             try{
             pDao.remove(EntityDTOMapper.planeDTOToPlane(plane));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -97,8 +102,9 @@ public class PlaneServiceImpl implements PlaneService {
         try
         {
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findAll());
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
@@ -111,8 +117,9 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByProducer(producer));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -128,8 +135,9 @@ public class PlaneServiceImpl implements PlaneService {
             try
             {
                 result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByType(type));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
         }else{
@@ -143,8 +151,9 @@ public class PlaneServiceImpl implements PlaneService {
         List<PlaneDTO> result = null;
         try{
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findByMaxNumberOfSeats(number));
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
@@ -155,8 +164,9 @@ public class PlaneServiceImpl implements PlaneService {
         List<PlaneDTO> result = null;
         try{
             result = EntityDTOMapper.planeListToPlaneDTOList(pDao.findPlaneWithGreaterNumberOfSeats(number));
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
