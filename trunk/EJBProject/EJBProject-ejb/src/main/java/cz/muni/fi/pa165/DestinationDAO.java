@@ -6,12 +6,14 @@ package cz.muni.fi.pa165;
 
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-
+import javax.ejb.Local;
 /**
  *
  * @author Jaroslav Nespesny, 359566
  * @mail.muni.cz
  */
+
+@Local
 public interface DestinationDAO {
     
     /**

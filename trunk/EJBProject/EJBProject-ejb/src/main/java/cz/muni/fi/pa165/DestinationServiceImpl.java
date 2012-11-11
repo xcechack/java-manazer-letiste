@@ -20,9 +20,6 @@ import javax.persistence.EntityManagerFactory;
 @Stateless
 @Local(value=DestinationService.class)
 public class DestinationServiceImpl implements DestinationService{
-
-    
-
     
     @Resource
     private SessionContext ctx;
