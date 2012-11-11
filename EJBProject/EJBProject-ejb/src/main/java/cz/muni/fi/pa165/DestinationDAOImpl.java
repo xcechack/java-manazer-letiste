@@ -8,6 +8,7 @@ package cz.muni.fi.pa165;
 
 import java.util.Collections;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,8 @@ import javax.persistence.PersistenceContext;
  * @author Jaroslav Nespesny, 359566
  * @mail.muni.cz
  */
+
+@Stateless
 public class DestinationDAOImpl implements DestinationDAO {
 
     @PersistenceContext
@@ -25,10 +28,5 @@ public class DestinationDAOImpl implements DestinationDAO {
     @Override
     public void create(Destination destination) {
         em.persist(destination);
-    }
-
-    
-
-    
-    
+    } 
 }
