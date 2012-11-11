@@ -25,7 +25,7 @@ public class StewardessDAOImpl implements StewardessDAO {
 
     public void create(Stewardess stewardess) {
         if (stewardess == null) {
-            throw new NullPointerException("Stewardess must not be null.");
+            throw new IllegalArgumentException("Stewardess must not be null.");
         }
         
         em.persist(stewardess);
@@ -34,7 +34,7 @@ public class StewardessDAOImpl implements StewardessDAO {
 
     public Stewardess get(Long id) {
         if (id == null) {
-            throw new NullPointerException("Id must not be null.");
+            throw new IllegalArgumentException("Id must not be null.");
         }
         
         Stewardess stew = em.find(Stewardess.class, id);
@@ -44,7 +44,7 @@ public class StewardessDAOImpl implements StewardessDAO {
 
     public void update(Stewardess stewardess) {
         if (stewardess == null) {
-            throw new NullPointerException("Stewardess must not be null.");
+            throw new IllegalArgumentException("Stewardess must not be null.");
         }
         
         em.merge(stewardess);
@@ -53,7 +53,7 @@ public class StewardessDAOImpl implements StewardessDAO {
 
     public void remove(Stewardess stewardess) {
         if (stewardess == null) {
-            throw new NullPointerException("Stewardess must not be null.");
+            throw new IllegalArgumentException("Stewardess must not be null.");
         }
        
         Stewardess managedEntity = em.find(Stewardess.class, stewardess.getId());
