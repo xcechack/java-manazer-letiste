@@ -51,7 +51,7 @@ public class DestinationServiceImplTest {
         try {
             instance.create(null);
             fail("You can create null destination");
-        } catch (DAOException ex) {
+        } catch (Exception ex) {
         }
 
     }

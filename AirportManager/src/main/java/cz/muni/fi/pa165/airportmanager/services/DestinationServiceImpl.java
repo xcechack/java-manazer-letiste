@@ -12,6 +12,7 @@ import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 /**
@@ -38,8 +39,9 @@ public class DestinationServiceImpl implements DestinationService {
             Destination destination= EntityDTOMapper.destinationDTOToDestination(destinationDTO);
             destinationDAO.create(destination);
             destinationDTO.setId(destination.getId());
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
     }
@@ -52,8 +54,9 @@ public class DestinationServiceImpl implements DestinationService {
         DestinationDTO result = null;
         try{
             result = EntityDTOMapper.destinationToDestinationDTO(destinationDAO.get(id));
-        }catch(Exception ex)
+        }catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
@@ -66,10 +69,11 @@ public class DestinationServiceImpl implements DestinationService {
             {
                 destinationDAO.update(EntityDTOMapper.destinationDTOToDestination(destinationDTO));
             }
-            catch(Exception ex)
-        {
-            throw new DAOException(ex.toString());
-        }
+            catch(DataAccessException ex)
+            {
+                //DAO operation failed
+                throw new DAOException(ex.toString());
+            }
         }else{
             throw new NullPointerException("Given argument was null.");
         }
@@ -81,8 +85,9 @@ public class DestinationServiceImpl implements DestinationService {
             try
             {
                 destinationDAO.remove(EntityDTOMapper.destinationDTOToDestination(destinationDTO));
-            }catch(Exception ex)
+            }catch(DataAccessException ex)
             {
+                //DAO operation failed
                 throw new DAOException(ex.toString());
             }
             }else{
@@ -97,8 +102,9 @@ public class DestinationServiceImpl implements DestinationService {
         {
             result = EntityDTOMapper.destinationListToDestinationDTOList(destinationDAO.findAll());
         }
-        catch(Exception ex)
+        catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
@@ -114,8 +120,9 @@ public class DestinationServiceImpl implements DestinationService {
         {
             result = EntityDTOMapper.destinationListToDestinationDTOList(destinationDAO.findByCountry(country));
         }
-        catch(Exception ex)
+        catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
@@ -131,8 +138,9 @@ public class DestinationServiceImpl implements DestinationService {
         {
             result = EntityDTOMapper.destinationListToDestinationDTOList(destinationDAO.findByCity(city));
         }
-        catch(Exception ex)
+        catch(DataAccessException ex)
         {
+            //DAO operation failed
             throw new DAOException(ex.toString());
         }
         return result;
