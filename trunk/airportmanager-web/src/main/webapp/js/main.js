@@ -2,6 +2,11 @@ $(document).ready(function(){
 	$('.show_tooltip').tooltip();
 	//$('.typeahead').typeahead();
 	
+        $("#alert_close").click(function(e){
+            e.preventDefault();
+            $(".alert").fadeOut();
+        })
+        
 	$(".show_edit_flight_dialog").click(function(e){
 		e.preventDefault();
 		internal_id = $(this).attr("id");
