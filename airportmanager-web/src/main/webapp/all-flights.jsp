@@ -22,7 +22,7 @@
             <a href="#new_flight_modal" role="button" class="btn" data-toggle="modal"><i class="icon-plus"></i> <f:message key="Flights.addnew"/></a>
         </p>
         <div class="alert alert-error alert-block alertOuterContent">
-            <button type="button" class="close" data-dismiss="alert">×</button>
+            <button id="alert_close" type="button" class="close">×</button>
             <div class="alertInnerContent">
                 
             </div>

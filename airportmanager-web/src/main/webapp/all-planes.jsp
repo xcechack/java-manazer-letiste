@@ -22,7 +22,7 @@
         </p>
         
         <div class="alert alert-error alert-block alertOuterContent">
-            <button type="button" class="close" data-dismiss="alert">×</button>
+            <button id="alert_close" type="button" class="close">×</button>
             <div class="alertInnerContent">
                 
             </div>

@@ -116,6 +116,17 @@
                     <target>6</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <configuration>
+
+                  <scanIntervalSeconds>10</scanIntervalSeconds>
+                  <!-- Configure the webapp -->
+                  <contextPath>/pa165</contextPath>
+   
+                </configuration>
+              </plugin>
         </plugins>
     </build>
 
