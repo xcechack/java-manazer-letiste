@@ -1,8 +1,12 @@
-#labels web,jetty
+#labels jetty
 Navod k spusteniu weboveho rozhrania:
 
-  # Pre chod weboveho rozhrania je nutne mat v maven repository nainstalovany backend. To je mozne urobit priamo prikazom *mvn install* v zlozke s backendom.
+  # Vytvorime si novy adresar (napr. AirportManager)
+  # Do tohoto adresara si checkoutneme zdrojovy kod z repozitara na tejto stránke
+  # Otvorime si prikazovy riadok a nasmerujeme sa na do tohoto adresara
+  # Prikazom *mvn install* skompilujeme backend aj frontend aplikacie a nainstalujeme do maven lokalneho repozitaru
+  # po uspesnom vykonani mvn install sa nasmerujeme do adresara *airportmanager-web*
   # Ak je backend nainstalovany, treba skontrolovat ci bezi databaza. Ta musi byt typu *Java DB*, spustena na *localhoste*, porte *1527* a v nej vytvorena (najlepsie prazdna`*`) databaza *pa165* s prihlasovacimi udajmi *pa165*/*pa165*. 
-  # Ak bezi uz aj databaza, je mozne spustit webove rozhrania - server Jetty, prikazom *mvn jetty:run* v zlozke s webovou aplikaciou.
+  # Ak nam bezi databaza, mozeme prikazom mvn jetty:run spustit server jetty.
   # Po uspesnom spusteni servera jetty, by mala byt aplikacia dostupna na adrese http://localhost:8080/pa165/
   `*` - hibernate je nakonfigurovany aby nerobil create-drop ale update.
