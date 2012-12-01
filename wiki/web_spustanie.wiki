@@ -1,7 +1,7 @@
 #labels jetty
 Navod k spusteniu weboveho rozhrania:
 
-  # Vytvorime si novy adresar (napr. AirportManager)
+  # Vytvorime si novy adresar (napr. Airportmanager)
   # Do tohoto adresara si checkoutneme zdrojovy kod z repozitara na tejto stránke
   # Otvorime si prikazovy riadok a nasmerujeme sa na do tohoto adresara
   # Prikazom *mvn install* skompilujeme backend aj frontend aplikacie a nainstalujeme do maven lokalneho repozitaru
