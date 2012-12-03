@@ -25,7 +25,7 @@
                         <tr><td><span class="show_tooltip"><f:message key="Flights.identifier"/></span></td><td>${flightsABean.flight.flightIdentifier}</td></tr>
                         <tr><td><span class="show_tooltip"><f:message key="Flights.departure"/></i></span></td><td><f:formatDate value="${flightsABean.flight.timeStart}" pattern="dd.MM.yyyy HH:mm" /></td></tr>
                         <tr><td><span class="show_tooltip"> <f:message key="Flights.arrival"/></span></td><td><f:formatDate value="${flightsABean.flight.timeArrival}" pattern="dd.MM.yyyy HH:mm" /></td></tr>
-                        <tr><td><span class="show_tooltip"> <f:message key="Flights.plane"/></span></td>${flightsABean.flight.plane.producer} ${flightsABean.flight.plane.type}<td></td></tr>
+                        <tr><td><span class="show_tooltip"> <f:message key="Flights.plane"/></span></td><td>${flightsABean.flight.plane.producer} ${flightsABean.flight.plane.type}<td></td></tr>
                         <tr><td><span class="show_tooltip"> <f:message key="Flights.departure_dest"/></span></td><td>${flightsABean.flight.destinationStart.country} ${flightsABean.flight.destinationStart.country}</td></tr>
                         <tr><td><span class="show_tooltip"> <f:message key="Flights.arrival_dest"/></span></td><td>${flightsABean.flight.destinationArrival.country} ${flightsABean.flight.destinationArrival.city}</td></tr>
                         <tr><td><span class="show_tooltip"> <f:message key="Stewards.header"/></span></td>
