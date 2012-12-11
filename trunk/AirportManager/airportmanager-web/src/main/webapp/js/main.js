@@ -149,5 +149,17 @@ $(document).ready(function(){
 		}
             });
         });
+        
+        $("input[name=new_birthnumber]").change(function(){
+            var str=$(this).val(); 
+            var patt1=/\d{6}\/\d{3,5}/g;
+           if(str.match(patt1)==null){
+               $(this).css("border","1px solid red");
+               $("input[name=save]").attr("disabled","disabled");
+           }else{
+               $(this).removeAttr("style");
+               $("input[name=save]").removeAttr("disabled");
+           }
+        });
 	
 })
