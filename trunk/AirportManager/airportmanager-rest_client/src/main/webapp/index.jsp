@@ -6,6 +6,7 @@
         <title>Airportmanager REST client</title>
         <script type="text/javascript" src="js/jquery.js"></script> <!-- EXTERNAL -->
         <script type="text/javascript" src="js/jquery.cookie.js"></script> <!-- EXTERNAL -->
+        <script type="text/javascript" src="js/jquery.json.js"></script> <!-- EXTERNAL -->
         <script type="text/javascript" src="js/ajax.js"></script> <!-- INTERNAL -->
         <script type="text/javascript" src="js/prettify.js"></script> <!-- EXTERNAL - PRETTIFY -->
         <script type="text/javascript" src="js/kickstart.js"></script> <!-- EXTERNAL - KICKSTART -->
@@ -130,6 +131,9 @@
                      <ul class="tabs left">
                         <li><a href="#tabr2_1">All destinations</a></li>
                         <li><a href="#tabr2_2">Destination by ID</a></li>
+                        <li><a href="#tabr2_3">Destination by City</a></li>
+                        <li><a href="#tabr2_4">Destination by Country</a></li>
+                        <li><a href="#tabr2_7">Add new</a></li>
                     </ul>
                     
                     <div id="tabr2_1" class="tab-content">
@@ -158,6 +162,50 @@
                         <div id="destination_by_id_table_placeholder">
                             
                         </div>
+                    </div>
+                    <div id="tabr2_3" class="tab-content">
+                        <h3>Destination by City</h3>
+                        <form method="post" action="#" id="destination_by_city_form">
+                            <label for="destination_by_city_input">ID: </label>
+                            <input type="text" id="destination_by_city_input" name="destination_by_city_input" value="" placeholder="Prague" required/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Load
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="destination_by_city_error"></div>
+                        <div id="destination_by_city_placeholder">
+                            
+                        </div>
+                    </div>
+                    <div id="tabr2_4" class="tab-content">
+                        <h3>Destination by Country</h3>
+                        <form method="post" action="#" id="destination_by_country_form">
+                            <label for="destination_by_country_input">ID: </label>
+                            <input type="text" id="destination_by_country_input" name="destination_by_country_input" value="" placeholder="Czech republic" required/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Load
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="destination_by_country_error"></div>
+                        <div id="destination_by_country_placeholder">
+                            
+                        </div>
+                    </div>
+                    <div id="tabr2_7" class="tab-content">
+                        <h3>Add new destination</h3>
+                        <form method="post" action="#" id="destination_add_new_form">
+                            <label for="destination_add_new_city_input">City: </label>
+                            <input type="text" id="destination_add_new_city_input" name="destination_add_new_city_input" value="" placeholder="Prague" required/>
+                            <label for="destination_add_new_country_input">Country: </label>
+                            <input type="text" id="destination_add_new_country_input" name="destination_add_new_country_input" value="" placeholder="Czech republic" required/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Save
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="destination_add_new_error"></div>
                     </div>
                 </div><!-- /DESTINATIONS -->
                 
