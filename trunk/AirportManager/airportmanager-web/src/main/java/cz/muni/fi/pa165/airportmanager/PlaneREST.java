@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager;
 
+import com.sun.jersey.spi.inject.Inject;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import cz.muni.fi.pa165.airportmanager.services.PlaneService;
 import cz.muni.fi.pa165.airportmanager.services.PlaneServiceImpl;
@@ -26,8 +27,10 @@ import org.slf4j.LoggerFactory;
 @Path("rest/plane/")
 public class PlaneREST{
     
-    private PlaneService service = new PlaneServiceImpl();
-    final static Logger log = LoggerFactory.getLogger(DestinationREST.class);
+    @Inject
+    protected PlaneService planeService;
+    
+    final static Logger log = LoggerFactory.getLogger(PlaneREST.class);
     
     @POST
     @Path("create")
@@ -39,7 +42,7 @@ public class PlaneREST{
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            service.create(plane);
+            planeService.create(plane);
         }catch(Exception e){
             log.error("Create plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -72,7 +75,7 @@ public class PlaneREST{
         PlaneDTO plane = null;
         
         try{
-            plane = service.get(lid);
+            plane = planeService.get(lid);
         }catch(DAOException e){
             log.error("Get plane by id error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -97,7 +100,7 @@ public class PlaneREST{
         }
         
         try{
-            service.update(plane);
+            planeService.update(plane);
         }catch(DAOException e){
             log.error("Update plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -119,15 +122,22 @@ public class PlaneREST{
 
     
     @DELETE
-    @Path("delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void remove(PlaneDTO plane,
+    @Path("delete/{id}")
+    public void remove(@PathParam("id") String sid,
                        @Context HttpServletResponse response) throws IOException{
+        Long id = Long.parseLong(sid);
+        PlaneDTO plane = null;
+        try{
+            plane = planeService.get(id);
+        }catch(Exception e){
+            log.error("Retrieve plane in remove error: " + e);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
         if(plane == null || plane.getId() == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            service.remove(plane);
+            planeService.remove(plane);
         }catch(Exception e){
             log.error("Update plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -152,7 +162,7 @@ public class PlaneREST{
     public List<PlaneDTO> findAll(@Context HttpServletResponse response)throws IOException{
         List<PlaneDTO> list = null;
         try{
-            list = service.findAll();
+            list = planeService.findAll();
         }catch(Exception e){
             log.error("Find all planes error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -173,7 +183,7 @@ public class PlaneREST{
                        @Context HttpServletResponse response){
         List<PlaneDTO> list = null;
         try{
-            list = service.findByProducer(producer);
+            list = planeService.findByProducer(producer);
         }catch(Exception e){
             log.error("Find by producer error: " + e);
         }
@@ -188,7 +198,7 @@ public class PlaneREST{
                        @Context HttpServletResponse response){
         List<PlaneDTO> list = null;
         try{
-            list = service.findByType(type);
+            list = planeService.findByType(type);
         }catch(Exception e){
             log.error("Find by type error: " + e);
         }
@@ -204,7 +214,7 @@ public class PlaneREST{
         List<PlaneDTO> list = null;
         int nseats = Integer.parseInt(seats);
         try{
-            list = service.findByMaxNumberOfSeats(nseats);
+            list = planeService.findByMaxNumberOfSeats(nseats);
         }catch(Exception e){
             log.error("Find by max number of seats error: " + e);
         }
@@ -220,7 +230,7 @@ public class PlaneREST{
         List<PlaneDTO> list = null;
         int nseats = Integer.parseInt(seats);
         try{
-            list = service.findByMaxNumberOfSeats(nseats);
+            list = planeService.findByMaxNumberOfSeats(nseats);
         }catch(Exception e){
             log.error("Find by plane withgreater number of seats error: " + e);
         }

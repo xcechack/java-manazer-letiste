@@ -124,10 +124,17 @@ public class DestinationREST {
 
     
     @DELETE
-    @Path("delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void remove(DestinationDTO destination,
+    @Path("delete/{id}")
+    public void remove(@PathParam("id") String sid,
                        @Context HttpServletResponse response) throws IOException{
+        Long id = Long.parseLong(sid);
+        DestinationDTO destination = null;
+        try{
+            destination = destinationService.get(id);
+        }catch(Exception e){
+            log.error("Retrieve destination in remove error: " + e);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
         if(destination == null || destination.getId() == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
