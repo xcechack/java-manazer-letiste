@@ -26,10 +26,10 @@ import org.slf4j.LoggerFactory;
  */
 @Path("rest/plane/")
 public class PlaneREST{
-    
+   
     @Inject
     protected PlaneService planeService;
-    
+   
     final static Logger log = LoggerFactory.getLogger(PlaneREST.class);
     
     @POST
@@ -47,13 +47,13 @@ public class PlaneREST{
             log.error("Create plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
-    
+   
     @OPTIONS
-    @Path("create_plane")
+    @Path("create")
     public void createPlane(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -62,7 +62,7 @@ public class PlaneREST{
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
+   
     @GET
     @Path("getid/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,21 +73,21 @@ public class PlaneREST{
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         PlaneDTO plane = null;
-        
+       
         try{
             plane = planeService.get(lid);
         }catch(DAOException e){
             log.error("Get plane by id error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         if(plane == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,"id_not_found");
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return plane;
     }
-    
+   
     @POST
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -98,20 +98,20 @@ public class PlaneREST{
         if(plane == null || plane.getProducer().isEmpty() || plane.getType().isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         try{
             planeService.update(plane);
         }catch(DAOException e){
             log.error("Update plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
 
     @OPTIONS
-    @Path("update_plane")
+    @Path("update")
     public void updatePlane(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -120,7 +120,7 @@ public class PlaneREST{
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
+   
     @DELETE
     @Path("delete/{id}")
     public void remove(@PathParam("id") String sid,
@@ -144,18 +144,18 @@ public class PlaneREST{
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
-    
+   
     @OPTIONS
-    @Path("delete_plane")
+    @Path("delete/{id}")
     public void deletePlane(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "content-type");
         response.setHeader("Access-Control-Max-Age", "17000");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
+   
     @GET
     @Path ("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -167,15 +167,15 @@ public class PlaneREST{
             log.error("Find all planes error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         if(list == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
-    
+   
+   
     @GET
     @Path("producer/{producer}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -190,7 +190,7 @@ public class PlaneREST{
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
+   
     @GET
     @Path("type/{type}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -205,7 +205,7 @@ public class PlaneREST{
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
+   
     @GET
     @Path("seats/{seats}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -221,7 +221,7 @@ public class PlaneREST{
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
+   
     @GET
     @Path("greaterseats/{seats}")
     @Produces(MediaType.APPLICATION_JSON)
