@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -49,7 +50,19 @@ public class DestinationREST {
         }
         
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader("Access-Control-Allow-Origin", "*");
     }
+    
+    @OPTIONS
+    @Path("create_destination")
+    public void createDestination(@Context HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "content-type");
+        response.setHeader("Access-Control-Max-Age", "17000");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
     
     
     @GET
@@ -73,6 +86,7 @@ public class DestinationREST {
         if(destination == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,"id_not_found");
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return destination;
     }
     
@@ -95,7 +109,19 @@ public class DestinationREST {
         }
         
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader("Access-Control-Allow-Origin", "*");
     }
+    
+    @OPTIONS
+    @Path("update_destination")
+    public void updateDestination(@Context HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "content-type");
+        response.setHeader("Access-Control-Max-Age", "17000");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
     
     @DELETE
     @Path("delete")
@@ -111,7 +137,19 @@ public class DestinationREST {
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
     }
+    
+    @OPTIONS
+    @Path("delete_destination")
+    public void deleteDestination(@Context HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "content-type");
+        response.setHeader("Access-Control-Max-Age", "17000");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
     
     @GET
     @Path ("all")
@@ -128,6 +166,7 @@ public class DestinationREST {
         if(list == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
     
@@ -135,26 +174,30 @@ public class DestinationREST {
     @GET
     @Path("country/{country}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<DestinationDTO> findByCountry(@PathParam("country") String country){
+    public List<DestinationDTO> findByCountry(@PathParam("country") String country,
+                                           @Context HttpServletResponse response){
         List<DestinationDTO> list = null;
         try{
             list = destinationService.findByCountry(country);
         }catch(Exception e){
             log.error("Find by country error: " + e);
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
     
     @GET
     @Path("city/{city}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<DestinationDTO> findByCity(@PathParam("city") String city){
+    public List<DestinationDTO> findByCity(@PathParam("city") String city,
+                                           @Context HttpServletResponse response){
         List<DestinationDTO> list = null;
         try{
             list = destinationService.findByCity(city);
         }catch(Exception e){
             log.error("Find by city error: " + e);
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
 }
