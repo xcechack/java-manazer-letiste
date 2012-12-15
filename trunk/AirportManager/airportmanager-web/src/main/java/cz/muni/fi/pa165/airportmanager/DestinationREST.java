@@ -32,7 +32,7 @@ public class DestinationREST {
     @Inject
     protected DestinationService destinationService;
     final static Logger log = LoggerFactory.getLogger(DestinationREST.class);
-    
+   
     @POST
     @Path("create")
     @Produces(MediaType.TEXT_PLAIN)
@@ -48,13 +48,13 @@ public class DestinationREST {
             log.error("Create destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
-    
+   
     @OPTIONS
-    @Path("create_destination")
+    @Path("create")
     public void createDestination(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -63,8 +63,8 @@ public class DestinationREST {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
-    
+   
+   
     @GET
     @Path("getid/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -75,21 +75,21 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         DestinationDTO destination = null;
-        
+       
         try{
             destination = destinationService.get(lid);
         }catch(DAOException e){
             log.error("Get destination by id error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         if(destination == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,"id_not_found");
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return destination;
     }
-    
+   
     @POST
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -100,20 +100,20 @@ public class DestinationREST {
         if(destination == null || destination.getCity().isEmpty() || destination.getCountry().isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         try{
             destinationService.update(destination);
         }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
-    
+   
     @OPTIONS
-    @Path("update_destination")
+    @Path("update")
     public void updateDestination(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -122,7 +122,7 @@ public class DestinationREST {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
+   
     @DELETE
     @Path("delete/{id}")
     public void remove(@PathParam("id") String sid,
@@ -146,18 +146,18 @@ public class DestinationREST {
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
-    
+   
     @OPTIONS
-    @Path("delete_destination")
+    @Path("delete/{id}")
     public void deleteDestination(@Context HttpServletResponse response) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "content-type");
         response.setHeader("Access-Control-Max-Age", "17000");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    
+   
     @GET
     @Path ("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -169,15 +169,15 @@ public class DestinationREST {
             log.error("Find all destinations error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
+       
         if(list == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
-    
+   
+   
     @GET
     @Path("country/{country}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -192,7 +192,7 @@ public class DestinationREST {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return list;
     }
-    
+   
     @GET
     @Path("city/{city}")
     @Produces(MediaType.APPLICATION_JSON)
