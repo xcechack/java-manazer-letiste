@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager;
 
+import com.sun.jersey.spi.inject.Inject;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
 import cz.muni.fi.pa165.airportmanager.services.DestinationServiceImpl;
@@ -27,8 +28,8 @@ import org.slf4j.LoggerFactory;
 
 @Path("rest/destination/")
 public class DestinationREST {
-    
-    private DestinationService service = new DestinationServiceImpl();
+    @Inject
+    protected DestinationService destinationService;
     final static Logger log = LoggerFactory.getLogger(DestinationREST.class);
     
     @POST
@@ -41,7 +42,7 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            service.create(destination);
+            destinationService.create(destination);
         }catch(DAOException e){
             log.error("Create destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -63,7 +64,7 @@ public class DestinationREST {
         DestinationDTO destination = null;
         
         try{
-            destination = service.get(lid);
+            destination = destinationService.get(lid);
         }catch(DAOException e){
             log.error("Get destination by id error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -87,7 +88,7 @@ public class DestinationREST {
         }
         
         try{
-            service.update(destination);
+            destinationService.update(destination);
         }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -105,7 +106,7 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            service.remove(destination);
+            destinationService.remove(destination);
         }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -118,7 +119,7 @@ public class DestinationREST {
     public List<DestinationDTO> findAll(@Context HttpServletResponse response)throws IOException{
         List<DestinationDTO> list = null;
         try{
-            list = service.findAll();
+            list = destinationService.findAll();
         }catch(Exception e){
             log.error("Find all destinations error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -137,7 +138,7 @@ public class DestinationREST {
     public List<DestinationDTO> findByCountry(@PathParam("country") String country){
         List<DestinationDTO> list = null;
         try{
-            list = service.findByCountry(country);
+            list = destinationService.findByCountry(country);
         }catch(Exception e){
             log.error("Find by country error: " + e);
         }
@@ -150,7 +151,7 @@ public class DestinationREST {
     public List<DestinationDTO> findByCity(@PathParam("city") String city){
         List<DestinationDTO> list = null;
         try{
-            list = service.findByCity(city);
+            list = destinationService.findByCity(city);
         }catch(Exception e){
             log.error("Find by city error: " + e);
         }
