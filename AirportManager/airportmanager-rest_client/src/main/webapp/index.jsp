@@ -52,7 +52,7 @@
                         <h3>Plane by ID</h3>
                         <form method="post" action="#" id="plane_by_id_form">
                             <label for="plane_by_id_input">ID: </label>
-                            <input type="text" id="plane_by_id_input" name="plane_by_id_input" value="" placeholder="1"/>
+                            <input type="text" id="plane_by_id_input" name="plane_by_id_input" value="" placeholder="1" required/>
                             <button class="small green">
                                 <span class="icon small" data-icon="]" style="display: inline-block;"></span>
                                 Load
@@ -68,7 +68,7 @@
                         <h3>Planes by Producer</h3>
                         <form method="post" action="#" id="planes_by_producer">
                             <label for="plane_by_producer_input">Producer: </label>
-                            <input type="text" id="plane_by_producer_input" name="plane_by_producer_input" value="" placeholder="Airbus"/>
+                            <input type="text" id="plane_by_producer_input" name="plane_by_producer_input" value="" placeholder="Airbus" required/>
                             <button class="small green">
                                 <span class="icon small" data-icon="]" style="display: inline-block;"></span>
                                 Load
@@ -84,7 +84,7 @@
                         <h3>Planes by Type</h3>
                         <form method="post" action="#" id="planes_by_type">
                             <label for="plane_by_type_input">Type: </label>
-                            <input type="text" id="plane_by_type_input" name="plane_by_type_input" value="" placeholder="A320"/>
+                            <input type="text" id="plane_by_type_input" name="plane_by_type_input" value="" placeholder="A320" required/>
                             <button class="small green">
                                 <span class="icon small" data-icon="]" style="display: inline-block;"></span>
                                 Load
@@ -100,7 +100,7 @@
                         <h3>Planes by Number of seats</h3>
                         <form method="post" action="#" id="planes_by_number_of_seats">
                             <label for="plane_by_seats_input">Seats: </label>
-                            <input type="text" id="plane_by_seats_input" name="plane_by_seats_input" value="" placeholder="78"/>
+                            <input type="text" id="plane_by_seats_input" name="plane_by_seats_input" value="" placeholder="78" required/>
                             <button class="small green">
                                 <span class="icon small" data-icon="]" style="display: inline-block;"></span>
                                 Load
@@ -115,7 +115,7 @@
                         <h3>Planes by Minimal Number of seats</h3>
                         <form method="post" action="#" id="planes_by_min_number_seats">
                             <label for="plane_by_min_seats_input">Seats: </label>
-                            <input type="text" id="plane_by_min_seats_input" name="plane_by_min_seats_input" value="" placeholder="78"/>
+                            <input type="text" id="plane_by_min_seats_input" name="plane_by_min_seats_input" value="" placeholder="78" required/>
                             <button class="small green">
                                 <span class="icon small" data-icon="]" style="display: inline-block;"></span>
                                 Load
