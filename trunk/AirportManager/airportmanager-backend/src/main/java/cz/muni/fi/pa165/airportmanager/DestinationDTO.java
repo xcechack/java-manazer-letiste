@@ -4,10 +4,13 @@
  */
 package cz.muni.fi.pa165.airportmanager;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author Vasa
  */
+@XmlRootElement
 public class DestinationDTO {
     
     private Long id;
