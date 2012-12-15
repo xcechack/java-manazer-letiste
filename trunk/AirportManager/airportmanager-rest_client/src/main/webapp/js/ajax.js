@@ -20,6 +20,8 @@ $(document).ready(function(){
     });
     
     
+    
+    
     $("#destination_by_id_form").live("submit",function(e){
         e.preventDefault();
         var id = $("#destination_by_id_input").val();
@@ -38,6 +40,9 @@ $(document).ready(function(){
                 success: function(data){
                     obj = $.parseJSON(data);
                     $("#destination_by_id_table_placeholder").html("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>City: "+obj.city+"<br/>Country: "+obj.country+"<br/>Delete: <a href=\"#\" class=\"delete_destination\" rel=\""+obj.id+"\">Delete</a></div>");
+                    if(obj.length == 0){
+                        $("#destination_by_id_table_placeholder").html("No destination found");
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     $("#destination_by_id_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
@@ -88,6 +93,9 @@ $(document).ready(function(){
                 $.each(arr, function(k,obj){
                     $("#all_destinations_table_placeholder").append("<hr/><br/><div rel=\""+obj.id+"\">ID: "+ obj.id + "<br/>City: "+obj.city+"<br/>Country: "+obj.country+"<br/>Delete: <a href=\"#\" class=\"delete_destination\" rel=\""+obj.id+"\">Delete</a></div>");
                 });
+                if(arr.length == 0){
+                    $("#destination_by_city_placeholder").html("No destination found");
+                }
             },
             error: function(jqXHR, textStatus, errorThrown){
                 $("#all_destinations_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
@@ -176,10 +184,6 @@ $(document).ready(function(){
     
     
     
-    
-    
-    
-    
     $("#destination_add_new_form").live("submit",function(e){
         e.preventDefault();
         var city = $("#destination_add_new_city_input").val();
@@ -193,12 +197,13 @@ $(document).ready(function(){
             data: $.toJSON(newdest)
             ,
             beforeSend: function(){
-              $("#all_destinations_table_placeholder").html("Loading...");  
+              $("#destination_add_new_error").html("Saving...");  
             },
             success: function(){
                 alert("Create succesfull");
                 $("#destination_add_new_city_input").val("");
                 $("#destination_add_new_country_input").val("");
+                $("#destination_add_new_error").html("").addClass("hide"); 
             },
             error: function(jqXHR, textStatus, errorThrown){
                 $("#destination_add_new_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
@@ -215,6 +220,18 @@ $(document).ready(function(){
         });
     })
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     $("#plane_by_id_form").live("submit",function(e){
         e.preventDefault();
         var id = $("#plane_by_id_input").val();
@@ -225,14 +242,17 @@ $(document).ready(function(){
             $("#plane_by_id_input").addClass("error");
         }else{
             $.ajax({
+                method: "GET",
                 url: server_url+"plane/getid/"+id,
-                dataType: 'jsonp',
-                crossDomain: true,
                 beforeSend: function(){
-                  $("#plane_by_id_table_placeholder").html("Loading...");  
+                  $("#planes_by_id_table_placeholder").html("Loading...");  
                 },
                 success: function(data){
-                    $("#plane_by_id_table_placeholder").html("Data: <br/>"+ data);  
+                    obj = $.parseJSON(data);
+                    $("#planes_by_id_table_placeholder").html("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                    if(obj.length == 0){
+                        $("#planes_by_id_table_placeholder").html("No plane found");
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     $("#plane_by_id_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
@@ -249,5 +269,255 @@ $(document).ready(function(){
         }
     });
     
+    $("#load_all_planes").live("click",function(e){
+       e.preventDefault();
+       $.ajax({
+            type: "GET",
+            url: server_url+"plane/all/",
+            beforeSend: function(){
+              $("#all_planes_table_placeholder").html("Loading...");  
+            },
+            success: function(data){
+                arr = $.parseJSON(data);
+                $("#all_planes_table_placeholder").html("");
+                $("#all_planes_error").html("").addClass("hide");
+                $.each(arr, function(k,obj){
+                    $("#all_planes_table_placeholder").append("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                });
+                if(arr.length == 0){
+                    $("#all_planes_table_placeholder").html("No plane found");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#all_planes_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#all_planes_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#all_planes_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    $("#planes_by_producer").live("submit",function(e){
+       e.preventDefault();
+       var param = $("#plane_by_producer_input").val();
+       $.ajax({
+            type: "GET",
+            url: server_url+"plane/producer/"+param,
+            beforeSend: function(){
+              $("#planes_by_producer_table_placeholder").html("Loading...");  
+            },
+            success: function(data){
+                arr = $.parseJSON(data);
+                $("#planes_by_producer_table_placeholder").html("");
+                $("#plane_by_producer_error").html("").addClass("hide");
+                $.each(arr, function(k,obj){
+                    $("#planes_by_producer_table_placeholder").append("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                });
+                if(arr.length == 0){
+                    $("#planes_by_producer_table_placeholder").html("No plane found");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#plane_by_producer_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#plane_by_producer_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_by_producer_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    });
+    
+    
+    
+    
+    
+    $("#planes_by_type").live("submit",function(e){
+       e.preventDefault();
+       var param = $("#plane_by_type_input").val();
+       $.ajax({
+            type: "GET",
+            url: server_url+"plane/type/"+param,
+            beforeSend: function(){
+              $("#planes_by_type_table_placeholder").html("Loading...");  
+            },
+            success: function(data){
+                arr = $.parseJSON(data);
+                $("#planes_by_type_table_placeholder").html("");
+                $("#plane_by_type_error").html("").addClass("hide");
+                $.each(arr, function(k,obj){
+                    $("#planes_by_type_table_placeholder").append("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                });
+                if(arr.length == 0){
+                    $("#planes_by_type_table_placeholder").html("No plane found");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#plane_by_type_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#plane_by_type_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_by_type_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    });
+    
+    
+    
+    $("#planes_by_number_of_seats").live("submit",function(e){
+       e.preventDefault();
+       var param = $("#plane_by_seats_input").val();
+       $.ajax({
+            type: "GET",
+            url: server_url+"plane/seats/"+param,
+            beforeSend: function(){
+              $("#planes_by_seats_table_placeholder").html("Loading...");  
+            },
+            success: function(data){
+                arr = $.parseJSON(data);
+                $("#planes_by_seats_table_placeholder").html("");
+                $("#plane_by_seats_error").html("").addClass("hide");
+                $.each(arr, function(k,obj){
+                    $("#planes_by_seats_table_placeholder").append("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                });
+                if(arr.length == 0){
+                    $("#planes_by_seats_table_placeholder").html("No plane found");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#plane_by_seats_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#plane_by_seats_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_by_seats_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    });
+    
+    
+    
+     $("#planes_by_min_number_seats").live("submit",function(e){
+       e.preventDefault();
+       var param = $("#plane_by_min_seats_input").val();
+       $.ajax({
+            type: "GET",
+            url: server_url+"plane/greaterseats/"+param,
+            beforeSend: function(){
+              $("#planes_by_min_seats_table_placeholder").html("Loading...");  
+            },
+            success: function(data){
+                arr = $.parseJSON(data);
+                $("#planes_by_min_seats_table_placeholder").html("");
+                $("#plane_by_min_seats_error").html("").addClass("hide");
+                $.each(arr, function(k,obj){
+                    $("#planes_by_min_seats_table_placeholder").append("<div rel=\""+obj.id+"\"><br/>ID: "+ obj.id + "<br/>Producer: "+obj.producer+"<br/>Type: "+obj.type+"<br/>Seats: "+obj.numberSeats+"<br/>Delete: <a href=\"#\" class=\"delete_plane\" rel=\""+obj.id+"\">Delete</a></div>");
+                });
+                if(arr.length == 0){
+                    $("#planes_by_min_seats_table_placeholder").html("No plane found");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#plane_by_min_seats_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#plane_by_min_seats_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_by_min_seats_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    });
+    
+    $("#plane_add_new_form").live("submit",function(e){
+        e.preventDefault();
+        var producer = $("#plane_add_new_producer_input").val();
+        var type = $("#plane_add_new_type_input").val();
+        var seats = $("#plane_add_new_seats_input").val();
+        var newplane = {"producer": producer, "type": type, "numberSeats": seats};
+        $.ajax({
+            type: "POST",
+            url: server_url+"plane/create/",
+            contentType: "application/json",
+            dataType: "json",
+            data: $.toJSON(newplane)
+            ,
+            beforeSend: function(){
+              $("#plane_add_new_error").html("Saving...");  
+            },
+            success: function(){
+                alert("Create succesfull");
+                $("#plane_add_new_producer_input").val("");
+                $("#plane_add_new_type_input").val("");
+                $("#plane_add_new_seats_input").val("");
+                $("#plane_add_new_error").html("").addClass("hide");  
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $("#plane_add_new_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+            },
+            statusCode: {
+                400: function() {
+                  $("#plane_add_new_error").html("Plane was not found or there was problem with database.").addClass("show");
+                },
+                404: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_add_new_error").html("Error while loading: "+textStatus+" : "+errorThrown).addClass("show");
+                } 
+            }
+
+        });
+    })
+    
+    
+    
+    
+    
+    $(".delete_plane").live("click",function(e){
+        e.preventDefault();
+        id = $(this).attr("rel");
+        $.ajax({
+            type: "DELETE",
+            url: server_url+"plane/delete/"+id,
+            success: function(data){
+                $("div[rel="+id+"]").hide("slow",function(){
+                   $("div[rel="+id+"]").remove();
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert("Error while removing: "+textStatus+" : "+errorThrown + ". Plane doesnt exists or is used by some other entity.");
+            }
+        });
+    });
 });
      

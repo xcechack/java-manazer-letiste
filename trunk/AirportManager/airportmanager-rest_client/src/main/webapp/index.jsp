@@ -33,6 +33,7 @@
                         <li><a href="#tabr1_4">Planes by Type</a></li>
                         <li><a href="#tabr1_5">Planes by Number of seats</a></li>
                         <li><a href="#tabr1_6">Planes by minimal number of seats</a></li>
+                        <li><a href="#tabr1_7">Add</a></li>
                     </ul>
                     
                     <div id="tabr1_1" class="tab-content">
@@ -65,7 +66,7 @@
                     
                     <div id="tabr1_3" class="tab-content">
                         <h3>Planes by Producer</h3>
-                        <form method="post" action="#" class="planes_forms">
+                        <form method="post" action="#" id="planes_by_producer">
                             <label for="plane_by_producer_input">Producer: </label>
                             <input type="text" id="plane_by_producer_input" name="plane_by_producer_input" value="" placeholder="Airbus"/>
                             <button class="small green">
@@ -81,7 +82,7 @@
                     
                     <div id="tabr1_4" class="tab-content">
                         <h3>Planes by Type</h3>
-                        <form method="post" action="#" class="planes_forms">
+                        <form method="post" action="#" id="planes_by_type">
                             <label for="plane_by_type_input">Type: </label>
                             <input type="text" id="plane_by_type_input" name="plane_by_type_input" value="" placeholder="A320"/>
                             <button class="small green">
@@ -97,7 +98,7 @@
                     
                     <div id="tabr1_5" class="tab-content">
                         <h3>Planes by Number of seats</h3>
-                        <form method="post" action="#" class="planes_forms">
+                        <form method="post" action="#" id="planes_by_number_of_seats">
                             <label for="plane_by_seats_input">Seats: </label>
                             <input type="text" id="plane_by_seats_input" name="plane_by_seats_input" value="" placeholder="78"/>
                             <button class="small green">
@@ -112,7 +113,7 @@
                     </div>
                     <div id="tabr1_6" class="tab-content">
                         <h3>Planes by Minimal Number of seats</h3>
-                        <form method="post" action="#" class="planes_forms">
+                        <form method="post" action="#" id="planes_by_min_number_seats">
                             <label for="plane_by_min_seats_input">Seats: </label>
                             <input type="text" id="plane_by_min_seats_input" name="plane_by_min_seats_input" value="" placeholder="78"/>
                             <button class="small green">
@@ -124,6 +125,24 @@
                         <div id="planes_by_min_seats_table_placeholder">
 
                         </div>
+                    </div>
+                    
+                    
+                    <div id="tabr1_7" class="tab-content">
+                        <h3>Add new plane</h3>
+                        <form method="post" action="#" id="plane_add_new_form">
+                            <label for="plane_add_new_producer_input">Producer: </label>
+                            <input type="text" id="plane_add_new_producer_input" name="plane_add_new_producer_input" value="" placeholder="Airbus" required/><br/>
+                            <label for="plane_add_new_type_input">Type: </label>
+                            <input type="text" id="plane_add_new_type_input" name="plane_add_new_type_input" value="" placeholder="A320" required/><br/>
+                            <label for="plane_add_new_seats_input">Seats: </label>
+                            <input type="text" id="plane_add_new_seats_input" name="plane_add_new_seats_input" value="" placeholder="90" required/><br/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Save
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="plane_add_new_error"></div>
                     </div>
                 </div> <!-- /PLANES -->
                 
