@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -52,9 +54,9 @@ public class DestinationREST {
     @GET
     @Path("getid/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public DestinationDTO get(int id,
+    public DestinationDTO get(@PathParam("id") String id,
                     @Context HttpServletResponse response) throws IOException{
-        Long lid = new Long(id);
+        Long lid = Long.parseLong(id);
         if(lid == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -73,12 +75,6 @@ public class DestinationREST {
         return destination;
     }
     
-    /**
-     * Update existing destination
-     * @param destinationDTO destination we want to update
-     * @return nothing
-     * @throws NullPointerException when given destination is null.
-     */
     @POST
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -92,7 +88,7 @@ public class DestinationREST {
         
         try{
             service.update(destination);
-        }catch(DAOException e){
+        }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -100,24 +96,26 @@ public class DestinationREST {
         response.setStatus(HttpServletResponse.SC_OK);
     }
     
-    /**
-     * Delete existing destination
-     * @param destinationDTO destination we want to delete
-     * @return nothing
-     * @throws NullPointerException when given destination is null.
-     */
-    /*@DELETE
-    void remove(DestinationDTO destinationDTO);*/
+    @DELETE
+    @Path("delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void remove(DestinationDTO destination,
+                       @Context HttpServletResponse response) throws IOException{
+        if(destination == null || destination.getId() == null){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        try{
+            service.remove(destination);
+        }catch(Exception e){
+            log.error("Update destination error: " + e);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
     
-    /**
-     * Retrieve all destinations
-     * @param nothing
-     * @return List with all destinations.
-     */
     @GET
     @Path ("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public void findAll(@Context HttpServletResponse response)throws IOException{
+    public List<DestinationDTO> findAll(@Context HttpServletResponse response)throws IOException{
         List<DestinationDTO> list = null;
         try{
             list = service.findAll();
@@ -129,33 +127,33 @@ public class DestinationREST {
         if(list == null){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_OK);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(),list);
+        return list;
     }
     
-    /**
-     * Retrieves all destinations with given country name. 
-     * @param country Destination's country parameter.
-     * @return List of destinations with given country.
-     * @throws NullPointerException when given country is null.
-     */
+    
     @GET
     @Path("country/{country}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void findByCountry(String country){
-        //List<DestinationDTO>
+    public List<DestinationDTO> findByCountry(@PathParam("country") String country){
+        List<DestinationDTO> list = null;
+        try{
+            list = service.findByCountry(country);
+        }catch(Exception e){
+            log.error("Find by country error: " + e);
+        }
+        return list;
     }
     
-    /**
-     * Retrievec all destinations with given city name.
-     * @param city Destination's city name.
-     * @return List of destinations with given city.
-     * @throws NullPointerException when given city is null.
-     */
-    /*@GET
-    @Path("city/{city}")*/
-    //List<DestinationDTO> findByCity(String city);
+    @GET
+    @Path("city/{city}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<DestinationDTO> findByCity(@PathParam("city") String city){
+        List<DestinationDTO> list = null;
+        try{
+            list = service.findByCity(city);
+        }catch(Exception e){
+            log.error("Find by city error: " + e);
+        }
+        return list;
+    }
 }
