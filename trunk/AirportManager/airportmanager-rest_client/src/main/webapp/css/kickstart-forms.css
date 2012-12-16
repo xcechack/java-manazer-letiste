@@ -103,7 +103,7 @@ box-sizing: border-box;
 	input::-webkit-input-placeholder,
 	input:-moz-placeholder,
 	.placeholder{
-	color:#bbb;
+	color:#ddd;
 	}
 	
 	input::-moz-focus-inner {border:0;}

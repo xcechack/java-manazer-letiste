@@ -34,6 +34,7 @@
                         <li><a href="#tabr1_5">Planes by Number of seats</a></li>
                         <li><a href="#tabr1_6">Planes by minimal number of seats</a></li>
                         <li><a href="#tabr1_7">Add</a></li>
+                        <li><a href="#tabr1_8">Edit</a></li>
                     </ul>
                     
                     <div id="tabr1_1" class="tab-content">
@@ -138,11 +139,35 @@
                             <label for="plane_add_new_seats_input">Seats: </label>
                             <input type="text" id="plane_add_new_seats_input" name="plane_add_new_seats_input" value="" placeholder="90" required/><br/>
                             <button class="small green">
-                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                <span class="icon small" data-icon="[" style="display: inline-block;"></span>
                                 Save
                             </button>
                         </form>
                         <div class="notice error hide" id="plane_add_new_error"></div>
+                    </div>
+                    
+                    <div id="tabr1_8" class="tab-content">
+                        <h3>Edit plane</h3>
+                        <form method="post" action="#" id="plane_edit_form">
+                             <label for="plane_edit_id_input">ID: </label>
+                            <input type="text" id="plane_edit_id_input" name="plane_edit_id_input" value="" placeholder="1" required/>
+                            <button class="small green" id="plane_edit_load_info">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Load informations
+                            </button>
+                            <br/>
+                            <label for="plane_edit_producer_input">Producer: </label>
+                            <input type="text" id="plane_edit_producer_input" name="plane_edit_producer_input" value="" placeholder="Airbus" required/><br/>
+                            <label for="plane_edit_type_input">Type: </label>
+                            <input type="text" id="plane_edit_type_input" name="plane_edit_type_input" value="" placeholder="A320" required/><br/>
+                            <label for="plane_edit_seats_input">Seats: </label>
+                            <input type="text" id="plane_edit_seats_input" name="plane_edit_seats_input" value="" placeholder="90" required/><br/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="[" style="display: inline-block;"></span>
+                                Edit
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="plane_edit_error"></div>
                     </div>
                 </div> <!-- /PLANES -->
                 
@@ -153,6 +178,7 @@
                         <li><a href="#tabr2_3">Destination by City</a></li>
                         <li><a href="#tabr2_4">Destination by Country</a></li>
                         <li><a href="#tabr2_7">Add new</a></li>
+                        <li><a href="#tabr2_8">Edit</a></li>
                     </ul>
                     
                     <div id="tabr2_1" class="tab-content">
@@ -225,6 +251,27 @@
                             </button>
                         </form>
                         <div class="notice error hide" id="destination_add_new_error"></div>
+                    </div>
+                    <div id="tabr2_8" class="tab-content">
+                        <h3>Edit destination</h3>
+                        <form method="post" action="#" id="destination_edit_form">
+                             <label for="destination_edit_id_input">ID: </label>
+                            <input type="text" id="destination_edit_id_input" name="destination_edit_id_input" value="" placeholder="1" required/>
+                            <button class="small green" id="destination_edit_load_info">
+                                <span class="icon small" data-icon="]" style="display: inline-block;"></span>
+                                Load informations
+                            </button>
+                            <br/>
+                            <label for="destination_edit_city_input">City: </label>
+                            <input type="text" id="destination_edit_city_input" name="destination_edit_city_input" value="" placeholder="Prague" required/><br/>
+                            <label for="destination_edit_country_input">Country: </label>
+                            <input type="text" id="destination_edit_country_input" name="destination_edit_country_input" value="" placeholder="Czech republic" required/><br/>
+                            <button class="small green">
+                                <span class="icon small" data-icon="[" style="display: inline-block;"></span>
+                                Edit
+                            </button>
+                        </form>
+                        <div class="notice error hide" id="destination_edit_error"></div>
                     </div>
                 </div><!-- /DESTINATIONS -->
                 
