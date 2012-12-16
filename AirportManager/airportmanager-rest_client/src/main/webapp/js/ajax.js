@@ -227,6 +227,97 @@ $(document).ready(function(){
     
     
     
+    $("#destination_edit_load_info").live("click",function(e){
+        e.preventDefault();
+        var id = $("#destination_edit_id_input").val();
+        var patt=/\D/; // NON-DIGIT
+        var result=patt.test(id) || (id.length == 0);
+        if(result){
+            //FOUND NON DIGIT
+            $("#destination_edit_id_input").addClass("error");
+        }else{
+            $("#destination_edit_id_input").removeClass("error");
+            $.ajax({
+                method: "GET",
+                url: server_url+"destination/getid/"+id,
+                beforeSend: function(){
+                  $("#destination_edit_error").html("Loading...");  
+                },
+                success: function(data){
+                    $("#destination_edit_error").hide().html(""); 
+                    obj = $.parseJSON(data);
+                     
+                    if(obj.length == 0){
+                        $("#destination_edit_error").html("No destination found").show();
+                    }else{
+                         $("#destination_edit_city_input").val(obj.city);
+                         $("#destination_edit_country_input").val(obj.country);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $("#destination_edit_city_input").val("");
+                    $("#destination_edit_country_input").val("");
+                    $("#destination_edit_id_input").val("");
+                    $("#destination_edit_error").html("Error while loading: "+textStatus+" : "+errorThrown).show();
+                },
+                statusCode: {
+                    400: function() {
+                      $("#destination_edit_error").html("Destination was not found or there was problem with database.").show();
+                    },
+                    404: function(jqXHR, textStatus, errorThrown){
+                        $("#destination_edit_error").html("Error while loading: "+textStatus+" : "+errorThrown).show();
+                    } 
+                }
+            });
+        }
+    });
+    
+    
+    $("#destination_edit_form").live("submit",function(e){
+        e.preventDefault();
+        var id = $("#destination_edit_id_input").val();
+        var city = $("#destination_edit_city_input").val();
+        var country = $("#destination_edit_country_input").val();
+        var newplane = {"id": id, "city": city, "country": country};
+        
+        var patt=/\D/; // NON-DIGIT
+        var result=patt.test(id);
+        if(result){
+            //FOUND NON DIGIT
+            $("#destination_edit_id_input").addClass("error");
+        }else{
+            $("#destination_edit_id_input").removeClass("error");
+            
+            $.ajax({
+                type: "POST",
+                url: server_url+"destination/update/",
+                contentType: "application/json",
+                dataType: "json",
+                data: $.toJSON(newplane)
+                ,
+                beforeSend: function(){
+                  $("#destination_edit_error").html("Saving...");  
+                },
+                success: function(){
+                    alert("Update succesfull");
+                    $("#destination_edit_error").html("").hide();  
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $("#destination_edit_error").html("Error while updating: "+textStatus+" : "+errorThrown).show();
+                },
+                statusCode: {
+                    400: function() {
+                      $("#destination_edit_error").html("Destination was not found or there was problem with database.").show();
+                    },
+                    404: function(jqXHR, textStatus, errorThrown){
+                        $("#destination_edit_error").html("Error while updating: "+textStatus+" : "+errorThrown).show();
+                    } 
+                }
+
+
+            });
+        }
+    });
     
     
     
@@ -234,6 +325,25 @@ $(document).ready(function(){
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /************ PLANES : ***************/
+    
+    
+    
+   
     $("#plane_by_id_form").live("submit",function(e){
         e.preventDefault();
         var id = $("#plane_by_id_input").val();
@@ -512,7 +622,7 @@ $(document).ready(function(){
 
             });
         }
-    })
+    });
     
     
     
@@ -535,38 +645,78 @@ $(document).ready(function(){
         });
     });
     
-    $(".update_plane").live("click",function(e){
-       e.preventDefault();
-       /*var id = $(this).attr("rel");
-       var producer = $("div[rel="+id+"]").attr("data-producer");
-        var type = $("div[rel="+id+"]").attr("data-type");
-        var seats = $("div[rel="+id+"]").attr("data-seats");
-       $("div[rel="+id+"]").append('<form class="edit_plane" rel="'+id+'"><label>Producer: </label>'+
-                            +'<input type="text" id="update_producer_'+id+'" name="plane_update_producer_input" value="'+producer+'" required/><br/>'+
-                            +'<label>Type: </label>'+
-                            +'<input type="text" id="update_type_'+id+'" name="plane_update_type_input" value="'+type+'" required/><br/>'+
-                            +'<label>Seats: </label>'+
-                            +'<input type="text" id="update_seats_'+id+'" name="plane_update_seats_input" value="'+seats+'" required/><br/>'+
-                            +'<button class="small green">'+
-                            +'    <span class="icon small" data-icon="]" style="display: inline-block;"></span>'+
-                            +'    Update'+
-                            +'</button></form>');*/
-    });
-    $(".edit_plane").live("click",function(e){
+    
+    
+    $("#plane_edit_load_info").live("click",function(e){
         e.preventDefault();
-        var id = $(this).attr("rel");
-        var producer = $('#update_producer_'+id).val();
-        var type = $('#update_type_'+id).val();
-        var seats = $('#update_seats_'+id).val();
-        var newplane = {"id":id, "producer": producer, "type": type, "numberSeats": seats};
-        
+        var id = $("#plane_edit_id_input").val();
         var patt=/\D/; // NON-DIGIT
-        var result=patt.test(seats);
+        var result=patt.test(id) || (id.length == 0);
         if(result){
             //FOUND NON DIGIT
-            $('#update_seats_'+id).addClass("error");
+            $("#plane_edit_id_input").addClass("error");
         }else{
-            $('#update_seats_'+id).removeClass("error");
+            $("#plane_edit_id_input").removeClass("error");
+            $.ajax({
+                method: "GET",
+                url: server_url+"plane/getid/"+id,
+                beforeSend: function(){
+                  $("#plane_edit_error").html("Loading...");  
+                },
+                success: function(data){
+                    $("#plane_edit_error").hide().html(""); 
+                    obj = $.parseJSON(data);
+                     
+                    if(obj.length == 0){
+                        $("#plane_edit_error").html("No plane found").show();
+                    }else{
+                         $("#plane_edit_producer_input").val(obj.producer);
+                         $("#plane_edit_type_input").val(obj.type);
+                         $("#plane_edit_seats_input").val(obj.numberSeats);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $("#plane_edit_id_input").val("");
+                    $("#plane_edit_producer_input").val("");
+                    $("#plane_edit_type_input").val("");
+                    $("#plane_edit_seats_input").val("");
+                    $("#plane_edit_error").html("Error while loading: "+textStatus+" : "+errorThrown).show();
+                },
+                statusCode: {
+                    400: function() {
+                      $("#plane_edit_error").html("Plane was not found or there was problem with database.").show();
+                    },
+                    404: function(jqXHR, textStatus, errorThrown){
+                        $("#plane_edit_error").html("Error while loading: "+textStatus+" : "+errorThrown).show();
+                    } 
+                }
+            });
+        }
+    });
+    
+    
+    $("#plane_edit_form").live("submit",function(e){
+        e.preventDefault();
+        var id = $("#plane_edit_id_input").val();
+        var producer = $("#plane_edit_producer_input").val();
+        var type = $("#plane_edit_type_input").val();
+        var seats = $("#plane_edit_seats_input").val();
+        var newplane = {"id": id, "producer": producer, "type": type, "numberSeats": seats};
+        
+        var patt=/\D/; // NON-DIGIT
+        var result=patt.test(seats) && patt.test(id)
+        if(result){
+            //FOUND NON DIGIT
+            if(patt.test(seats)){
+                $("#plane_edit_seats_input").addClass("error");
+            }
+            if(patt.test(id)){
+                $("#plane_edit_id_input").addClass("error");
+            }
+        }else{
+            $("#plane_edit_seats_input").removeClass("error");
+            $("#plane_edit_id_input").removeClass("error");
+            
             $.ajax({
                 type: "POST",
                 url: server_url+"plane/update/",
@@ -575,23 +725,26 @@ $(document).ready(function(){
                 data: $.toJSON(newplane)
                 ,
                 beforeSend: function(){
-                  $("#plane_add_new_error").html("Saving...");  
+                  $("#plane_edit_error").html("Saving...").show();  
                 },
                 success: function(){
                     alert("Update succesfull");
-                   
-                    $(".edit_plane[rel="+id+"]").hide().remove();
-                    $("#plane_add_new_error").html("").addClass("hide");  
+                    
+                    $("#plane_edit_id_input").val("");
+                    $("#plane_edit_producer_input").val("");
+                    $("#plane_edit_type_input").val("");
+                    $("#plane_edit_seats_input").val("");
+                    $("#plane_edit_error").html("").hide();  
                 },
                 error: function(jqXHR, textStatus, errorThrown){
-                    $("#plane_add_new_error").html("Error while update: "+textStatus+" : "+errorThrown).addClass("show");
+                    $("#plane_edit_error").html("Error while updating: "+textStatus+" : "+errorThrown).show();
                 },
                 statusCode: {
                     400: function() {
-                      $("#plane_add_new_error").html("Plane was not found or there was problem with database.").addClass("show");
+                      $("#plane_edit_error").html("Plane was not found or there was problem with database.").show();
                     },
                     404: function(jqXHR, textStatus, errorThrown){
-                        $("#plane_add_new_error").html("Error while creating: "+textStatus+" : "+errorThrown).addClass("show");
+                        $("#plane_edit_error").html("Error while updating: "+textStatus+" : "+errorThrown).show();
                     } 
                 }
 
@@ -599,5 +752,6 @@ $(document).ready(function(){
             });
         }
     });
+    
 });
      
