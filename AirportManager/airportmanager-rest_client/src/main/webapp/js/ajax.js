@@ -2,7 +2,7 @@ $(document).ready(function(){
     jQuery.support.cors = true;
    
     if($.cookie("server_url") == null){
-        $.cookie("server_url", "http://localhost:1080/rest/", { path: '/', expires: 28 });
+        $.cookie("server_url", "http://localhost:8080/pa165/rest/", { path: '/', expires: 28 });
     }
     var server_url = $.cookie("server_url");
     
