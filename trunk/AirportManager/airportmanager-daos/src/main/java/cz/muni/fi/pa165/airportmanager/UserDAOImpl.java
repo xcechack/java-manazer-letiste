@@ -65,10 +65,10 @@ public class UserDAOImpl implements UserDAO {
 
     public User getUserByUsername(String username) {
         if(username == null){
-            throw new IllegalArgumentException("Usename must not be null");
+            throw new IllegalArgumentException("Username must not be null");
         }
         
-        List<User> list = em.createQuery("SELECT t.username FROM REGISTERED_USERS t LIMIT 1").getResultList();
+        List<User> list = em.createQuery("SELECT User FROM REGISTERED_USERS User WHERE username = " + username + " LIMIT 1").getResultList();
         
         if(list.get(0) == null){
             return null;
