@@ -68,9 +68,13 @@ public class UserDAOImpl implements UserDAO {
             throw new IllegalArgumentException("Usename must not be null");
         }
         
-        User user = em.find(User.class, username);
+        List<User> list = em.createQuery("SELECT t.username FROM REGISTERED_USERS t LIMIT 1").getResultList();
         
-        return user;
+        if(list.get(0) == null){
+            return null;
+        }else{
+            return list.get(0);
+        }
     }
     
 }
