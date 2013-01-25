@@ -7,8 +7,9 @@
   <packaging>pom</packaging>
   <name>AirportManager</name>
     <modules>
-        <module>airportmanager-backend</module>
+        <module>airportmanager-daos</module>
+        <module>airportmanager-services</module>
         <module>airportmanager-web</module>
-    <module>airportmanager-rest_client</module>
+        <module>airportmanager-rest_client</module>
   </modules>
 </project>
