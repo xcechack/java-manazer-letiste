@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/ persistence http://java.sun.com/xml/ns/persistence/ persistence_1_0.xsd">
+  <persistence-unit name="SERVICEAirportPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>cz.muni.fi.pa165.airportmanager.Destination</class>
+    <class>cz.muni.fi.pa165.airportmanager.Stewardess</class>
+    <class>cz.muni.fi.pa165.airportmanager.Flight</class>
+    <class>cz.muni.fi.pa165.airportmanager.User</class>
+    <class>cz.muni.fi.pa165.airportmanager.Plane</class>
+    <properties>
+      <property name="hibernate.connection.username" value="test"/>
+      <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="hibernate.connection.password" value="test"/>
+      <property name="hibernate.connection.url" value="jdbc:derby://localhost:1527/airportManager"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="SERVICEAirportTestPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>cz.muni.fi.pa165.airportmanager.Destination</class>
+    <class>cz.muni.fi.pa165.airportmanager.Stewardess</class>
+    <class>cz.muni.fi.pa165.airportmanager.Flight</class>
+    <class>cz.muni.fi.pa165.airportmanager.User</class>
+    <class>cz.muni.fi.pa165.airportmanager.Plane</class>
+    <properties>
+      <property name="hibernate.connection.username" value="test"/>
+      <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="hibernate.connection.password" value="test"/>
+      <property name="hibernate.connection.url" value="jdbc:derby://localhost:1527/airportManagerTest"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="SERVICESpringPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <!-- jta-data-source: overridden by datasource property of entityManagerFactory in application context -->
+    <jta-data-source>jdbc/dataSource</jta-data-source>
+    <properties>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+    </properties>
+  </persistence-unit>
+</persistence>

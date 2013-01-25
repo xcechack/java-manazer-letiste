@@ -5,6 +5,7 @@
     <class>cz.muni.fi.pa165.airportmanager.Destination</class>
     <class>cz.muni.fi.pa165.airportmanager.Stewardess</class>
     <class>cz.muni.fi.pa165.airportmanager.Flight</class>
+    <class>cz.muni.fi.pa165.airportmanager.User</class>
     <class>cz.muni.fi.pa165.airportmanager.Plane</class>
     <properties>
       <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>

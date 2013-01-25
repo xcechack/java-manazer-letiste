@@ -49,12 +49,17 @@
             </dependency>
 
             <!-- backend -->
+            
             <dependency>
                 <groupId>cz.muni.fi.pa165</groupId>
-                <artifactId>AirportManagerBackend</artifactId>
+                <artifactId>AirportManagerDAOs</artifactId>
                 <version>0.1</version>
             </dependency>
-            
+            <dependency>
+                <groupId>cz.muni.fi.pa165</groupId>
+                <artifactId>AirportManagerServices</artifactId>
+                <version>0.1</version>
+            </dependency>
              
             <!-- stripes -->
             <dependency>
