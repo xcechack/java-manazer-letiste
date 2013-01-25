@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <s:layout-render name="/template.jsp" pageTitle="Home" activeHome="class=&quot;active&quot;">
     <s:layout-component name="content">
@@ -46,11 +47,16 @@
                     <p><a class="btn" href="${pageContext.request.contextPath}/flights/all"><f:message key="Index.view_more"/> &raquo;</a></p>
                 </div>
                 <div class="span3">
-                    <h2><f:message key="Global.tools"/></h2>
-                    <p><a href="#new_flight_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-briefcase"></i> <f:message key="Flights.addnew"/></a></p>
-                    <p><a href="#new_destination_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-globe"></i> <f:message key="Destinations.addnew"/></a></p>
-                    <p><a href="#new_steward_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-user"></i> <f:message key="Stewards.addnew"/></a></p>
-                    <p><a href="#new_plane_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-plane"></i> <f:message key="Planes.addnew"/></a></p>
+                    <sec:authorize access="isAuthenticated()">
+                        <h2><f:message key="Global.tools"/></h2>
+                        <p><a href="#new_flight_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-briefcase"></i> <f:message key="Flights.addnew"/></a></p>
+                        <p><a href="#new_destination_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-globe"></i> <f:message key="Destinations.addnew"/></a></p>
+                        <p><a href="#new_steward_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-user"></i> <f:message key="Stewards.addnew"/></a></p>
+                        <p><a href="#new_plane_modal" role="button" class="btn btn-primary btn-success" data-toggle="modal"><i class="icon-plane"></i> <f:message key="Planes.addnew"/></a></p>
+                    </sec:authorize>
+                    <sec:authorize access="isAnonymous()">
+                        <h2>You are not authorized!</h2>
+                    </sec:authorize>
                 </div>
             </div>
             

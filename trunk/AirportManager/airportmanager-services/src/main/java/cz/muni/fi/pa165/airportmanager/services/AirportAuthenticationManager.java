@@ -11,18 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Marek
  */
-public class AirportAuthenticationManager implements AuthenticationManager {
+public class AirportAuthenticationManager implements AuthenticationProvider {
+
+ 
     
   @Autowired
   private UserDAO userDAO;
+
+  public AirportAuthenticationManager() {
+  
+  }
+  
+  public void setUserDAO(UserDAO userDAO) {
+      this.userDAO = userDAO;
+  }
      
-  final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+  private List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
   
   public Authentication authenticate(Authentication auth) throws AuthenticationException {
       
@@ -54,4 +64,8 @@ public class AirportAuthenticationManager implements AuthenticationManager {
       
       throw new BadCredentialsException("Bad Credentials");
   }
+
+    public boolean supports(Class<?> type) {
+        return type.equals(UsernamePasswordAuthenticationToken.class);
+    }
 }
