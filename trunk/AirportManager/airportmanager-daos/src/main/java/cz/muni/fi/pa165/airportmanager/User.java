@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.airportmanager;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.util.StringUtils;
 
 /**
  * Authenticated user POJO
@@ -29,15 +31,17 @@ public class User implements Serializable{
     private Long id;
     private String username;
     private String password;
-    private List<String> credentials;
+    private String credentials;
 
     
     public List<String> getCredentials() {
-        return credentials;
+        return Arrays.asList(credentials.split(";"));
     }
     
     public void setCredentials(List<String> credentials) {
-        this.credentials = credentials;
+        
+        this.credentials = StringUtils.collectionToCommaDelimitedString(credentials);
+   
     }
     
     public Long getId() {
