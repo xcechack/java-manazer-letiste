@@ -5,11 +5,17 @@
         <description>aktivace Springu při startu aplikace</description>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    
     <context-param>
         <description>umístění konfiguračního souboru pro Spring</description>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring-context.xml</param-value>
+        <param-value>
+            /WEB-INF/spring-context.xml
+            /WEB-INF/spring-security.xml
+        </param-value>
     </context-param>
+    
+    
     <!-- JSTL -->
     <context-param>
         <description>JSTL tagy použijí lokalizované texty ze stejného zdroje jako Stripes tagy</description>
@@ -17,6 +23,16 @@
         <param-value>StripesResources</param-value>
     </context-param>
    
+    <!-- Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!-- Stripes -->
     <filter>
@@ -46,6 +62,8 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    
+    
     <filter>
         <description>dynamicky mapuje URL na ActionBeans</description>
         <display-name>Stripes Dynamic Mapping Filter</display-name>
@@ -59,6 +77,8 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
+    
+    
     <filter>
         <filter-name>Jersey Spring Web Application</filter-name>
         <filter-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</filter-class>
@@ -76,4 +96,7 @@
         <filter-name>Jersey Spring Web Application</filter-name>
         <url-pattern>/rest/*</url-pattern>
     </filter-mapping>
+    
+    
+    
 </web-app>
