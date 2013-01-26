@@ -15,6 +15,50 @@ import java.util.List;
  */
 public class EntityDTOMapper {
     
+    public static UserDTO userToUserDTO(User input)
+    {
+        if(input == null){
+            return null;
+        }
+        
+        UserDTO result = new UserDTO();
+        
+        result.setId(input.getId());
+        result.setUsername(input.getUsername());
+        result.setPassword(input.getPassword());
+        
+        return result;
+    }
+    
+    public static User userDTOToUser(UserDTO input)
+    {
+        if(input == null){
+            return null;
+        }
+        
+        User result = new User();
+        
+        result.setId(input.getId());
+        result.setUsername(input.getUsername());
+        result.setPassword(input.getPassword());
+        
+        return result;
+    }
+    
+    public static List<UserDTO> userListToUserDTOList(List<User> users){
+        if(users == null){
+            return null;
+        }
+         
+        
+        List<UserDTO> uDtoList =  new ArrayList<UserDTO>();
+        for(int i = 0; i<users.size(); i++){
+            uDtoList.add(EntityDTOMapper.userToUserDTO(users.get(i)));
+        }
+        
+        return uDtoList;
+    }
+    
     public static DestinationDTO destinationToDestinationDTO(Destination input)
     {
         if(input == null) {
