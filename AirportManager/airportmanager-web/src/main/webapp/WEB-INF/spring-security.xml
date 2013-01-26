@@ -13,8 +13,9 @@
     
     
     <http use-expressions="true" auto-config="true">
-       <!-- <intercept-url pattern="/**" access="isAuthenticated()" />
-        <form-login />-->
+       <!-- <intercept-url pattern="/**" access="isAuthenticated()" />-->
+        <form-login default-target-url="/index.jsp" />
+        <logout logout-success-url="/index.jsp" />
     </http>
     
     

@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/template.jsp" pageTitle="Flights" activeHome="" activeFlights="class=&quot;active&quot;" activeDestinations="" activeStewards="" activePlanes="" activeAbout="">
+<s:layout-render name="/template.jsp" pageTitle="Users" activeHome="" activeFlights="" activeDestinations="" activeStewards="" activePlanes="" activeAbout="">
     <s:layout-component name="content">
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.UsersActionBean" var="usersABean"/>
         
