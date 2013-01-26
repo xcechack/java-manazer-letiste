@@ -9,7 +9,7 @@
         
         <!-- NADPIS: -->
         <div class="hero-unit">
-            <h1><i class="icon-briefcase"></i><f:message key="Users.header"/></h1>
+            <h1><i class="icon-user"></i><f:message key="Users.header"/></h1>
         </div>
          <!-- Formular pridania uzivatela: -->
         <p>
@@ -28,7 +28,6 @@
                 <thead>
                     <tr>
                         <th><f:message key="Global.internal_id"/></th>
-                        <th><span class="show_tooltip"><f:message key="Users.id"/></span></th>
                         <th><span class="show_tooltip"><f:message key="Users.name"/> <i class="icon-arrow-down"></i></span></th>
                         <th><span class="show_tooltip"> <f:message key="Users.password"/>(hash)</span></th>
                         <th><f:message key="Global.tools"/></th>

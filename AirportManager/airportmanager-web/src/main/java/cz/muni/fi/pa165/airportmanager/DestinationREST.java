@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.airportmanager;
 
+import com.sun.jersey.api.core.InjectParam;
 import com.sun.jersey.spi.inject.Inject;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import cz.muni.fi.pa165.airportmanager.services.DestinationService;
@@ -21,6 +22,9 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +40,10 @@ public class DestinationREST {
     protected DestinationService destinationService;
     final static Logger log = LoggerFactory.getLogger(DestinationREST.class);
    
+    @Inject
+    @InjectParam("org.springframework.security.authenticationManager")
+    protected AuthenticationManager authenticationManager;
+
     @POST
     @Path("create")
     @Produces(MediaType.TEXT_PLAIN)
@@ -46,16 +54,15 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
-                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
-                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-                    
-                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
-                       //System.out.println("SEC CX isA");
-                       throw new DAOException("Insufficient granted authorities.");
-                    }
-                }
-            destinationService.create(destination);
+            if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                
+                destinationService.create(destination);
+            }else{
+                log.error("AM is null");
+            }
         }catch(DAOException e){
             log.error("Create destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -114,16 +121,15 @@ public class DestinationREST {
         }
        
         try{
-            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
-                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
-                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-                    
-                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
-                       //System.out.println("SEC CX isA");
-                       throw new DAOException("Insufficient granted authorities.");
-                    }
-                }
-            destinationService.update(destination);
+            if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                
+                destinationService.update(destination);
+            }else{
+                log.error("AM is null");
+            }
         }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -160,7 +166,15 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            destinationService.remove(destination);
+            if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                
+                destinationService.remove(destination);
+            }else{
+                log.error("AM is null");
+            }
         }catch(Exception e){
             log.error("Update destination error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);

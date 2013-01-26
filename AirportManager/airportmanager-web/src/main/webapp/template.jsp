@@ -57,12 +57,14 @@
                             <li ${activeStewards}><a href="${pageContext.request.contextPath}/stewards/all"><f:message key="Template.stewards"/></a></li>
                             <li ${activePlanes}><a href="${pageContext.request.contextPath}/planes/all"><f:message key="Template.planes"/></a></li>
                             <li ${activeAbout}><a href="${pageContext.request.contextPath}/about.jsp"><f:message key="Template.about"/></a></li>
-                            <sec:authorize access="isAuthenticated()">
+                            <sec:authorize access="hasRole('USER')">
                                  <li><a href="${pageContext.request.contextPath}/users.jsp"><f:message key="Users.users"/></a></li>
-                                  <li><a href="<c:url value="j_spring_security_logout" />"><f:message key="Template.Logout"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="isAuthenticated()">
+                                  <li><a href="${pageContext.request.contextPath}/j_spring_security_logout"><f:message key="Template.logout"/></a></li>
                             </sec:authorize>
                             <sec:authorize access="isAnonymous()">
-                                <li><a href="<c:url value="j_spring_security_login" />"><f:message key="Template.Login"/></a></li>
+                                <li><a href="${pageContext.request.contextPath}/login.jsp"><f:message key="Template.login"/></a></li>
                             </sec:authorize>
                         </ul>
                     </div><!--/.nav-collapse -->

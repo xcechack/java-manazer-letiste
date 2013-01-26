@@ -55,15 +55,6 @@ public class PlaneREST{
         if(plane == null || plane.getProducer().isEmpty() || plane.getType().isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
-                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
-                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-                    
-                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
-                       //System.out.println("SEC CX isA");
-                       throw new DAOException("Insufficient granted authorities.");
-                    }
-                }
         try{
             if(authenticationManager != null){
                 Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
@@ -130,16 +121,14 @@ public class PlaneREST{
         }
        
         try{
-            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
-                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
-                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-                    
-                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
-                       //System.out.println("SEC CX isA");
-                       throw new DAOException("Insufficient granted authorities.");
-                    }
-                }
-            planeService.update(plane);
+             if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                planeService.update(plane);
+             }else{
+                  log.error("AM is null");
+             }
         }catch(DAOException e){
             log.error("Update plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -166,15 +155,7 @@ public class PlaneREST{
                        @Context HttpServletResponse response) throws IOException{
         Long id = Long.parseLong(sid);
         PlaneDTO plane = null;
-        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
-                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
-                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-                    
-                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
-                       //System.out.println("SEC CX isA");
-                       throw new DAOException("Insufficient granted authorities.");
-                    }
-                }
+        
         try{
             plane = planeService.get(id);
         }catch(Exception e){
@@ -185,7 +166,15 @@ public class PlaneREST{
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            planeService.remove(plane);
+            if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                
+                planeService.remove(plane);
+            }else{
+                log.error("AM is null");
+            }
         }catch(Exception e){
             log.error("Update plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);

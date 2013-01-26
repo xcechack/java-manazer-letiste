@@ -47,30 +47,6 @@ public class FlightsActionBean implements ActionBean {
     @DefaultHandler
     public Resolution all() {
         log.debug("all()");
-        if(am == null){
-            log.debug("AM NULL");
-        }
-        try {
-            PlaneDTO p = new PlaneDTO();
-            try{
-                planeService.create(p);
-                log.debug("1 Create without credentials: FAIL");
-            }catch(Exception e){
-                log.debug("1 Create without credentials: OK");
-            }
-            Authentication request = new UsernamePasswordAuthenticationToken("user", "user");
-            Authentication result = am.authenticate(request);
-            SecurityContextHolder.getContext().setAuthentication(result);
-             try{
-                planeService.create(p);
-                log.debug("1 Create without credentials: OK");
-            }catch(Exception e){
-                log.debug("2 Create without credentials: FAIL");
-            }
-            
-        } catch(AuthenticationException e) {
-            log.debug("Authentication failed: " + e.getMessage());
-        }
        
         return new ForwardResolution("/all-flights.jsp");
     }

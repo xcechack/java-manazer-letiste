@@ -26,6 +26,7 @@ public class EntityDTOMapper {
         result.setId(input.getId());
         result.setUsername(input.getUsername());
         result.setPassword(input.getPassword());
+        result.setCredentials(input.getCredentials());
         
         return result;
     }
@@ -41,6 +42,7 @@ public class EntityDTOMapper {
         result.setId(input.getId());
         result.setUsername(input.getUsername());
         result.setPassword(input.getPassword());
+        result.setCredentials(input.getCredentials());
         
         return result;
     }
