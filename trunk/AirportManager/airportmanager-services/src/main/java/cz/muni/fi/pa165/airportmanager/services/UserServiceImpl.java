@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.airportmanager.UserDAO;
 import cz.muni.fi.pa165.airportmanager.UserDTO;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new NullPointerException("Given plane was null");
+            throw new NullPointerException("Given user was null");
         }
     }
     
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new NullPointerException("Stewardess must not be null.");
+            throw new NullPointerException("User must not be null.");
         }
     }
 
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService{
                 throw new DAOException(ex.toString());
             }
         }else{
-            throw new NullPointerException("Stewardess must not be null.");
+            throw new NullPointerException("User must not be null.");
         }
     }
 
@@ -135,6 +136,22 @@ public class UserServiceImpl implements UserService{
         try
         {
             result = EntityDTOMapper.userListToUserDTOList(uDao.findAll());
+        }catch(DataAccessException ex)
+        {
+            throw new DAOException(ex.toString());
+        }
+        
+        return result;
+    }
+    
+    public UserDTO findByUsername(String username) {
+        if(username == null || username.isEmpty()){
+            throw new IllegalArgumentException("Username must not be null or empty");
+        }
+        
+        UserDTO result = null;
+        try{
+            result  = EntityDTOMapper.userToUserDTO(uDao.getUserByUsername(username));
         }catch(DataAccessException ex)
         {
             throw new DAOException(ex.toString());
