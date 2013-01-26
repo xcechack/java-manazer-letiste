@@ -21,6 +21,9 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -43,6 +46,15 @@ public class DestinationREST {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
             destinationService.create(destination);
         }catch(DAOException e){
             log.error("Create destination error: " + e);
@@ -102,6 +114,15 @@ public class DestinationREST {
         }
        
         try{
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
             destinationService.update(destination);
         }catch(Exception e){
             log.error("Update destination error: " + e);

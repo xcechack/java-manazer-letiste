@@ -26,6 +26,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -53,6 +55,15 @@ public class PlaneREST{
         if(plane == null || plane.getProducer().isEmpty() || plane.getType().isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
+        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
         try{
             if(authenticationManager != null){
                 Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
@@ -119,6 +130,15 @@ public class PlaneREST{
         }
        
         try{
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
             planeService.update(plane);
         }catch(DAOException e){
             log.error("Update plane error: " + e);
@@ -146,6 +166,15 @@ public class PlaneREST{
                        @Context HttpServletResponse response) throws IOException{
         Long id = Long.parseLong(sid);
         PlaneDTO plane = null;
+        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
         try{
             plane = planeService.get(id);
         }catch(Exception e){
