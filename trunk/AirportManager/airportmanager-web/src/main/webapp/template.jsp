@@ -3,6 +3,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <s:layout-definition>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -56,6 +57,13 @@
                             <li ${activeStewards}><a href="${pageContext.request.contextPath}/stewards/all"><f:message key="Template.stewards"/></a></li>
                             <li ${activePlanes}><a href="${pageContext.request.contextPath}/planes/all"><f:message key="Template.planes"/></a></li>
                             <li ${activeAbout}><a href="${pageContext.request.contextPath}/about.jsp"><f:message key="Template.about"/></a></li>
+                            <sec:authorize access="isAuthenticated()">
+                                 <li><a href="${pageContext.request.contextPath}/users.jsp"><f:message key="Users.users"/></a></li>
+                                  <li><a href="<c:url value="j_spring_security_logout" />"><f:message key="Template.Logout"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="isAnonymous()">
+                                <li><a href="<c:url value="j_spring_security_login" />"><f:message key="Template.Login"/></a></li>
+                            </sec:authorize>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
