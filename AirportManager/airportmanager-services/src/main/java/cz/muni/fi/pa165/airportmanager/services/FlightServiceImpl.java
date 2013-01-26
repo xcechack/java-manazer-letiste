@@ -17,6 +17,9 @@ import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +61,15 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public void create(FlightDTO fDto) {
         if(fDto!=null){
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
                 if(flight.getStewardess() != null){
                     for(int i=0; i < flight.getStewardess().size(); i++){
@@ -77,7 +89,7 @@ public class FlightServiceImpl implements FlightService {
                 
                 if(flight.getPlane() != null && flight.getPlane().getId()==null){
                     try
-                    {
+                    {                        
                         pDao.create(flight.getPlane());
                         fDto.getPlane().setId(flight.getPlane().getId());
                     }catch(DataAccessException ex)
@@ -160,6 +172,15 @@ public class FlightServiceImpl implements FlightService {
             Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
             try
             {
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 fDao.update(flight);
             }catch(DataAccessException ex)
             {
@@ -176,6 +197,15 @@ public class FlightServiceImpl implements FlightService {
             Flight flight = EntityDTOMapper.flightDtoToFlight(fDto);
             try
             {
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 fDao.remove(flight);
             }catch(DataAccessException ex)
             {
@@ -190,6 +220,15 @@ public class FlightServiceImpl implements FlightService {
     public void removeAll() {
         try
         {
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
             fDao.removeAll();
         }catch(DataAccessException ex)
         {

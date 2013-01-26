@@ -84,6 +84,15 @@ public class PlaneServiceImpl implements PlaneService {
         if(plane!=null){
             try
             {
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 pDao.update(EntityDTOMapper.planeDTOToPlane(plane));
             }catch(DataAccessException ex)
             {
@@ -99,7 +108,16 @@ public class PlaneServiceImpl implements PlaneService {
     public void remove(PlaneDTO plane) {
         if(plane!=null){
             try{
-            pDao.remove(EntityDTOMapper.planeDTOToPlane(plane));
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
+                pDao.remove(EntityDTOMapper.planeDTOToPlane(plane));
             }catch(DataAccessException ex)
             {
                 //DAO operation failed
