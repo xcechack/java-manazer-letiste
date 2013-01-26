@@ -2,25 +2,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <s:layout-render name="/template.jsp" pageTitle="Flights" activeHome="" activeFlights="class=&quot;active&quot;" activeDestinations="" activeStewards="" activePlanes="" activeAbout="">
     <s:layout-component name="content">
         <s:useActionBean beanclass="cz.muni.fi.pa165.airportmanager.FlightsActionBean" var="flightsABean"/>
         
-        <!-- Formular pridavania letov -->
-        <%@include file="new-flight-modal-form.jsp"%>
-        
-        <!-- Formular editovania letov -->
-        <%@include file="edit-flight-modal-form.jsp"%>
+         <sec:authorize access="hasRole('USER')">
+            <!-- Formular pridavania letov -->
+            <%@include file="new-flight-modal-form.jsp"%>
+
+            <!-- Formular editovania letov -->
+            <%@include file="edit-flight-modal-form.jsp"%>
+         </sec:authorize>
         
         <!-- NADPIS: -->
         <div class="hero-unit">
             <h1><i class="icon-briefcase"></i><f:message key="Flights.header"/></h1>
         </div>
-         <!-- TLACITKO PRIDANIA LETU: -->
-        <p>
-            <a href="#new_flight_modal" role="button" class="btn" data-toggle="modal"><i class="icon-plus"></i> <f:message key="Flights.addnew"/></a>
-        </p>
+        
+         <sec:authorize access="hasRole('USER')">
+            <!-- TLACITKO PRIDANIA LETU: -->
+           <p>
+               <a href="#new_flight_modal" role="button" class="btn" data-toggle="modal"><i class="icon-plus"></i> <f:message key="Flights.addnew"/></a>
+           </p>
+         </sec:authorize>
+        
         <div class="alert alert-error alert-block alertOuterContent">
             <button id="alert_close" type="button" class="close">×</button>
             <div class="alertInnerContent">
@@ -39,7 +46,7 @@
                         <th><span class="show_tooltip"> <f:message key="Flights.plane"/></span></th>
                         <th><span class="show_tooltip"> <f:message key="Flights.departure_dest"/></span></th>
                         <th><span class="show_tooltip"> <f:message key="Flights.arrival_dest"/></span></th>
-                        <th><f:message key="Global.tools"/></th>
+                        <sec:authorize access="hasRole('USER')"> <th><f:message key="Global.tools"/></th> </sec:authorize>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,24 +64,26 @@
                             <td class="plane" data-plane-id="${flight.plane.id}">${flight.plane.producer} ${flight.plane.type}</td>
                             <td class="departure_dest" data-departure-dest-city="${flight.destinationStart.city}" data-departure-dest-country="${flight.destinationStart.country}"><c:out value="${flight.destinationStart.city}"/> (<c:out value="${flight.destinationStart.country}"/>)</td>
                             <td class="arrival_dest" data-arrival-dest-city="${flight.destinationArrival.city}" data-arrival-dest-country="${flight.destinationArrival.country}"><c:out value="${flight.destinationArrival.city}"/> (<c:out value="${flight.destinationArrival.country}"/>)</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                            Tools
-                                            <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="#" class="show_edit_flight_dialog" id="${flight.id}"><i class="icon-edit"></i> <f:message key="Flights.edit"/></a></li>
-                                        <li class="divider"></li>
-                                        <li>
-                                            <s:link class="toolboxDelete" rel="${flight.id}" beanclass="cz.muni.fi.pa165.airportmanager.FlightsActionBean" event="ajaxDelete" tabindex="-1" href="#">
-                                                <s:param name="flight.id" value="${flight.id}"/>
-                                                <i class="icon-remove"></i> <f:message key="Flights.delete"/>
-                                            </s:link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
+                            <sec:authorize access="hasRole('USER')">
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                                Tools
+                                                <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="-1" href="#" class="show_edit_flight_dialog" id="${flight.id}"><i class="icon-edit"></i> <f:message key="Flights.edit"/></a></li>
+                                            <li class="divider"></li>
+                                            <li>
+                                                <s:link class="toolboxDelete" rel="${flight.id}" beanclass="cz.muni.fi.pa165.airportmanager.FlightsActionBean" event="ajaxDelete" tabindex="-1" href="#">
+                                                    <s:param name="flight.id" value="${flight.id}"/>
+                                                    <i class="icon-remove"></i> <f:message key="Flights.delete"/>
+                                                </s:link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </sec:authorize>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 
     public List<User> findAll() {
         List<User> list;
-        list = em.createQuery("SELECT s FROM REGISTERED_USERS s").getResultList();
+        list = em.createQuery("SELECT s FROM "+User.class.getName()+" s",User.class).getResultList();
         return list;
     }
 
