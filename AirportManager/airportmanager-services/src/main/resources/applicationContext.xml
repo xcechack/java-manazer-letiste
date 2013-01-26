@@ -4,6 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+        xmlns:sec="http://www.springframework.org/schema/security"
         xmlns:tx="http://www.springframework.org/schema/tx"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
@@ -25,18 +26,15 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-   
-    <!--
-    <bean id="assembler" class="cz.muni.fi.pa165.airportmanager.assemblers.AssemblerImpl"/>
     
-    <bean id="assemblerFServiceInj" class="cz.muni.fi.pa165.airportmanager.services.FlightServiceImpl">
-        <property name="conv" ref="assembler"/>
-    </bean>
+    <!--
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="AirportAuthenticationManagerBean" />
+    </authentication-manager> 
+
+    <beans:bean id="AirportAuthenticationManagerBean" class="cz.muni.fi.pa165.airportmanager.services.AirportAuthenticationManager"/>
+    <beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <beans:property name="permissionEvaluator" ref="permissionEvaluator"/>
+    </beans:bean>
     -->
-    <!-- Nie je treba, ked mame @Autowired
-    <bean id="destinationDAO" class="cz.muni.fi.pa165.airportmanager.daos.DestinationDAOImpl"/>
-  
-    <bean id="destinationService" class="cz.muni.fi.pa165.airportmanager.services.DestinationServiceImpl">
-        <property name="destinationDAO" ref="destinationDAO"/>
-    </bean>-->
 </beans>

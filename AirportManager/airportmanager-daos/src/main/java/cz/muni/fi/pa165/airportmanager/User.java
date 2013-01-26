@@ -72,6 +72,7 @@ public class User implements Serializable{
         String passwordHash = password;
         
         /* Try to make hash of given password */
+        /*
         try {
             MessageDigest md2 = MessageDigest.getInstance("SHA-256");
             md2.update(password.getBytes());
@@ -88,7 +89,7 @@ public class User implements Serializable{
             passwordHash = hexString.toString();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         this.password = password;
     }

@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.airportmanager;
 
+
+import com.sun.jersey.api.core.InjectParam;
 import com.sun.jersey.spi.inject.Inject;
 import cz.muni.fi.pa165.airportmanager.exceptions.DAOException;
+import cz.muni.fi.pa165.airportmanager.services.AirportAuthenticationManager;
 import cz.muni.fi.pa165.airportmanager.services.PlaneService;
-import cz.muni.fi.pa165.airportmanager.services.PlaneServiceImpl;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -29,7 +37,11 @@ public class PlaneREST{
    
     @Inject
     protected PlaneService planeService;
-   
+    
+    @Inject
+    @InjectParam("org.springframework.security.authenticationManager")
+    protected AuthenticationManager authenticationManager;
+
     final static Logger log = LoggerFactory.getLogger(PlaneREST.class);
     
     @POST
@@ -42,7 +54,14 @@ public class PlaneREST{
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
         try{
-            planeService.create(plane);
+            if(authenticationManager != null){
+                Authentication request = new UsernamePasswordAuthenticationToken("rest", "rest");
+                Authentication result = authenticationManager.authenticate(request);
+                SecurityContextHolder.getContext().setAuthentication(result);
+                planeService.create(plane);
+            }else{
+                log.error("AM is null");
+            }
         }catch(Exception e){
             log.error("Create plane error: " + e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
