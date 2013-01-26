@@ -48,5 +48,13 @@ public interface UserService {
      * @return List with all users.
      */
     List<UserDTO> findAll();
+    /**
+     * Retrieve entity with given username
+     * 
+     * @param username username to find
+     * @retur user with given username or null if user doesn't exists.
+     * @thows NullPointerException when username is null or empty.
+     */
+    UserDTO findByUsername(String username);
     
 }
