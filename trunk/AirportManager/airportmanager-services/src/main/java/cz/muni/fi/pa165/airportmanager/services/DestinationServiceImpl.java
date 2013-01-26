@@ -13,6 +13,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 /**
@@ -36,6 +39,15 @@ public class DestinationServiceImpl implements DestinationService {
     public void create(DestinationDTO destinationDTO) {
         try
         {
+            if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
             Destination destination= EntityDTOMapper.destinationDTOToDestination(destinationDTO);
             destinationDAO.create(destination);
             destinationDTO.setId(destination.getId());
@@ -67,6 +79,15 @@ public class DestinationServiceImpl implements DestinationService {
         if(destinationDTO!=null){
             try
             {
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 destinationDAO.update(EntityDTOMapper.destinationDTOToDestination(destinationDTO));
             }
             catch(DataAccessException ex)
@@ -84,6 +105,15 @@ public class DestinationServiceImpl implements DestinationService {
         if(destinationDTO!=null){
             try
             {
+                if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication()!= null){
+                    System.out.println("SEC CX HOLDER: "+SecurityContextHolder.getContext().getAuthentication());
+                    List<GrantedAuthority> authorities = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+                    
+                    if(!authorities.contains(new SimpleGrantedAuthority("USER"))){
+                       //System.out.println("SEC CX isA");
+                       throw new DAOException("Insufficient granted authorities.");
+                    }
+                }
                 destinationDAO.remove(EntityDTOMapper.destinationDTOToDestination(destinationDTO));
             }catch(DataAccessException ex)
             {
