@@ -21,6 +21,10 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -44,6 +48,9 @@ public class UsersActionBean implements ActionBean {
     
     @SpringBean
     protected UserService userService;
+    
+    @SpringBean("airportAuthManager")
+    protected AuthenticationManager am;
     
     @DefaultHandler
     public Resolution all() {
@@ -91,6 +98,34 @@ public class UsersActionBean implements ActionBean {
        
         context.getResponse().setHeader("Delete-Success", "OK");
         return new StreamingResolution("text/html","OK");
+    }
+    
+    public Resolution init(){
+        
+        if(userService.findByUsername("admin") == null && (userService.findAll() == null || userService.findAll().isEmpty())){
+            String name = "admin";
+            String password = "admin";
+
+            UserDTO nuser = new UserDTO();
+
+            nuser.setUsername(name);
+            nuser.setPassword(password);
+            List<String> credentials = new ArrayList<String>();
+            credentials.add("USER");
+            nuser.setCredentials(credentials);
+            
+            Authentication request = new UsernamePasswordAuthenticationToken("admin", "admin");
+            Authentication result = am.authenticate(request);
+            SecurityContextHolder.getContext().setAuthentication(result);
+            
+            try{
+                userService.create(nuser);
+            }catch(Exception e){
+                log.error("Problem with create: "+e);
+            }
+        }
+        
+        return new RedirectResolution(this.getClass(), "all").addParameter("errors", "");
     }
     
  
