@@ -6,7 +6,9 @@ Navod k spusteniu weboveho rozhrania:
   # Otvorime si prikazovy riadok a nasmerujeme sa do tohoto adresara
   # Prikazom *mvn install* skompilujeme backend aj frontend aplikacie a nainstalujeme do maven lokalneho repozitaru
   # po uspesnom vykonani mvn install sa nasmerujeme do adresara *airportmanager-web*
-  # Ak je backend nainstalovany, treba skontrolovat ci bezi databaza. Ta musi byt typu *Java DB*, spustena na *localhoste*, porte *1527* a v nej vytvorena (najlepsie prazdna`*`) databaza *pa165* s prihlasovacimi udajmi *pa165*/*pa165*. 
+  # Ak je backend nainstalovany, treba skontrolovat ci bezi databaza. Ta musi byt typu *Java DB*, spustena na *localhoste*, porte *1527* a v nej vytvorena `*` databaza *pa165* s prihlasovacimi udajmi *pa165*/*pa165*. 
   # Ak nam bezi databaza, mozeme prikazom mvn jetty:run spustit server jetty.
   # Po uspesnom spusteni servera jetty, by mala byt aplikacia dostupna na adrese http://localhost:8080/pa165/
-  `*` - hibernate je nakonfigurovany aby nerobil create-drop ale update.
+  # Pre vytvorenie prveho uzivatela, staci prejst na adresu http://localhost:8080/pa165/users/init - aplikacia vytvori uzivatela admin/admin. Tato operacia prebehne iba za podmienky, ze uzivatel s menom admin este neexistuje a zaroven, ze v databaze uzivatelov sa nenachadza ziadny iny uzivatel.
+
+  `*` - hibernate je nakonfigurovany na create-drop
