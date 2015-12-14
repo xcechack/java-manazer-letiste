@@ -1,0 +1,1 @@
+Informačný systém pre správu letiska vytvorený v Jave.
